@@ -1,5 +1,7 @@
 package dbcp;
 
+import exception.ConnectionException;
+
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
@@ -55,7 +57,11 @@ public class ConnectionProxy implements Connection {
     // TODO: close wrapper
     @Override
     public void close() throws SQLException {
-        //connection.close();
+//        try {
+//            ConnectionPool.getInstance().releaseConnection(this);
+//        } catch (ConnectionException ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     @Override

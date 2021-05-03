@@ -5,7 +5,7 @@ use bookshop;
 create table if not exists book
 (
     id              int unique auto_increment primary key,
-    name            varchar(50) not null,
+    name            varchar(50) unique not null,
     year_of_release int,
     rate            decimal,
     count           int
@@ -25,9 +25,9 @@ create table if not exists language
 
 create table if not exists author
 (
-    id       int unique auto_increment primary key,
-    birth    int,
-    name     varchar(50) unique not null
+    id    int unique auto_increment primary key,
+    birth int,
+    name  varchar(50) unique not null
 );
 
 create table if not exists user
@@ -60,24 +60,20 @@ create table if not exists ticket_type
 alter table ticket
     add type_fk int;
 alter table ticket
-    add constraint ticket_type_fk foreign key (type_fk) references ticket_type (id);
+    add constraint ticket_type_fk foreign key (type_fk) references ticket_type (id) on delete set null;
 
 alter table user
     add role_fk varchar(50);
 alter table user
-    add constraint user_role_fk foreign key (role_fk) references role (role);
+    add constraint user_role_fk foreign key (role_fk) references role (role) on delete set null;
 alter table user
-    add constraint user_ticket_id_fk foreign key (id) references ticket (id);
+    add constraint user_ticket_id_fk foreign key (id) references ticket (id) on delete cascade;
 
 
-alter table book
-    add ticket_id_fk int;
 alter table book
     add language_id_fk int;
 alter table book
-    add constraint book_ticket_id_fk foreign key (ticket_id_fk) references ticket (id);
-alter table book
-    add constraint book_language_id_fk foreign key (language_id_fk) references language (id);
+    add constraint book_language_id_fk foreign key (language_id_fk) references language (id) on delete set null;
 
 create table if not exists book_genre
 (
@@ -99,10 +95,19 @@ create table if not exists book_author
 
 create table if not exists author_language
 (
-    id int not null,
+    id          int not null,
     language_id int,
     primary key (id, language_id),
     foreign key (id) references author (id),
     foreign key (language_id) references language (id)
-)
+);
+
+create table if not exists ticket_book
+(
+    id      int not null,
+    book_id int,
+    primary key (id, book_id),
+    foreign key (id) references ticket (id),
+    foreign key (book_id) references book (id)
+);
 

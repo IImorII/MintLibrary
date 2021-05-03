@@ -1,6 +1,7 @@
 package entity;
 
 public class User extends BaseEntity {
+
     private String login;
     private String password;
     private Role role;
@@ -11,6 +12,10 @@ public class User extends BaseEntity {
         this.setLogin(login);
         this.setPassword(password);
         this.setRole(role);
+    }
+
+    public User() {
+        super();
     }
 
 

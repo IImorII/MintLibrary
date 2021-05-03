@@ -19,6 +19,11 @@ public abstract class BaseEntity {
         this.setName(null);
     }
 
+    public BaseEntity(String name) {
+        this.setId(null);
+        this.setName(name);
+    }
+
     public Integer getId() {
         return id;
     }
