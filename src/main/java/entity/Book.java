@@ -8,6 +8,15 @@ public class Book extends BaseEntity {
     private List<Ticket> tickets;
     private Double rate;
 
+    public Book(int id, String name, int yearOfRelease, Language language, Double rate, Integer count) {
+        setId(id);
+        setName(name);
+        setYearOfRelease(yearOfRelease);
+        setLanguage(language);
+        setRate(rate);
+        setCount(count);
+    }
+
     public List<Ticket> getTickets() {
         return tickets;
     }
