@@ -1,6 +1,7 @@
 package controller;
 
 import controller.command.Command;
+import controller.command.CommandRequestWrapper;
 import controller.command.CommandResponse;
 import controller.command.ControllerDestination;
 import exception.CommandException;
@@ -15,31 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/*")
+@WebServlet("/app")
 public class ControllerServlet extends HttpServlet {
 
     private static final Logger LOGGER = LogManager.getLogger(ControllerServlet.class);
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
-    }
-
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
-    }
-
-    private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             final String command = req.getParameter("command");
             final Command commandName = Command.of(command);
-            final CommandResponse result = commandName.execute();
+            final CommandResponse result = commandName.execute(CommandRequestWrapper.of(req));
             if (result.isRedirect()) {
                 resp.sendRedirect(req.getContextPath() + result.getDestination().getPath());
             } else {
@@ -53,4 +40,10 @@ public class ControllerServlet extends HttpServlet {
             dispatcher.forward(req, resp);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
 }

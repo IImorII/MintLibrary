@@ -59,7 +59,7 @@ public class ConnectionPool {
     public void init() {
         log.info("Start init connection pool.");
         for (int i = 0; i < INIT_POOL_SIZE; i++) {
-            try(Connection newConnection = new ConnectionProxy(DriverManager.getConnection(URL, LOGIN, PASSWORD))) {
+            try (Connection newConnection = new ConnectionProxy(DriverManager.getConnection(URL, LOGIN, PASSWORD))) {
                 freeConnections.add(newConnection);
             } catch (SQLException ex) {
                 log.error(ex.getMessage());
@@ -70,24 +70,19 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() {
-        try {
-            LOCK_CONNECTION.lock();
-            if (freeConnections.isEmpty()) {
-                init();
-            } else {
-                busyConnections.add(freeConnections.get(0));
-                freeConnections.remove(0);
-            }
-            return busyConnections.get(busyConnections.size() - 1);
-        } finally {
-            LOCK_CONNECTION.unlock();
+        if (freeConnections.isEmpty()) {
+            init();
+        } else {
+            busyConnections.add(freeConnections.get(0));
+            freeConnections.remove(0);
         }
+        return busyConnections.get(busyConnections.size() - 1);
     }
 
     public void releaseConnection(Connection connection) throws ConnectionException {
         try {
             LOCK_CONNECTION.lock();
-            if(busyConnections.remove(connection)) {
+            if (busyConnections.remove(connection)) {
                 freeConnections.add(connection);
             } else {
                 throw new ConnectionException("Connection is interrupted or not busy.");

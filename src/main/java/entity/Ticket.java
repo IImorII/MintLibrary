@@ -7,8 +7,9 @@ public class Ticket extends BaseEntity {
     private TicketType type;
     private List<Book> books;
 
-    public Ticket(Integer id, TicketType type, Integer amountCurrent, List<Book> books) {
+    public Ticket(Integer id, String name, TicketType type, Integer amountCurrent, List<Book> books) {
         this.setId(id);
+        this.setName(name);
         this.setAmountCurrent(amountCurrent);
         this.setType(type);
         this.setBooks(books);

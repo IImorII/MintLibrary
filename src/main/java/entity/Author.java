@@ -3,9 +3,17 @@ package entity;
 import java.util.List;
 
 public class Author extends BaseEntity {
-    private int birth;
+    private Integer birth;
     private List<Language> languages;
     private List<Book> books;
+
+    public Author(Integer id, String name, Integer birth, List<Language> languages, List<Book> books) {
+        setId(id);
+        setName(name);
+        setBirth(birth);
+        setLanguages(languages);
+        setBooks(books);
+    }
 
     public List<Book> getBooks() {
         return books;

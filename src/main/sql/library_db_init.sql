@@ -47,6 +47,7 @@ create table if not exists role
 create table if not exists ticket
 (
     id             int unique auto_increment primary key,
+    name varchar(50) default 'Ticket',
     amount_current int not null
 );
 
@@ -58,14 +59,14 @@ create table if not exists ticket_type
 );
 
 alter table ticket
-    add type_fk int;
+    add type_id_fk int;
 alter table ticket
-    add constraint ticket_type_fk foreign key (type_fk) references ticket_type (id) on delete set null;
+    add constraint ticket_type_fk foreign key (type_id_fk) references ticket_type (id) on delete set null;
 
 alter table user
-    add role_fk varchar(50);
+    add role_id_fk varchar(50);
 alter table user
-    add constraint user_role_fk foreign key (role_fk) references role (role) on delete set null;
+    add constraint user_role_fk foreign key (role_id_fk) references role (role) on delete set null;
 alter table user
     add constraint user_ticket_id_fk foreign key (id) references ticket (id) on delete cascade;
 

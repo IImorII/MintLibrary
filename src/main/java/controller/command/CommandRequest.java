@@ -4,8 +4,25 @@ import javax.servlet.http.HttpSession;
 
 public interface CommandRequest {
 
+    void setAttribute(String name, Object obj);
+
     Object getAttribute(String name);
+
     Object getParameter(String name);
-    HttpSession getSession();
+
+    void invalidateSession();
+
+    void setSessionAttribute(String name, Object obj);
+
+    String getStringParameter(String name);
+
+    Integer getIntParameter(String name);
+
     Object getSessionAttribute(String name);
+
+    String getStringSessionAttribute(String name);
+
+    Integer getIntSessionAttribute(String name);
+
+    HttpSession getSession();
 }

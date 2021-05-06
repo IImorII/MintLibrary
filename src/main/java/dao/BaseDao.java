@@ -1,6 +1,5 @@
 package dao;
 
-import criteria.Criteria;
 import dao.mapper.Mapper;
 import dbcp.ConnectionPool;
 import entity.BaseEntity;
@@ -53,7 +52,7 @@ public interface BaseDao <T extends BaseEntity> {
             List<T> objects = new ArrayList<>();
             PreparedStatement preparedStatement = getPreparedStatement(querySQL, parameters);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Mapper<T> mapper = getModelMapper();
+            Mapper<T> mapper = getMapper();
             while (resultSet.next()) {
                 T item = mapper.toEntity(resultSet);
                 objects.add(item);
@@ -85,5 +84,5 @@ public interface BaseDao <T extends BaseEntity> {
         }
     }
 
-    public Mapper<T> getModelMapper();
+    public Mapper<T> getMapper();
 }

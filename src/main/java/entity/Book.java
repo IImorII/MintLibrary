@@ -7,6 +7,9 @@ public class Book extends BaseEntity {
     private Language language;
     private List<Ticket> tickets;
     private Double rate;
+    private Integer count;
+    private List<Genre> genres;
+    private List<Author> authors;
 
     public Book(int id, String name, int yearOfRelease, Language language, Double rate, Integer count) {
         setId(id);
@@ -32,10 +35,6 @@ public class Book extends BaseEntity {
     public void setCount(Integer count) {
         this.count = count;
     }
-
-    private Integer count;
-    private List<Genre> genres;
-    private List<Author> authors;
 
     public Double getRate() {
         return rate;
