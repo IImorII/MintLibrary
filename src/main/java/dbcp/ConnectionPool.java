@@ -18,11 +18,11 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPool {
 
     private static final Logger log = LogManager.getLogger(ConnectionPool.class);
-    private final String URL = AppContext.getURL();
-    private final String LOGIN = AppContext.getLOGIN();
-    private final String PASSWORD = AppContext.getPASSWORD();
-    private final Integer MAX_POOL_SIZE = AppContext.getMaxPoolSize();
-    private final Integer INIT_POOL_SIZE = AppContext.getInitPoolSize();
+    private static final String URL = AppContext.getURL();
+    private static final String LOGIN = AppContext.getLogin();
+    private static final String PASSWORD = AppContext.getPassword();
+    private static final Integer MAX_POOL_SIZE = AppContext.getMaxPoolSize();
+    private static final Integer INIT_POOL_SIZE = AppContext.getInitPoolSize();
 
     private static final Lock LOCK_INSTANCE = new ReentrantLock();
     private static final Lock LOCK_CONNECTION = new ReentrantLock();
@@ -35,7 +35,7 @@ public class ConnectionPool {
     private List<Connection> busyConnections = new CopyOnWriteArrayList<>();
 
     private ConnectionPool() {
-        init();
+
     }
 
     private static class ConnectionPoolHolder {
@@ -49,6 +49,8 @@ public class ConnectionPool {
                 if (!isInitialized.get()) {
                     ConnectionPoolHolder.HOLDER_INSTANCE.init();
                 }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             } finally {
                 LOCK_INSTANCE.unlock();
             }
@@ -58,6 +60,7 @@ public class ConnectionPool {
 
     public void init() {
         log.info("Start init connection pool.");
+        registerDrivers();
         for (int i = 0; i < INIT_POOL_SIZE; i++) {
             try (Connection newConnection = new ConnectionProxy(DriverManager.getConnection(URL, LOGIN, PASSWORD))) {
                 freeConnections.add(newConnection);
@@ -77,6 +80,15 @@ public class ConnectionPool {
             freeConnections.remove(0);
         }
         return busyConnections.get(busyConnections.size() - 1);
+    }
+
+    private static void registerDrivers() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            DriverManager.registerDriver(DriverManager.getDriver("jdbc:mysql://localhost:3306/bookshop"));
+        } catch (SQLException | ClassNotFoundException e) {
+            log.error("Cannot register drivers");
+        }
     }
 
     public void releaseConnection(Connection connection) throws ConnectionException {

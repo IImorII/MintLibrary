@@ -1,12 +1,14 @@
 package entity;
 
-public abstract class BaseEntity {
+import java.io.Serializable;
+
+public abstract class BaseEntity implements Serializable {
     private Integer id;
     private String name;
 
     public BaseEntity() {
-        this.setId(null);
-        this.setName(null);
+        setId(null);
+        setName("No name.");
     }
 
     public BaseEntity(Integer id, String name) {

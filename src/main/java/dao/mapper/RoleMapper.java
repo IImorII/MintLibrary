@@ -1,6 +1,5 @@
 package dao.mapper;
 
-import entity.Language;
 import entity.Role;
 import exception.MapperException;
 
@@ -13,7 +12,7 @@ public class RoleMapper implements Mapper<Role> {
     public Role toEntity(ResultSet rs) throws MapperException {
         try {
             final Integer id = rs.getInt("id");
-            final String name = rs.getString("role");
+            final String name = rs.getString("name");
             return new Role(id, name);
         } catch (SQLException ex) {
             throw new MapperException(ex.getMessage());

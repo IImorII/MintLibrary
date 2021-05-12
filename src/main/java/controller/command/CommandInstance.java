@@ -1,5 +1,7 @@
 package controller.command;
 
+import controller.command.show.MainPageCommand;
+
 public enum CommandInstance {
 
     MAIN(new MainPageCommand()),

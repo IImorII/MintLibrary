@@ -1,5 +1,6 @@
 package dao.impl;
 
+import dao.AbstractBaseDao;
 import dao.BaseDao;
 import dao.BookDao;
 import dao.mapper.BookMapper;
@@ -10,12 +11,14 @@ import exception.DaoException;
 
 import java.util.*;
 
-public class BookDaoImpl implements BookDao {
+public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
 
     private static BookDaoImpl INSTANCE;
 
     private BookDaoImpl() {
-
+        super("book");
+        setCreateQuery("insert into book (name, description, photo_url, year_of_release, rate, count, language_id_fk) values (?, ?, ?, ?, ?, ?, ?)");
+        setUpdateQuary("update book set name = ?, year_of_release = ?, rate = ?, count = ?, language_fk = ?, where id = ?");
     }
 
     public static BookDaoImpl getInstance() {
@@ -25,63 +28,51 @@ public class BookDaoImpl implements BookDao {
         return INSTANCE;
     }
 
-    private static final String GET_ONE_BY_ID = "select * from book where id = ?";
-    private static final String GET_ONE_BY_NAME = "select * from book where name = ?";
-    private static final String GET_ALL = "select * from book";
-    private static final String CREATE = "insert into book (name, year_of_release, rate, count, language_fk) values (?, ?, ?, ?, ?)";
-    private static final String UPDATE = "update book set name = ?, year_of_release = ?, rate = ?, count = ?, language_fk = ?, where id = ?";
-    private static final String DELETE = "delete from book where id = ?";
-
-    private static final String GET_ALL_BY_AUTHOR_ID = "select book.* from book " +
+    private final String GET_ALL_BY_AUTHOR_ID = "select book.* from book " +
             "join book_author on book_author.id = book.id " +
             "join author on author.id = book_author.author_id where author.id = ?";
-    private static final String GET_ALL_BY_LANGUAGE_ID = "select * from book where language_id_fk = ?";
-    private static final String GET_ALL_BY_GENRE_ID = "select book.* from book " +
+    private final String GET_ALL_BY_LANGUAGE_ID = "select * from book where language_id_fk = ?";
+    private final String GET_ALL_BY_GENRE_ID = "select book.* from book " +
             "join book_genre on book_genre.id = book.id " +
             "join genre on genre.id = book_genre.genre_id where genre.id = ?";
-    private static final String GET_ALL_BY_TICKET_ID = "select book.* from book " +
+    private final String GET_ALL_BY_TICKET_ID = "select book.* from book " +
             "join ticket_book on ticket_book.book_id = book.id " +
             "join ticket on ticket.id = ticket_book.id where ticket.id = ?";
 
-    @Override
-    public List<Book> getAll() throws DaoException, ConnectionException {
-        return getManyQuery(GET_ALL, null);
-    }
+    private final String SET_BOOK_TO_GENRE = "insert into book_genre (id, genre_id) values (?, ?)";
+    private final String SET_BOOK_TO_AUTHOR = "insert into book_author (id, author_id) values (?, ?)";
+    private final String SET_BOOK_TO_ACCOUNT = "insert into book_account (id, account_id) values (?, ?)";
 
     @Override
-    public Optional<Book> getById(Integer id) throws DaoException, ConnectionException {
-        return getOneQuery(GET_ONE_BY_ID, Collections.singletonList(id));
-    }
-
-    @Override
-    public Optional<Book> getByName(String name) throws DaoException, ConnectionException {
-        return getOneQuery(GET_ONE_BY_NAME, Collections.singletonList(name));
-    }
-
-    @Override
-    public void create(Book entity) throws DaoException, ConnectionException {
+    public void create(Book book) throws DaoException, ConnectionException {
+        if (getByName(book.getName()).isPresent()) {
+            throw new DaoException(book.getName() + " is duplicate!");
+        } else if (book.getLanguage().getId() == null) {
+            LanguageDaoImpl.getInstance().create(book.getLanguage());
+            book.getLanguage().setId(LanguageDaoImpl.getInstance().getByName(book.getLanguage().getName()).get().getId());
+        }
         updateQuery(CREATE, Arrays.asList(
-                entity.getName(),
-                entity.getYearOfRelease(),
-                entity.getRate(),
-                entity.getCount(),
-                entity.getLanguage().getId()));
+                book.getName(),
+                book.getDescription(),
+                book.getPhotoUrl(),
+                book.getYearOfRelease(),
+                book.getRate(),
+                book.getCount(),
+                book.getLanguage().getId()));
+        book.setId(getByName(book.getName()).get().getId());
+        List<String> queries = Arrays.asList(SET_BOOK_TO_GENRE, SET_BOOK_TO_AUTHOR, SET_BOOK_TO_ACCOUNT);
+        updateDependencies(book, queries, book.getGenres(), book.getAuthors(), book.getAccounts());
     }
 
     @Override
-    public void update(Book entity) throws DaoException, ConnectionException {
+    public void update(Book book) throws DaoException, ConnectionException {
         updateQuery(UPDATE, Arrays.asList(
-                entity.getName(),
-                entity.getYearOfRelease(),
-                entity.getRate(),
-                entity.getCount(),
-                entity.getLanguage().getId(),
-                entity.getId()));
-    }
-
-    @Override
-    public void delete(Integer id) throws DaoException, ConnectionException {
-        updateQuery(DELETE, Collections.singletonList(id));
+                book.getName(),
+                book.getYearOfRelease(),
+                book.getRate(),
+                book.getCount(),
+                book.getLanguage().getId(),
+                book.getId()));
     }
 
     @Override
@@ -106,6 +97,6 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Mapper<Book> getMapper() {
-        return new BookMapper();
+        return BookMapper.getInstance();
     }
 }

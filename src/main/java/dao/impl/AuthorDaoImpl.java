@@ -1,21 +1,24 @@
 package dao.impl;
 
+import dao.AbstractBaseDao;
 import dao.AuthorDao;
-import dao.BaseDao;
 import dao.mapper.AuthorMapper;
 import dao.mapper.Mapper;
 import entity.Author;
+
 import exception.ConnectionException;
 import exception.DaoException;
 
 import java.util.*;
 
-public class AuthorDaoImpl implements AuthorDao {
+public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao {
 
     private static AuthorDaoImpl INSTANCE;
 
     private AuthorDaoImpl() {
-
+        super("author");
+        setCreateQuery("insert into author (name, year_of_birth) values (?, ?)");
+        setUpdateQuary("update author set name = ?, year_of_birth = ? where id = ?");
     }
 
     public static AuthorDaoImpl getInstance() {
@@ -25,48 +28,31 @@ public class AuthorDaoImpl implements AuthorDao {
         return INSTANCE;
     }
 
-    private static final String GET_ONE_BY_ID = "select * from author where id = ?";
-    private static final String GET_ONE_BY_NAME = "select * from author where name = ?";
-    private static final String GET_ALL = "select * from author";
-    private static final String CREATE = "insert into author (name, birth) values (?, ?)";
-    private static final String UPDATE = "update author set name = ?, birth = ? where id = ?";
-    private static final String DELETE = "delete from author where id = ?";
-
-    private static final String GET_ALL_BY_BOOK_ID = "select author.* from author " +
+    private final String GET_ALL_BY_BOOK_ID = "select author.* from author " +
             "join book_author on book_author.author_id = author.id " +
             "join book on book.id = book_author.id where book.id = ?";
-    private static final String GET_ALL_BY_LANGUAGE_ID = "select author.* from author " +
+    private final String GET_ALL_BY_LANGUAGE_ID = "select author.* from author " +
             "join author_language on author_language.id = author.id " +
             "join language on language.id = author_language.language_id where language.id = ?";
 
+    private final String SET_AUTHOR_TO_BOOK = "insert into book_author (author_id, id) values (?, ?)";
+    private final String SET_AUTHOR_TO_LANGUAGE = "insert into author_language (id, language_id) values (?, ?)";
+
+
     @Override
-    public List<Author> getAll() throws DaoException, ConnectionException {
-        return getManyQuery(GET_ALL, null);
+    public void create(Author author) throws DaoException, ConnectionException {
+        if (getByName(author.getName()).isPresent()) {
+            throw new DaoException(author.getName() + " is duplicate!");
+        }
+        updateQuery(CREATE, Arrays.asList(author.getName(), author.getYearOfBirth()));
+        author.setId(getByName(author.getName()).get().getId());
+        List<String> queries = Arrays.asList(SET_AUTHOR_TO_BOOK, SET_AUTHOR_TO_LANGUAGE);
+        updateDependencies(author, queries, author.getBooks(), author.getLanguages());
     }
 
     @Override
-    public Optional<Author> getById(Integer id) throws DaoException, ConnectionException {
-        return getOneQuery(GET_ONE_BY_ID, Collections.singletonList(id));
-    }
-
-    @Override
-    public Optional<Author> getByName(String name) throws DaoException, ConnectionException {
-        return getOneQuery(GET_ONE_BY_NAME, Collections.singletonList(name));
-    }
-
-    @Override
-    public void create(Author entity) throws DaoException, ConnectionException {
-        updateQuery(CREATE, Arrays.asList(entity.getName(), entity.getBirth()));
-    }
-
-    @Override
-    public void update(Author entity) throws DaoException, ConnectionException {
-        updateQuery(UPDATE, Arrays.asList(entity.getName(), entity.getBirth(), entity.getId()));
-    }
-
-    @Override
-    public void delete(Integer id) throws DaoException, ConnectionException {
-        updateQuery(DELETE, Collections.singletonList(id));
+    public void update(Author author) throws DaoException, ConnectionException {
+        updateQuery(UPDATE, Arrays.asList(author.getName(), author.getYearOfBirth(), author.getId()));
     }
 
     @Override

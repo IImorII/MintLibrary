@@ -11,11 +11,11 @@
     <title>Login</title>
 </head>
 <body>
-
-<input method="post" action="/controller?command=login">
-    <input name="login">
-    <input name="password">
-    <input type="submit" value="submit">
-</form>
+    <jsp:include page="header.jsp"/>
+    <form method="post" action="?command=submit_login">
+        <input name="login">
+        <input type="password" name="password">
+        <input type="submit" value="submit">
+    </form>
 </body>
 </html>

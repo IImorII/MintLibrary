@@ -1,29 +1,38 @@
 package dao;
 
+import dao.impl.AuthorDaoImpl;
 import dao.mapper.Mapper;
 import dbcp.ConnectionPool;
+import entity.Author;
 import entity.BaseEntity;
 import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public interface BaseDao <T extends BaseEntity> {
+public interface BaseDao<T extends BaseEntity> {
+
+    Logger log = LogManager.getLogger(BaseDao.class);
+
+    void create(T entity) throws DaoException, ConnectionException;
+
+    void update(T entity) throws DaoException, ConnectionException;
 
     List<T> getAll() throws DaoException, ConnectionException;
+
     Optional<T> getById(Integer id) throws DaoException, ConnectionException;
+
     Optional<T> getByName(String name) throws DaoException, ConnectionException;
-    void update(T entity) throws DaoException, ConnectionException;
+
     void delete(Integer id) throws DaoException, ConnectionException;
-    void create(T entity) throws DaoException, ConnectionException;
+
 
     default Optional<T> getOneQuery(String querySQL, List<Object> params) throws DaoException, ConnectionException {
         List<T> result = getManyQuery(querySQL, params);
@@ -35,16 +44,6 @@ public interface BaseDao <T extends BaseEntity> {
             return Optional.of(value);
         }
         return Optional.empty();
-    }
-
-    default boolean updateQuery(String querySQL, List<Object> parameters) throws DaoException, ConnectionException {
-        try {
-            PreparedStatement preparedStatement = getPreparedStatement(querySQL, parameters);
-            final int affectedRows = preparedStatement.executeUpdate();
-            return affectedRows != 0;
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
-        }
     }
 
     default List<T> getManyQuery(String querySQL, List<Object> parameters) throws DaoException, ConnectionException {
@@ -63,6 +62,16 @@ public interface BaseDao <T extends BaseEntity> {
             return objects;
         } catch (SQLException | MapperException ex) {
             throw new DaoException(ex.getMessage());
+        }
+    }
+
+    default boolean updateQuery(String querySQL, List<Object> parameters) throws DaoException, ConnectionException {
+        try {
+            PreparedStatement preparedStatement = getPreparedStatement(querySQL, parameters);
+            final int affectedRows = preparedStatement.executeUpdate();
+            return affectedRows != 0;
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
         }
     }
 

@@ -5,6 +5,6 @@ import exception.MapperException;
 
 import java.sql.ResultSet;
 
-public interface Mapper <T extends BaseEntity> {
+public interface Mapper<T extends BaseEntity> {
     T toEntity(ResultSet rs) throws MapperException;
 }

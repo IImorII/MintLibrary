@@ -3,29 +3,59 @@ package entity;
 import java.util.List;
 
 public class Book extends BaseEntity {
+
+    private static final long serialVersionUID = -7433720986607565670L;
+
     private int yearOfRelease;
     private Language language;
-    private List<Ticket> tickets;
-    private Double rate;
-    private Integer count;
+    private Double rate = 0.0;
+    private Integer count = 0;
+    private String description = "No description.";
+    private String photoUrl = "https://static.dw.com/image/38763531_303.jpg";
+    private List<Account> accounts;
     private List<Genre> genres;
     private List<Author> authors;
 
-    public Book(int id, String name, int yearOfRelease, Language language, Double rate, Integer count) {
+    public Book(int id, String name, String description, String photoUrl, Integer yearOfRelease, Double rate, Integer count,
+                Language language, List<Genre> genres, List<Author> authors, List<Account> accounts) {
         setId(id);
         setName(name);
+        setDescription(description);
+        setPhotoUrl(photoUrl);
         setYearOfRelease(yearOfRelease);
-        setLanguage(language);
         setRate(rate);
         setCount(count);
+        setLanguage(language);
+        setGenres(genres);
+        setAuthors(authors);
+        setAccounts(accounts);
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    public Book() {
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public Integer getCount() {
