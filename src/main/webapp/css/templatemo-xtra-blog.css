@@ -142,7 +142,7 @@ ul {
     width: 50px;
     height: 50px;
     text-align: center;
-    padding-top: 8px; 
+    padding-top: 14px;
     margin-right: 15px;   
     margin-bottom: 15px;
 }
@@ -152,10 +152,10 @@ ul {
     transition: all 0.3s ease;
 }
 
-.tm-social-link:hover .tm-social-icon.fa-facebook { color: #3b5998; }
-.tm-social-link:hover .tm-social-icon.fa-twitter { color: #00acee; }
-.tm-social-link:hover .tm-social-icon.fa-instagram { color: #3f729b; }
-.tm-social-link:hover .tm-social-icon.fa-linkedin { color: #0e76a8; }
+.tm-social-link:hover .tm-social-icon { color: white; }
+.tm-social-link:hover {background-color: #0CC}
+
+
 .navbar-toggler { display: none; }
 
 .tm-search-form {
@@ -200,31 +200,29 @@ ul {
     background: #3085a3;
 }
 
-.tm-post-link img {
+.tm-person img {
     position: relative;
 	display: block;
-	min-height: 512px;
-	max-height: 512px;
-	max-width: 100%;
+	min-height: 210px;
+	max-height: 210px;
+    min-width: 140px;
+	max-width: 140px;
 	opacity: 0.8;
 }
 
 .effect-lily img {
-	max-width: none;
-	width: -webkit-calc(100% + 50px);
-	width: calc(100% + 50px);
 	opacity: 0.7;
 	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
 	transition: opacity 0.35s, transform 0.35s;
 	-webkit-transform: translate3d(-40px,0, 0);
-	transform: translate3d(-40px,0,0);
+	transform: translate3d(0,0,0);
 }
 
 .effect-lily:hover img { opacity: 1; }
 
 .effect-lily:hover img {
     -webkit-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
+	transform: translate3d(-40px,0,0);
 }
 
 .tm-post { margin-bottom: 75px; }
@@ -387,7 +385,13 @@ a:hover figcaption { color: #056767; }
 .img-thumbnail { max-width: none; }
 .tm-about-pad { padding: 40px 35px; }
 .tm-person { max-width: 430px; }
-.tm-line-height-short { line-height: 1.8; }
+.tm-line-height-short { line-height: 1.8em;}
+
+p.mb-0.tm-line-height-short {
+    max-height: 145px;
+    max-width: 200px;
+    overflow-y: clip;
+}
 
 .gmap_canvas {
     overflow:hidden;
@@ -497,9 +501,15 @@ a:hover figcaption { color: #056767; }
         margin-right: auto;
     }
 
-    .tm-person-col { width: 50%; }
+    .tm-person-col { width: 50%; max-height: 200px}
     .tm-person { flex-direction: row; }
-
+    .tm-truncate-text {
+        display: block;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        overflow: hidden;
+        max-height: 200px;
+    }
     .tm-contact-left {
         flex: 0 0 58.333333%;
         max-width: 58.333333%;

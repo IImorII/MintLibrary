@@ -7,8 +7,8 @@ public class Account extends BaseEntity {
     private String login;
     private String password;
     private Role role;
-    private Integer bookAmountCurrent;
-    private Integer bookAmountMax;
+    private Integer bookAmountCurrent = 0;
+    private Integer bookAmountMax = 10;
 
     public Account(Integer id, String name, String login, String password, Integer bookAmountCurrent, Integer bookAmountMax, Role role) {
         setId(id);

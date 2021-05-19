@@ -2,8 +2,8 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.AuthorDao;
-import dao.mapper.AuthorMapper;
-import dao.mapper.Mapper;
+import mapper.AuthorMapper;
+import mapper.Mapper;
 import entity.Author;
 
 import exception.ConnectionException;
@@ -21,11 +21,16 @@ public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao 
         setUpdateQuary("update author set name = ?, year_of_birth = ? where id = ?");
     }
 
-    public static AuthorDaoImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new AuthorDaoImpl();
+    protected static AuthorDaoImpl getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new AuthorDaoImpl();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
         }
-        return INSTANCE;
     }
 
     private final String GET_ALL_BY_BOOK_ID = "select author.* from author " +
@@ -67,6 +72,6 @@ public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao 
 
     @Override
     public Mapper<Author> getMapper() {
-        return new AuthorMapper();
+        return AuthorMapper.getInstance();
     }
 }

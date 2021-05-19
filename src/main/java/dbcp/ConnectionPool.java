@@ -26,13 +26,11 @@ public class ConnectionPool {
 
     private static final Lock LOCK_INSTANCE = new ReentrantLock();
     private static final Lock LOCK_CONNECTION = new ReentrantLock();
-    private static final Condition FULL = LOCK_CONNECTION.newCondition();
-    private static final Condition EMPTY = LOCK_CONNECTION.newCondition();
 
     private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
 
-    private List<Connection> freeConnections = new CopyOnWriteArrayList<>();
-    private List<Connection> busyConnections = new CopyOnWriteArrayList<>();
+    private final List<Connection> freeConnections = new CopyOnWriteArrayList<>();
+    private final List<Connection> busyConnections = new CopyOnWriteArrayList<>();
 
     private ConnectionPool() {
 
@@ -50,7 +48,8 @@ public class ConnectionPool {
                     ConnectionPoolHolder.HOLDER_INSTANCE.init();
                 }
             } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+                log.error(ex.getMessage());
+                ex.printStackTrace();
             } finally {
                 LOCK_INSTANCE.unlock();
             }
@@ -85,7 +84,7 @@ public class ConnectionPool {
     private static void registerDrivers() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            DriverManager.registerDriver(DriverManager.getDriver("jdbc:mysql://localhost:3306/bookshop"));
+            DriverManager.registerDriver(DriverManager.getDriver(URL));
         } catch (SQLException | ClassNotFoundException e) {
             log.error("Cannot register drivers");
         }

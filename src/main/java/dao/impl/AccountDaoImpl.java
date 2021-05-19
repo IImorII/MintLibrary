@@ -2,8 +2,8 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.AccountDao;
-import dao.mapper.Mapper;
-import dao.mapper.AccountMapper;
+import mapper.Mapper;
+import mapper.AccountMapper;
 import entity.Account;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -20,13 +20,19 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
         setUpdateQuary("update user set name = ?, login = ?, password = ?, book_amount_current = ?, book_amount_max = ?, role_id_fk = ? where id = ?");
     }
 
-    public static AccountDaoImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new AccountDaoImpl();
+    protected static AccountDaoImpl getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new AccountDaoImpl();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
         }
-        return INSTANCE;
     }
 
+    private static final String GET_ONE_BY_LOGIN = "select * from account where login = ?";
     private static final String GET_ALL_BY_ROLE_ID = "select * from account where role_id_fk = ?";
     private static final String GET_ALL_BY_BOOK_ID = "select * from book_account where id = ?";
 
@@ -59,6 +65,11 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     }
 
     @Override
+    public Optional<Account> getByLogin(String login) throws DaoException, ConnectionException {
+        return getOneQuery(GET_ONE_BY_LOGIN, Collections.singletonList(login));
+    }
+
+    @Override
     public List<Account> getAllByRoleId(Integer id) throws DaoException, ConnectionException {
         return getManyQuery(GET_ALL_BY_ROLE_ID, Collections.singletonList(id));
     }
@@ -70,6 +81,6 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
 
     @Override
     public Mapper<Account> getMapper() {
-        return new AccountMapper();
+        return AccountMapper.getInstance();
     }
 }

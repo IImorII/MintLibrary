@@ -2,8 +2,8 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.LanguageDao;
-import dao.mapper.LanguageMapper;
-import dao.mapper.Mapper;
+import mapper.LanguageMapper;
+import mapper.Mapper;
 import entity.Language;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -18,11 +18,16 @@ public class LanguageDaoImpl extends AbstractBaseDao<Language> implements Langua
         super("language");
     }
 
-    public static LanguageDaoImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new LanguageDaoImpl();
+    protected static LanguageDaoImpl getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new LanguageDaoImpl();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
         }
-        return INSTANCE;
     }
 
     private static final String GET_ALL_BY_AUTHOR_ID = "select language.* from language " +

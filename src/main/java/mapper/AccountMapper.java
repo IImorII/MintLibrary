@@ -1,8 +1,9 @@
-package dao.mapper;
+package mapper;
 
-import dao.impl.RoleDaoImpl;
-import entity.Role;
-import entity.Account;
+import dao.RoleDao;
+import dao.impl.ProxyDaoFactory;
+import dto.AccountDto;
+import entity.*;
 import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
@@ -11,6 +12,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccountMapper implements Mapper<Account> {
+
+    private static AccountMapper INSTANCE;
+
+    private AccountMapper() {
+    }
+
+    public static AccountMapper getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new AccountMapper();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
+        }
+    }
 
     @Override
     public Account toEntity(ResultSet rs) throws MapperException {
@@ -28,10 +46,23 @@ public class AccountMapper implements Mapper<Account> {
         }
     }
 
+    public AccountDto toDto(Account entity) throws MapperException {
+        String name = entity.getName();
+        String role = entity.getRole().getName();
+        Integer amountCurrent = entity.getBookAmountCurrent();
+        Integer amountMax = entity.getBookAmountMax();
+        return new AccountDto(
+                name,
+                role,
+                amountCurrent,
+                amountMax
+        );
+    }
+
     private Role getRoleById(Integer id) throws MapperException {
         Role role;
         try {
-            role = RoleDaoImpl.getInstance().getById(id).get();
+            role = ((RoleDao) ProxyDaoFactory.getDaoFor(Role.class)).getById(id).get();
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }

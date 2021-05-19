@@ -2,8 +2,8 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.GenreDao;
-import dao.mapper.GenreMapper;
-import dao.mapper.Mapper;
+import mapper.GenreMapper;
+import mapper.Mapper;
 import entity.Genre;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -18,11 +18,16 @@ public class GenreDaoImpl extends AbstractBaseDao<Genre> implements GenreDao {
         super("genre");
     }
 
-    public static GenreDaoImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new GenreDaoImpl();
+    protected static GenreDaoImpl getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new GenreDaoImpl();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
         }
-        return INSTANCE;
     }
 
     private static final String GET_ALL_BY_BOOK_ID = "select genre.* from genre " +

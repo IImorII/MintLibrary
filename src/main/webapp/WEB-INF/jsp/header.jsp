@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -5,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/templatemo-xtra-blog.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Login</title>
 </head>
 
@@ -39,30 +44,28 @@
                 </a></li>
             </ul>
         </nav>
-        <div>
-            <!-- Кнопка, вызывающее модальное окно -->
-            <a href="#" class="btn btn-primary" data-target="#loginModal" data-toggle="modal">login</a>
-            <jsp:include page="modal/loginModal.jsp"/>
-        </div>
+
         <div class="tm-mb-65">
-            <a rel="nofollow" href="https://fb.com/templatemo" class="tm-social-link">
-                <i class="fab fa-facebook tm-social-icon"></i>
-            </a>
-            <a href="https://twitter.com" class="tm-social-link">
-                <i class="fab fa-twitter tm-social-icon"></i>
-            </a>
-            <a href="https://instagram.com" class="tm-social-link">
-                <i class="fab fa-instagram tm-social-icon"></i>
-            </a>
-            <a href="https://linkedin.com" class="tm-social-link">
-                <i class="fab fa-linkedin tm-social-icon"></i>
-            </a>
+            <c:if test="${empty sessionScope.userName}">
+                <a href="#" data-target="#loginModal" data-toggle="modal" class="tm-social-link">
+                    <i class="fas fa-sign-in-alt tm-social-icon"></i>
+                </a>
+            </c:if>
+            <c:if test="${not empty sessionScope.userName}">
+                <a href="?command=logout" class="tm-social-link">
+                    <i class="fas fa-sign-out-alt tm-social-icon"></i>
+                </a>
+                Name: ${sessionScope.userName} Role: ${sessionScope.userRole}
+            </c:if>
         </div>
     </div>
 </header>
-<script src="js/templatemo-script.js"></script>
-<script src="js/jquery.min.js"></script>
 </body>
+
+<script src="js/templatemo-script.js"></script>
+
+<jsp:include page="modal/loginModal.jsp"/>
+<jsp:include page="modal/signUpModal.jsp"/>
 
 
 

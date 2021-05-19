@@ -1,14 +1,15 @@
-package dao.mapper;
+package mapper;
 
 //import dao.impl.AuthorDaoImpl;
 
-import dao.impl.AccountDaoImpl;
-import dao.impl.AuthorDaoImpl;
-import dao.impl.GenreDaoImpl;
+import dao.AccountDao;
+import dao.AuthorDao;
+import dao.GenreDao;
+import dao.LanguageDao;
+import dao.impl.*;
 //import dao.impl.LanguageDaoImpl;
-import dao.impl.LanguageDaoImpl;
 import entity.*;
-import entity.dto.BookDto;
+import dto.BookDto;
 import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
@@ -26,10 +27,15 @@ public class BookMapper implements Mapper<Book> {
     }
 
     public static BookMapper getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new BookMapper();
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new BookMapper();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
         }
-        return INSTANCE;
     }
 
     @Override
@@ -92,7 +98,7 @@ public class BookMapper implements Mapper<Book> {
     private Language getLanguageById(Integer id) throws MapperException {
         Language language;
         try {
-            language = LanguageDaoImpl.getInstance().getById(id).get();
+            language = ((LanguageDao) ProxyDaoFactory.getDaoFor(Language.class)).getById(id).get();
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }
@@ -102,7 +108,7 @@ public class BookMapper implements Mapper<Book> {
     private List<Author> getAuthorsByBookId(Integer id) throws MapperException {
         List<Author> authors;
         try {
-            authors = AuthorDaoImpl.getInstance().getAllByBookId(id);
+            authors = ((AuthorDao) ProxyDaoFactory.getDaoFor(Author.class)).getAllByBookId(id);
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }
@@ -112,7 +118,7 @@ public class BookMapper implements Mapper<Book> {
     private List<Genre> getGenresByBookId(Integer id) throws MapperException {
         List<Genre> genres;
         try {
-            genres = GenreDaoImpl.getInstance().getAllByBookId(id);
+            genres = ((GenreDao) ProxyDaoFactory.getDaoFor(Genre.class)).getAllByBookId(id);
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }
@@ -122,7 +128,7 @@ public class BookMapper implements Mapper<Book> {
     private List<Account> getAccountsByBookId(Integer id) throws MapperException {
         List<Account> accounts;
         try {
-            accounts = AccountDaoImpl.getInstance().getAllByBookId(id);
+            accounts = ((AccountDao) ProxyDaoFactory.getDaoFor(Account.class)).getAllByBookId(id);
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }

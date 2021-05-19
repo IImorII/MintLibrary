@@ -1,6 +1,6 @@
 package dao;
 
-import dao.factory.AbstractDaoFactory;
+import dao.impl.ProxyDaoFactory;
 import entity.BaseEntity;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -77,7 +77,7 @@ public abstract class AbstractBaseDao<T extends BaseEntity> implements BaseDao<T
     }
 
     private <L extends BaseEntity, K extends BaseEntity> void updateDependentEntities(K entity, String queryEntityToEntity, List<L> dependentEntities) {
-        BaseDao<L> dao = AbstractDaoFactory.getDaoFor(dependentEntities.stream().findAny().get().getClass());
+        BaseDao<L> dao = ProxyDaoFactory.getDaoFor(dependentEntities.stream().findAny().get().getClass());
         for (L dependentEntity : dependentEntities) {
             try {
                 dao.create(dependentEntity);

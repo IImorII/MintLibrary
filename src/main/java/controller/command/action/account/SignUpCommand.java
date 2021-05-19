@@ -5,33 +5,35 @@ import controller.command.show.MainPageCommand;
 import dto.AccountDto;
 import exception.CommandException;
 import service.impl.AccountServiceImpl;
+import service.impl.BookServiceImpl;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 import static controller.command.ControllerDestination.ERROR;
-import static controller.command.ControllerDestination.MAIN;
 
-public class LoginCommand implements Command {
+public class SignUpCommand implements Command {
 
-    private static LoginCommand INSTANCE;
+    private static SignUpCommand INSTANCE;
 
-    private LoginCommand() {
+    private SignUpCommand() {
 
     }
 
-    public static LoginCommand getInstance() {
+    public static SignUpCommand getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new LoginCommand();
+            INSTANCE = new SignUpCommand();
         }
         return INSTANCE;
     }
+
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
             final String login = request.getStringParameter(ParameterDestination.LOGIN.getParameter());
             final String password = request.getStringParameter(ParameterDestination.PASSWORD.getParameter());
-            final Optional<AccountDto> accountOptional = AccountServiceImpl.getInstance().login(login, password);
+            final String name = request.getStringParameter(ParameterDestination.USER_NAME.getParameter());
+            final Optional<AccountDto> accountOptional = AccountServiceImpl.getInstance().singUp(login, password, name);
             if (accountOptional.isPresent()) {
                 AccountDto account = accountOptional.get();
                 HttpSession session = request.getSession();
@@ -42,7 +44,7 @@ public class LoginCommand implements Command {
                 session.setMaxInactiveInterval(300);
                 return Command.of(CommandInstance.MAIN.name()).execute(request);
             } else {
-                request.setAttribute(ParameterDestination.ERROR.getParameter(), "Incorrect login or password!");
+                request.setAttribute(ParameterDestination.ERROR.getParameter(), "Account with this login already exists!");
                 return() -> ERROR;
             }
         } catch (Exception ex) {

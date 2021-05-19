@@ -1,10 +1,9 @@
 package dao.impl;
 
 import dao.AbstractBaseDao;
-import dao.BaseDao;
 import dao.BookDao;
-import dao.mapper.BookMapper;
-import dao.mapper.Mapper;
+import mapper.BookMapper;
+import mapper.Mapper;
 import entity.Book;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -21,11 +20,16 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
         setUpdateQuary("update book set name = ?, year_of_release = ?, rate = ?, count = ?, language_fk = ?, where id = ?");
     }
 
-    public static BookDaoImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new BookDaoImpl();
+    protected static BookDaoImpl getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new BookDaoImpl();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
         }
-        return INSTANCE;
     }
 
     private final String GET_ALL_BY_AUTHOR_ID = "select book.* from book " +

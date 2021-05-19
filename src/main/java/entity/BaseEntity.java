@@ -4,11 +4,9 @@ import java.io.Serializable;
 
 public abstract class BaseEntity implements Serializable {
     private Integer id;
-    private String name;
+    private String name = "No name.";
 
     public BaseEntity() {
-        setId(null);
-        setName("No name.");
     }
 
     public BaseEntity(Integer id, String name) {

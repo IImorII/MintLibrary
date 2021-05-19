@@ -1,9 +1,9 @@
 package dao;
 
-import dao.impl.AuthorDaoImpl;
-import dao.mapper.Mapper;
+import listener.UpdateDBEvent;
+import listener.UpdateDBListener;
+import mapper.Mapper;
 import dbcp.ConnectionPool;
-import entity.Author;
 import entity.BaseEntity;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -16,8 +16,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public interface BaseDao<T extends BaseEntity> {
+
+    ArrayList<UpdateDBListener> listeners = new ArrayList<UpdateDBListener>();
+
+    Lock LOCK = new ReentrantLock();
 
     Logger log = LogManager.getLogger(BaseDao.class);
 
@@ -93,5 +99,24 @@ public interface BaseDao<T extends BaseEntity> {
         }
     }
 
-    public Mapper<T> getMapper();
+    Mapper<T> getMapper();
+
+    static void addUpdateDBEventListener(UpdateDBListener listener) {
+        listeners.add(listener);
+    }
+
+    static UpdateDBListener[] getUpdateDBEventListeners() {
+        return listeners.toArray(new UpdateDBListener[listeners.size()]);
+    }
+
+    static void removeUpdateDBEventListener(UpdateDBListener listener) {
+        listeners.remove(listener);
+    }
+
+    static void doUpdateDBEvent(Object src, String message) {
+        UpdateDBEvent ev = new UpdateDBEvent(src, message);
+        for (UpdateDBListener listener : listeners) {
+            listener.onDBUpdate(ev);
+        }
+    }
 }

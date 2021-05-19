@@ -1,12 +1,20 @@
 package controller.command;
 
+import controller.command.action.account.LoginCommand;
+import controller.command.action.account.LogoutCommand;
+import controller.command.action.account.SignUpCommand;
 import controller.command.show.MainPageCommand;
+import controller.command.action.books.SearchBookCommand;
+import controller.command.action.books.SwitchPageCommand;
 
 public enum CommandInstance {
 
-    MAIN(new MainPageCommand()),
-    LOGIN(new LoginPageCommand()),
-    SUBMIT_LOGIN(new LoginSubmitCommand());
+    MAIN(MainPageCommand.getInstance()),
+    LOGIN(LoginCommand.getInstance()),
+    SEARCH_BOOK(SearchBookCommand.getInstance()),
+    SWITCH_PAGE(SwitchPageCommand.getInstance()),
+    LOGOUT(LogoutCommand.getInstance()),
+    SIGN_UP(SignUpCommand.getInstance());
 
     private final Command command;
 

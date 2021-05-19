@@ -1,4 +1,4 @@
-package entity.dto;
+package dto;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ public class BookDto {
     private String description;
     private String photoUrl;
     private String language;
-    private List<String> authors;
-    private List<String> genres;
+    private List<String> authorsNames;
+    private List<String> genresNames;
     private Integer yearOfRelease;
 
     public BookDto(String name, String description, String photoUrl, String language, List<String> authors, List<String> genres, Integer yearOfRelease) {
@@ -16,8 +16,8 @@ public class BookDto {
         this.description = description;
         this.photoUrl = photoUrl;
         this.language = language;
-        this.authors = authors;
-        this.genres = genres;
+        this.authorsNames = authors;
+        this.genresNames = genres;
         this.yearOfRelease = yearOfRelease;
     }
 
@@ -42,11 +42,11 @@ public class BookDto {
     }
 
     public List<String> getAuthors() {
-        return authors;
+        return authorsNames;
     }
 
     public List<String> getGenres() {
-        return genres;
+        return genresNames;
     }
 
 }

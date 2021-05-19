@@ -1,23 +1,30 @@
 package repository;
 
 import dao.BaseDao;
-import dao.factory.AbstractDaoFactory;
-import dbcp.ConnectionPool;
-import entity.*;
+import dao.impl.ProxyDaoFactory;
+import entity.Account;
+import entity.Author;
+import entity.BaseEntity;
+import entity.Book;
+import entity.Genre;
+import entity.Language;
+import entity.Role;
 import exception.ConnectionException;
 import exception.DaoException;
+import listener.UpdateDBEvent;
+import listener.UpdateDBListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.ref.SoftReference;
-import java.util.ArrayList;
 import java.util.List;
 
-public class EntityRepository {
+public class EntityRepository implements UpdateDBListener {
     private static EntityRepository INSTANCE;
     private static final Logger log = LogManager.getLogger(EntityRepository.class);
 
     private EntityRepository() {
+        BaseDao.addUpdateDBEventListener(this);
     }
 
     public static EntityRepository getInstance() {
@@ -34,9 +41,20 @@ public class EntityRepository {
     private SoftReference<List<Account>> accounts;
     private SoftReference<List<Role>> roles;
 
+    @Override
+    public void onDBUpdate(UpdateDBEvent event) {
+        switch (event.getMessage()) {
+            case "Book" -> books = null;
+            case "Author" -> authors = null;
+            case "Genre" -> genres = null;
+            case "Language" -> languages = null;
+            case "Account" -> accounts = null;
+            case "Role" -> roles = null;
+        }
+    }
 
     public List<? extends BaseEntity> retrieveCollection(Class<? extends BaseEntity> tClass) {
-        BaseDao dao = AbstractDaoFactory.getDaoFor(tClass);
+        BaseDao dao = ProxyDaoFactory.getDaoFor(tClass);
         SoftReference reference = null;
         try {
             reference = switch (tClass.getSimpleName()) {

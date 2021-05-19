@@ -1,15 +1,10 @@
 package dao.impl;
 
 import dao.AbstractBaseDao;
-import dao.BaseDao;
 import dao.RoleDao;
-import dao.mapper.Mapper;
-import dao.mapper.RoleMapper;
+import mapper.Mapper;
+import mapper.RoleMapper;
 import entity.Role;
-import exception.ConnectionException;
-import exception.DaoException;
-
-import java.util.*;
 
 public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
 
@@ -19,11 +14,16 @@ public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
         super("role");
     }
 
-    public static RoleDaoImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new RoleDaoImpl();
+    protected static RoleDaoImpl getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new RoleDaoImpl();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
         }
-        return INSTANCE;
     }
 
     @Override

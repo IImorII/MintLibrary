@@ -1,19 +1,18 @@
-package dao.mapper;
+package mapper;
 
-import entity.Role;
+import entity.Language;
 import exception.MapperException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RoleMapper implements Mapper<Role> {
-
+public class LanguageMapper implements Mapper<Language> {
     @Override
-    public Role toEntity(ResultSet rs) throws MapperException {
+    public Language toEntity(ResultSet rs) throws MapperException {
         try {
             final Integer id = rs.getInt("id");
             final String name = rs.getString("name");
-            return new Role(id, name);
+            return new Language(id, name);
         } catch (SQLException ex) {
             throw new MapperException(ex.getMessage());
         }

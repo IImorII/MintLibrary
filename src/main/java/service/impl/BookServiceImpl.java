@@ -1,13 +1,8 @@
 package service.impl;
 
-import dao.BaseDao;
-import dao.factory.AbstractDaoFactory;
-import dao.mapper.BookMapper;
-import dao.mapper.Mapper;
+import mapper.BookMapper;
 import entity.Book;
-import entity.dto.BookDto;
-import exception.ConnectionException;
-import exception.DaoException;
+import dto.BookDto;
 import exception.MapperException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

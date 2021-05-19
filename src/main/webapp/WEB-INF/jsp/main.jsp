@@ -11,7 +11,7 @@
             <!-- Search form -->
             <div class="row tm-row">
                 <div class="col-12">
-                    <form method="GET" class="form-inline tm-mb-80 tm-search-form">
+                    <form action="?command=search_book" method="post" class="form-inline tm-mb-80 tm-search-form">
                         <input class="form-control tm-search-input" name="search" type="text" placeholder="Search..." aria-label="Search">
                         <button class="tm-search-button" type="submit">
                             <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
@@ -19,29 +19,36 @@
                     </form>
                 </div>
             </div>
+
             <c:if test="${not empty requestScope.booksList}">
-                <div class="row tm-row">
+                <div class="row tm-row tm-mb-60">
+                    <div class="col-12">
+                        <hr class="tm-hr-primary  tm-mb-55">
+                    </div>
                     <c:forEach var="book" items="${requestScope.booksList}">
-                    <article class="col-12 col-md-6 tm-post">
-                        <hr class="tm-hr-primary">
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title"><c:out value="${book.name}"/></h2>
-                        <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                            <div class="tm-post-link-inner">
-                                <img src="${book.photoUrl}" alt="Image" class="img-fluid">
+                        <div class="col-lg-6 tm-mb-60 tm-person-col">
+                            <div class="media tm-person">
+                                <a href="post.html" class="effect-lily">
+                                <img src="${book.photoUrl}" alt="Image" class="img-fluid mr-4">
+                                </a>
+                                <div class="">
+                                    <a href="post.html">
+                                    <h2 class="tm-color-primary tm-post-title mb-2"><c:out value="${book.name}"/></h2>
+                                    </a>
+                                    <h3 class="tm-h3 mb-3">Genre</h3>
+                                    <p class="mb-0 tm-line-height-short">
+                                        <c:out value="${book.description}"/>
+                                    </p>
+                                </div>
                             </div>
-                            <span class="position-absolute tm-new-badge">New</span>
-                        </a>
-                        <p class="tm-pt-30">
-                            <c:out value="${book.description}"/>
-                        </p>
-                    </article>
+                        </div>
                     </c:forEach>
                 </div>
             </c:if>
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
                     <c:if test="${requestScope.page > 1}">
-                        <a href="?page=${requestScope.page - 1}" class="mb-2 tm-btn tm-btn-primary tm-prev-next tm-mr-20">Prev</a>
+                        <a href="?command=switch_page&page=${requestScope.page - 1}" class="mb-2 tm-btn tm-btn-primary tm-prev-next tm-mr-20">Prev</a>
                     </c:if>
                     <c:if test="${requestScope.page <= 1}">
                         <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Prev</a>
@@ -50,7 +57,7 @@
                         <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled">Next</a>
                     </c:if>
                     <c:if test="${requestScope.page < requestScope.lastPage}">
-                        <a href="?page=${requestScope.page + 1}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+                        <a href="?command=switch_page&page=${requestScope.page + 1}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
                     </c:if>
 
 
@@ -62,29 +69,29 @@
                             <c:if test="${requestScope.page > 1}">
                                 <c:if test="${requestScope.page > 2}">
                                     <li class="tm-paging-item">
-                                        <a href="?page=1" class="mb-2 tm-btn tm-paging-link">1</a>
+                                        <a href="?command=switch_page&page=1" class="mb-2 tm-btn tm-paging-link">1</a>
                                     </li>
                                     <li class="tm-paging-item">
                                         <h1>...</h1>
                                     </li>
                                 </c:if>
                                 <li class="tm-paging-item">
-                                    <a href="?page=${requestScope.page - 1}" class="mb-2 tm-btn tm-paging-link">${requestScope.page - 1}</a>
+                                    <a href="?command=switch_page&page=${requestScope.page - 1}" class="mb-2 tm-btn tm-paging-link">${requestScope.page - 1}</a>
                                 </li>
                             </c:if>
                             <li class="tm-paging-item active">
-                                <a href="?page=${requestScope.page}" class="mb-2 tm-btn tm-paging-link">${requestScope.page}</a>
+                                <a href="?command=switch_page&page=${requestScope.page}" class="mb-2 tm-btn tm-paging-link">${requestScope.page}</a>
                             </li>
                             <c:if test="${requestScope.page < requestScope.lastPage}">
                                 <li class="tm-paging-item">
-                                    <a href="?page=${requestScope.page + 1}" class="mb-2 tm-btn tm-paging-link">${requestScope.page + 1}</a>
+                                    <a href="?command=switch_page&page=${requestScope.page + 1}" class="mb-2 tm-btn tm-paging-link">${requestScope.page + 1}</a>
                                 </li>
                                 <c:if test="${requestScope.page < requestScope.lastPage - 1}">
                                     <li class="tm-paging-item">
                                         <h1>...</h1>
                                     </li>
                                     <li class="tm-paging-item">
-                                        <a href="?page=${requestScope.lastPage}" class="mb-2 tm-btn tm-paging-link">${requestScope.lastPage}</a>
+                                        <a href="?command=switch_page&page=${requestScope.lastPage}" class="mb-2 tm-btn tm-paging-link">${requestScope.lastPage}</a>
                                     </li>
                                 </c:if>
                             </c:if>

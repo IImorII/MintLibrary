@@ -1,8 +1,9 @@
-package dao.mapper;
+package mapper;
 
 
-import dao.impl.BookDaoImpl;
-import dao.impl.LanguageDaoImpl;
+import dao.BookDao;
+import dao.LanguageDao;
+import dao.impl.ProxyDaoFactory;
 import entity.Author;
 import entity.Book;
 import entity.Language;
@@ -17,6 +18,21 @@ import java.util.List;
 public class AuthorMapper implements Mapper<Author> {
 
     private static AuthorMapper INSTANCE;
+
+    private AuthorMapper() {
+    }
+
+    public static AuthorMapper getInstance() {
+        try {
+            LOCK.lock();
+            if (INSTANCE == null) {
+                INSTANCE = new AuthorMapper();
+            }
+            return INSTANCE;
+        } finally {
+            LOCK.unlock();
+        }
+    }
 
 
     @Override
@@ -42,7 +58,7 @@ public class AuthorMapper implements Mapper<Author> {
     private List<Book> getBooksByAuthorId(Integer id) throws MapperException {
         List<Book> books;
         try {
-            books = BookDaoImpl.getInstance().getAllByAuthorId(id);
+            books = ((BookDao) ProxyDaoFactory.getDaoFor(Book.class)).getAllByAuthorId(id);
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }
@@ -52,7 +68,7 @@ public class AuthorMapper implements Mapper<Author> {
     private List<Language> getLanguagesByAuthorId(Integer id) throws MapperException {
         List<Language> languages;
         try {
-            languages = LanguageDaoImpl.getInstance().getAllByAuthorId(id);
+            languages = ((LanguageDao) ProxyDaoFactory.getDaoFor(Language.class)).getAllByAuthorId(id);
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }
