@@ -50,6 +50,10 @@ public abstract class AbstractBaseDao<T extends BaseEntity> implements BaseDao<T
     @Override
     public void create(T entity) throws DaoException, ConnectionException {
         if (getByName(entity.getName()).isPresent()) {
+            if (entity.getId() == null) {
+                entity.setId(getByName(entity.getName()).get().getId());
+            }
+            update(entity);
             return;
         }
         updateQuery(CREATE, Arrays.asList(entity.getName()));
@@ -76,7 +80,7 @@ public abstract class AbstractBaseDao<T extends BaseEntity> implements BaseDao<T
         }
     }
 
-    private <L extends BaseEntity, K extends BaseEntity> void updateDependentEntities(K entity, String queryEntityToEntity, List<L> dependentEntities) {
+    private <L extends BaseEntity, K extends BaseEntity> void createDependentEntities(K entity, String queryEntityToEntity, List<L> dependentEntities) {
         BaseDao<L> dao = ProxyDaoFactory.getDaoFor(dependentEntities.stream().findAny().get().getClass());
         for (L dependentEntity : dependentEntities) {
             try {
@@ -89,12 +93,12 @@ public abstract class AbstractBaseDao<T extends BaseEntity> implements BaseDao<T
         }
     }
 
-    protected void updateDependencies(T entity, List<String> queries, List<? extends BaseEntity>... lists) {
+    protected void createDependencies(T entity, List<String> queries, List<? extends BaseEntity>... lists) {
         for (int i = 0; i < lists.length; i++) {
             if (lists[i] == null || lists[i].isEmpty()) {
                 continue;
             }
-            updateDependentEntities(entity, queries.get(i), lists[i]);
+            createDependentEntities(entity, queries.get(i), lists[i]);
         }
     }
 }

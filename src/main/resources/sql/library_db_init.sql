@@ -73,7 +73,8 @@ create table if not exists book_genre
 create table if not exists book_author
 (
     id        int not null,
-    author_id int,
+    author_id int not null,
+    confirmed boolean default false,
     primary key (id, author_id),
     foreign key (id) references book (id) on delete cascade,
     foreign key (author_id) references author (id) on delete cascade
@@ -82,7 +83,7 @@ create table if not exists book_author
 create table if not exists book_account
 (
     id         int not null,
-    account_id int,
+    account_id int not null,
     primary key (id, account_id),
     foreign key (id) references book (id) on delete cascade,
     foreign key (account_id) references account (id) on delete cascade
@@ -91,10 +92,13 @@ create table if not exists book_account
 create table if not exists author_language
 (
     id          int not null,
-    language_id int,
+    language_id int not null,
     primary key (id, language_id),
     foreign key (id) references author (id) on delete cascade,
     foreign key (language_id) references language (id) on delete cascade
 );
 
+insert into role (name) values ('User');
+insert into role (name) values ('Admin');
+insert into role (name) values ('Librarian');
 

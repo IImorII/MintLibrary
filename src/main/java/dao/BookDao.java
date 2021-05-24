@@ -10,5 +10,5 @@ public interface BookDao extends BaseDao<Book> {
     List<Book> getAllByAuthorId(Integer id) throws DaoException, ConnectionException;
     List<Book> getAllByGenreId(Integer id) throws DaoException, ConnectionException;
     List<Book> getAllByLanguageId(Integer id) throws DaoException, ConnectionException;
-    List<Book> getAllByTicketId(Integer id) throws DaoException, ConnectionException;
+    List<Book> getAllByAccountId(Integer id) throws DaoException, ConnectionException;
 }

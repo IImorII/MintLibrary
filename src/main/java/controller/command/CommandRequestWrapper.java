@@ -1,7 +1,13 @@
 package controller.command;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandRequestWrapper implements CommandRequest {
 
@@ -19,6 +25,33 @@ public class CommandRequestWrapper implements CommandRequest {
     @Override
     public Object getAttribute(String name) {
         return request.getAttribute(name);
+    }
+
+    @Override
+    public Part getPart(String name) {
+        Part part = null;
+        try {
+            part = request.getPart(name);
+        } catch (IOException | ServletException ex) {
+            ex.printStackTrace();
+        }
+        return part;
+    }
+
+    @Override
+    public List<Part> getParts(String name) {
+        List<Part> parts = null;
+        try {
+            parts = (List<Part>) request.getParts();
+        } catch (IOException | ServletException ex) {
+            ex.printStackTrace();
+        }
+        return parts;
+    }
+
+    @Override
+    public ServletContext getServletContext() {
+        return request.getServletContext();
     }
 
     @Override

@@ -71,6 +71,8 @@ public class BookMapper implements Mapper<Book> {
     }
 
     public BookDto toDto(Book entity) throws MapperException {
+        Integer id = entity.getId();
+        Integer count = entity.getCount();
         String name = entity.getName();
         String description = entity.getDescription();
         String photoUrl = entity.getPhotoUrl();
@@ -85,6 +87,8 @@ public class BookMapper implements Mapper<Book> {
         }
         Integer yearOfRelease = entity.getYearOfRelease();
         return new BookDto(
+                id,
+                count,
                 name,
                 description,
                 photoUrl,

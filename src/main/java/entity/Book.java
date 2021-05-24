@@ -11,7 +11,7 @@ public class Book extends BaseEntity {
     private Double rate = 0.0;
     private Integer count = 0;
     private String description = "No description.";
-    private String photoUrl = "https://static.dw.com/image/38763531_303.jpg";
+    private String photoUrl = "img/BookDefault.png";
     private List<Account> accounts;
     private List<Genre> genres;
     private List<Author> authors;

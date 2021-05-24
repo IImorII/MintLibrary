@@ -1,6 +1,9 @@
 package controller.command;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.util.List;
 
 public interface CommandRequest {
 
@@ -25,4 +28,10 @@ public interface CommandRequest {
     Integer getIntSessionAttribute(String name);
 
     HttpSession getSession();
+
+    Part getPart(String name);
+
+    List<Part> getParts(String name);
+
+    ServletContext getServletContext();
 }

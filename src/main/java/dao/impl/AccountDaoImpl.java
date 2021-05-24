@@ -17,7 +17,7 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     private AccountDaoImpl() {
         super("account");
         setCreateQuery("insert into account (name, login, password, book_amount_max, role_id_fk) values (?, ?, ?, ?, ?)");
-        setUpdateQuary("update user set name = ?, login = ?, password = ?, book_amount_current = ?, book_amount_max = ?, role_id_fk = ? where id = ?");
+        setUpdateQuary("update account set name = ?, login = ?, password = ?, book_amount_current = ?, book_amount_max = ?, role_id_fk = ? where id = ?");
     }
 
     protected static AccountDaoImpl getInstance() {
@@ -34,22 +34,31 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
 
     private static final String GET_ONE_BY_LOGIN = "select * from account where login = ?";
     private static final String GET_ALL_BY_ROLE_ID = "select * from account where role_id_fk = ?";
-    private static final String GET_ALL_BY_BOOK_ID = "select * from book_account where id = ?";
+
+    private static final String GET_ALL_BY_BOOK_ID = "select account.* from account " +
+            " join book_account on book_account.account_id = account.id" +
+            " join book on book.id = book_account.id where book.id = ?";
+    private static final String BOOK_ACCOUNT_CONFIRM = "update book_account set confirm = ? where id = ? and account_id = ?";
 
     @Override
     public void create(Account account) throws DaoException, ConnectionException {
-        if (getByName(account.getName()).isPresent()) {
-            throw new DaoException(account.getName() + " is duplicate!");
-        } else if (account.getRole().getId() == null) {
+        if (account.getRole().getId() == null) {
             RoleDaoImpl.getInstance().create(account.getRole());
             account.getRole().setId(RoleDaoImpl.getInstance().getByName(account.getRole().getName()).get().getId());
         }
-        updateQuery(CREATE, Arrays.asList(
-                account.getName(),
-                account.getLogin(),
-                account.getPassword(),
-                account.getBookAmountMax(),
-                account.getRole().getId()));
+        if (getByLogin(account.getLogin()).isPresent()) {
+            if (account.getId() == null) {
+                account.setId(getByLogin(account.getLogin()).get().getId());
+            }
+            update(account);
+        } else {
+            updateQuery(CREATE, Arrays.asList(
+                    account.getName(),
+                    account.getLogin(),
+                    account.getPassword(),
+                    account.getBookAmountMax(),
+                    account.getRole().getId()));
+        }
     }
 
     @Override
@@ -77,6 +86,11 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     @Override
     public List<Account> getAllByBookId(Integer id) throws DaoException, ConnectionException {
         return getManyQuery(GET_ALL_BY_BOOK_ID, Collections.singletonList(id));
+    }
+
+    @Override
+    public void changeBookAccountConfirm(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException, ConnectionException {
+        updateQuery(BOOK_ACCOUNT_CONFIRM, Arrays.asList(isConfirm, bookId, accountId));
     }
 
     @Override

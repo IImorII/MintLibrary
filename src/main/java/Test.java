@@ -1,5 +1,7 @@
+import com.google.protobuf.GeneratedMessageV3;
 import dao.LanguageDao;
 import dao.impl.ProxyDaoFactory;
+import entity.Book;
 import entity.Language;
 import repository.EntityRepository;
 
@@ -7,21 +9,25 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
-        Language language = new Language();
-        language.setName("Test2");
-        List<Language> languages = (List<Language>) EntityRepository.getInstance().retrieveCollection(Language.class);
-        LanguageDao dao = (LanguageDao) ProxyDaoFactory.getDaoFor(Language.class);
-        try {
-            for (Language l : languages) {
-                System.out.println(l.getName());
+        initBooks();
+    }
+
+    public static void initBooks() {
+        for (int i = 0; i < 100; i++) {
+            Language language = new Language("Language " + i);
+            Book book = new Book();
+            book.setName("Book " + i);
+            book.setDescription("Description " + i);
+            book.setCount(10);
+            book.setRate((double)i);
+            book.setYearOfRelease(2000 + i);
+            book.setLanguage(language);
+            book.setPhotoUrl("img/BookDefault.png");
+            try {
+                ProxyDaoFactory.getDaoFor(Book.class).create(book);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            dao.create(language);
-            languages = (List<Language>) EntityRepository.getInstance().retrieveCollection(Language.class);
-            for (Language l : languages) {
-                System.out.println(l.getName());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 

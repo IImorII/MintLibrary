@@ -67,7 +67,7 @@ public class EntityRepository implements UpdateDBListener {
                 default -> null;
             };
         } catch (DaoException | ConnectionException ex) {
-            log.error(ex.getMessage());
+            ex.printStackTrace();
         }
         return (List) reference.get();
     }

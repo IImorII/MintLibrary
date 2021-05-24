@@ -17,7 +17,7 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     private BookDaoImpl() {
         super("book");
         setCreateQuery("insert into book (name, description, photo_url, year_of_release, rate, count, language_id_fk) values (?, ?, ?, ?, ?, ?, ?)");
-        setUpdateQuary("update book set name = ?, year_of_release = ?, rate = ?, count = ?, language_fk = ?, where id = ?");
+        setUpdateQuary("update book set name = ?, description = ?, photo_url = ?, year_of_release = ?, rate = ?, count = ?, language_id_fk = ? where id = ?");
     }
 
     protected static BookDaoImpl getInstance() {
@@ -39,9 +39,10 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     private final String GET_ALL_BY_GENRE_ID = "select book.* from book " +
             "join book_genre on book_genre.id = book.id " +
             "join genre on genre.id = book_genre.genre_id where genre.id = ?";
-    private final String GET_ALL_BY_TICKET_ID = "select book.* from book " +
-            "join ticket_book on ticket_book.book_id = book.id " +
-            "join ticket on ticket.id = ticket_book.id where ticket.id = ?";
+
+    private final String GET_ALL_BY_ACCOUNT_ID = "select book.* from book " +
+            "join book_account on book_account.id = book.id " +
+            "join account on account.id = book_account.account_id where account.id = ?";
 
     private final String SET_BOOK_TO_GENRE = "insert into book_genre (id, genre_id) values (?, ?)";
     private final String SET_BOOK_TO_AUTHOR = "insert into book_author (id, author_id) values (?, ?)";
@@ -49,29 +50,36 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
 
     @Override
     public void create(Book book) throws DaoException, ConnectionException {
-        if (getByName(book.getName()).isPresent()) {
-            throw new DaoException(book.getName() + " is duplicate!");
-        } else if (book.getLanguage().getId() == null) {
+        if (book.getLanguage().getId() == null) {
             LanguageDaoImpl.getInstance().create(book.getLanguage());
             book.getLanguage().setId(LanguageDaoImpl.getInstance().getByName(book.getLanguage().getName()).get().getId());
         }
-        updateQuery(CREATE, Arrays.asList(
-                book.getName(),
-                book.getDescription(),
-                book.getPhotoUrl(),
-                book.getYearOfRelease(),
-                book.getRate(),
-                book.getCount(),
-                book.getLanguage().getId()));
-        book.setId(getByName(book.getName()).get().getId());
+        if (getByName(book.getName()).isPresent()) {
+            if (book.getId() == null) {
+                book.setId(getByName(book.getName()).get().getId());
+            }
+            update(book);
+        } else {
+            updateQuery(CREATE, Arrays.asList(
+                    book.getName(),
+                    book.getDescription(),
+                    book.getPhotoUrl(),
+                    book.getYearOfRelease(),
+                    book.getRate(),
+                    book.getCount(),
+                    book.getLanguage().getId()));
+            book.setId(getByName(book.getName()).get().getId());
+        }
         List<String> queries = Arrays.asList(SET_BOOK_TO_GENRE, SET_BOOK_TO_AUTHOR, SET_BOOK_TO_ACCOUNT);
-        updateDependencies(book, queries, book.getGenres(), book.getAuthors(), book.getAccounts());
+        createDependencies(book, queries, book.getGenres(), book.getAuthors(), book.getAccounts());
     }
 
     @Override
     public void update(Book book) throws DaoException, ConnectionException {
         updateQuery(UPDATE, Arrays.asList(
                 book.getName(),
+                book.getDescription(),
+                book.getPhotoUrl(),
                 book.getYearOfRelease(),
                 book.getRate(),
                 book.getCount(),
@@ -95,8 +103,8 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     }
 
     @Override
-    public List<Book> getAllByTicketId(Integer id) throws DaoException, ConnectionException {
-        return getManyQuery(GET_ALL_BY_TICKET_ID, Collections.singletonList(id));
+    public List<Book> getAllByAccountId(Integer id) throws DaoException, ConnectionException {
+        return getManyQuery(GET_ALL_BY_ACCOUNT_ID, Collections.singletonList(id));
     }
 
     @Override

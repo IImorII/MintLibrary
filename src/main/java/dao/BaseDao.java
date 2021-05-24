@@ -67,6 +67,7 @@ public interface BaseDao<T extends BaseEntity> {
             }
             return objects;
         } catch (SQLException | MapperException ex) {
+            ex.printStackTrace();
             throw new DaoException(ex.getMessage());
         }
     }
@@ -76,8 +77,8 @@ public interface BaseDao<T extends BaseEntity> {
             PreparedStatement preparedStatement = getPreparedStatement(querySQL, parameters);
             final int affectedRows = preparedStatement.executeUpdate();
             return affectedRows != 0;
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
+        } catch (SQLException ex) {
+            throw new DaoException(ex.getMessage());
         }
     }
 
@@ -90,7 +91,12 @@ public interface BaseDao<T extends BaseEntity> {
             if (parameters != null) {
                 int length = parameters.size();
                 for (int i = 0; i < length; i++) {
-                    preparedStatement.setString(i + 1, String.valueOf(parameters.get(i)));
+                    Object value = parameters.get(i);
+                    if (value == null) {
+                        preparedStatement.setString(i + 1, null);
+                        continue;
+                    }
+                    preparedStatement.setString(i + 1, String.valueOf(value));
                 }
             }
             return preparedStatement;

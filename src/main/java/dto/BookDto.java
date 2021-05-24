@@ -3,15 +3,19 @@ package dto;
 import java.util.List;
 
 public class BookDto {
+    private Integer id;
     private String name;
     private String description;
     private String photoUrl;
     private String language;
+    private Integer count;
     private List<String> authorsNames;
     private List<String> genresNames;
     private Integer yearOfRelease;
 
-    public BookDto(String name, String description, String photoUrl, String language, List<String> authors, List<String> genres, Integer yearOfRelease) {
+    public BookDto(Integer id, Integer count, String name, String description, String photoUrl, String language, List<String> authors, List<String> genres, Integer yearOfRelease) {
+        this.id = id;
+        this.count = count;
         this.name = name;
         this.description = description;
         this.photoUrl = photoUrl;
@@ -19,6 +23,22 @@ public class BookDto {
         this.authorsNames = authors;
         this.genresNames = genres;
         this.yearOfRelease = yearOfRelease;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public List<String> getAuthorsNames() {
+        return authorsNames;
+    }
+
+    public List<String> getGenresNames() {
+        return genresNames;
     }
 
     public String getName() {
@@ -39,14 +59,6 @@ public class BookDto {
 
     public String getLanguage() {
         return language;
-    }
-
-    public List<String> getAuthors() {
-        return authorsNames;
-    }
-
-    public List<String> getGenres() {
-        return genresNames;
     }
 
 }

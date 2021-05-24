@@ -30,17 +30,21 @@
                     <i class="fas fa-home"></i>
                     Home
                 </a></li>
-                <li class="tm-nav-item"><a href="#" class="tm-nav-link">
+                <c:if test="${sessionScope.userRole eq 'Librarian'}">
+                <li class="tm-nav-item"><a href="?command=library_panel" class="tm-nav-link">
                     <i class="fas fa-pen"></i>
-                    Page
+                    Librarian panel
                 </a></li>
+                </c:if>
+                <c:if test="${sessionScope.userRole eq 'Admin'}">
                 <li class="tm-nav-item"><a href="#" class="tm-nav-link">
                     <i class="fas fa-users"></i>
-                    Page
+                    Admin panel
                 </a></li>
+                </c:if>
                 <li class="tm-nav-item"><a href="#" class="tm-nav-link">
                     <i class="far fa-comments"></i>
-                    Page
+                    About library
                 </a></li>
             </ul>
         </nav>
@@ -55,11 +59,29 @@
                 <a href="?command=logout" class="tm-social-link">
                     <i class="fas fa-sign-out-alt tm-social-icon"></i>
                 </a>
-                Name: ${sessionScope.userName} Role: ${sessionScope.userRole}
+                <br>
+                Name: ${sessionScope.userName}
+                <br>
+                Role: ${sessionScope.userRole}
+                <br>
+                Ticket: ${sessionScope.booksCurrent}/${sessionScope.booksMax}
             </c:if>
         </div>
     </div>
 </header>
+<div class="container-fluid">
+    <main class="tm-main">
+        <!-- Search form -->
+        <div class="row tm-row">
+            <div class="col-12">
+                <form action="?command=search_book" method="POST" class="form-inline tm-mb-80 tm-search-form">
+                    <input class="form-control tm-search-input" name="search" type="text" placeholder="Search..." aria-label="Search">
+                    <button class="tm-search-button" type="submit">
+                        <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
 </body>
 
 <script src="js/templatemo-script.js"></script>

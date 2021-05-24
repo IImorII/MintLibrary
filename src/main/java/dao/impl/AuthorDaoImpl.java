@@ -47,12 +47,16 @@ public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao 
     @Override
     public void create(Author author) throws DaoException, ConnectionException {
         if (getByName(author.getName()).isPresent()) {
-            throw new DaoException(author.getName() + " is duplicate!");
+            if (author.getId() == null) {
+                author.setId(getByName(author.getName()).get().getId());
+            }
+            update(author);
+        } else {
+            updateQuery(CREATE, Arrays.asList(author.getName(), author.getYearOfBirth()));
+            author.setId(getByName(author.getName()).get().getId());
         }
-        updateQuery(CREATE, Arrays.asList(author.getName(), author.getYearOfBirth()));
-        author.setId(getByName(author.getName()).get().getId());
         List<String> queries = Arrays.asList(SET_AUTHOR_TO_BOOK, SET_AUTHOR_TO_LANGUAGE);
-        updateDependencies(author, queries, author.getBooks(), author.getLanguages());
+        createDependencies(author, queries, author.getBooks(), author.getLanguages());
     }
 
     @Override

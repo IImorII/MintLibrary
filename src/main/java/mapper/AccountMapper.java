@@ -47,11 +47,13 @@ public class AccountMapper implements Mapper<Account> {
     }
 
     public AccountDto toDto(Account entity) throws MapperException {
+        Integer id = entity.getId();
         String name = entity.getName();
         String role = entity.getRole().getName();
         Integer amountCurrent = entity.getBookAmountCurrent();
         Integer amountMax = entity.getBookAmountMax();
         return new AccountDto(
+                id,
                 name,
                 role,
                 amountCurrent,

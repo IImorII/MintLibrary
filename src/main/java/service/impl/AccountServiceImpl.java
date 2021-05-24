@@ -1,14 +1,18 @@
 package service.impl;
 
 import dao.AccountDao;
+import dao.BookDao;
 import dao.impl.ProxyDaoFactory;
 import dto.AccountDto;
+import dto.BookDto;
 import entity.Account;
+import entity.Book;
 import entity.Role;
 import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 import mapper.AccountMapper;
+import mapper.BookMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repository.EntityRepository;
@@ -48,6 +52,18 @@ public class AccountServiceImpl {
         return dtoAccounts;
     }
 
+    public AccountDto getOne(Integer id) {
+        AccountDto dtoAccount= null;
+        try {
+            Account entity = (Account) ProxyDaoFactory.getDaoFor(Account.class).getById(id).get();
+            dtoAccount = AccountMapper.getInstance().toDto(entity);
+        } catch (DaoException | ConnectionException | MapperException ex) {
+            log.error(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return dtoAccount;
+    }
+
     public Optional<AccountDto> login(String login, String password) {
         try {
             AccountDao dao = (AccountDao) ProxyDaoFactory.getDaoFor(Account.class);
@@ -64,7 +80,7 @@ public class AccountServiceImpl {
         return Optional.empty();
     }
 
-    public Optional<AccountDto> singUp(String login, String password, String name) {
+    public Optional<AccountDto> signUp(String login, String password, String name) {
         try {
             AccountDao accountDao = (AccountDao) ProxyDaoFactory.getDaoFor(Account.class);
             final Optional<Account> accountOptional = accountDao.getByLogin(login);
@@ -83,8 +99,44 @@ public class AccountServiceImpl {
             }
         } catch (NoSuchAlgorithmException | DaoException | ConnectionException | MapperException ex) {
             log.error(ex.getMessage());
+            ex.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    public boolean OrderBook(Integer accountId, Integer bookId) {
+        try {
+            BookDao bookDao = (BookDao) ProxyDaoFactory.getDaoFor(Book.class);
+            AccountDao accountDao = (AccountDao) ProxyDaoFactory.getDaoFor(Account.class);
+            Book book = bookDao.getById(bookId).get();
+            Account account = accountDao.getById(accountId).get();
+            if (account.getBookAmountCurrent() >= account.getBookAmountMax() || book.getCount() <= 0) {
+                return false;
+            }
+            System.out.println(accountId);
+            System.out.println(bookId);
+            List<Account> accounts = new ArrayList<>(accountDao.getAllByBookId(bookId));
+            accounts.add(account);
+            book.setCount(book.getCount() - 1);
+            account.setBookAmountCurrent(account.getBookAmountCurrent() + 1);
+            book.setAccounts(accounts);
+            bookDao.create(book);
+            accountDao.create(account);
+        } catch (DaoException | ConnectionException ex) {
+            log.error(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return true;
+    }
+
+    public void ConfirmOrder(Integer userId, Integer bookId) {
+        try {
+            AccountDao accountDao = (AccountDao) ProxyDaoFactory.getDaoFor(Account.class);
+            accountDao.changeBookAccountConfirm(true, bookId, userId);
+        } catch (DaoException | ConnectionException ex) {
+            log.error(ex);
+            ex.printStackTrace();
+        }
     }
 
     public String getHash(String password) throws NoSuchAlgorithmException {

@@ -22,6 +22,10 @@ public class Author extends BaseEntity {
 
     }
 
+    public Author(String name) {
+        setName(name);
+    }
+
     public List<Book> getBooks() {
         return books;
     }
@@ -30,7 +34,7 @@ public class Author extends BaseEntity {
         this.books = books;
     }
 
-    public int getYearOfBirth() {
+    public Integer getYearOfBirth() {
         return yearOfBirth;
     }
 

@@ -33,10 +33,11 @@ public class SignUpCommand implements Command {
             final String login = request.getStringParameter(ParameterDestination.LOGIN.getParameter());
             final String password = request.getStringParameter(ParameterDestination.PASSWORD.getParameter());
             final String name = request.getStringParameter(ParameterDestination.USER_NAME.getParameter());
-            final Optional<AccountDto> accountOptional = AccountServiceImpl.getInstance().singUp(login, password, name);
+            final Optional<AccountDto> accountOptional = AccountServiceImpl.getInstance().signUp(login, password, name);
             if (accountOptional.isPresent()) {
                 AccountDto account = accountOptional.get();
                 HttpSession session = request.getSession();
+                session.setAttribute(ParameterDestination.USER_ID.getParameter(), account.getId());
                 session.setAttribute(ParameterDestination.USER_NAME.getParameter(), account.getName());
                 session.setAttribute(ParameterDestination.USER_ROLE.getParameter(), account.getRole());
                 session.setAttribute(ParameterDestination.BOOKS_CURRENT.getParameter(), account.getAmountCurrent());
@@ -44,7 +45,7 @@ public class SignUpCommand implements Command {
                 session.setMaxInactiveInterval(300);
                 return Command.of(CommandInstance.MAIN.name()).execute(request);
             } else {
-                request.setAttribute(ParameterDestination.ERROR.getParameter(), "Account with this login already exists!");
+                request.setAttribute(ParameterDestination.ERROR.getParameter(), "Account with this login is already exists!");
                 return() -> ERROR;
             }
         } catch (Exception ex) {

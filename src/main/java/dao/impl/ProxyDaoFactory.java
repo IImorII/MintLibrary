@@ -25,16 +25,17 @@ public abstract class ProxyDaoFactory {
             case "role" -> RoleDaoImpl.getInstance();
             default -> null;
         };
-        return (BaseDao) Proxy.newProxyInstance(
-                dao.getClass().getClassLoader(),
-                dao.getClass().getInterfaces(),
-                (handler, method, args) -> {
-                    String methodName = method.getName();
-                    if (methodName.equals("create") || methodName.equals("delete") || methodName.equals("update")) {
-                        BaseDao.doUpdateDBEvent(dao, entity.getSimpleName());
-                    }
-                    return method.invoke(dao, args);
-                }
-        );
+//        return (BaseDao) Proxy.newProxyInstance(
+//                dao.getClass().getClassLoader(),
+//                dao.getClass().getInterfaces(),
+//                (handler, method, args) -> {
+//                    String methodName = method.getName();
+//                    if (methodName.equals("create") || methodName.equals("delete") || methodName.equals("update")) {
+//                        BaseDao.doUpdateDBEvent(dao, entity.getSimpleName());
+//                    }
+//                    return method.invoke(dao, args);
+//                }
+//        );
+        return dao;
     }
 }
