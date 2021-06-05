@@ -11,5 +11,6 @@ public interface AccountDao extends BaseDao<Account> {
     Optional<Account> getByLogin(String login) throws DaoException, ConnectionException;
     List<Account> getAllByRoleId(Integer id) throws DaoException, ConnectionException;
     List<Account> getAllByBookId(Integer id) throws DaoException, ConnectionException;
-    void changeBookAccountConfirm(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException, ConnectionException;
+    void setBookAccountConfirmState(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException, ConnectionException;
+    void deleteBookFromAccount(Integer bookId, Integer accountId) throws DaoException, ConnectionException;
 }

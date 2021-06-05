@@ -72,13 +72,18 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() {
-        if (freeConnections.isEmpty()) {
-            init();
-        } else {
-            busyConnections.add(freeConnections.get(0));
-            freeConnections.remove(0);
+        try {
+            LOCK_CONNECTION.lock();
+            if (freeConnections.isEmpty()) {
+                init();
+            } else {
+                busyConnections.add(freeConnections.get(0));
+                freeConnections.remove(0);
+            }
+            return busyConnections.get(busyConnections.size() - 1);
+        } finally {
+            LOCK_CONNECTION.unlock();
         }
-        return busyConnections.get(busyConnections.size() - 1);
     }
 
     private static void registerDrivers() {

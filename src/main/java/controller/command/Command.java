@@ -7,4 +7,5 @@ public interface Command {
     static Command of(String name) {
         return CommandInstance.of(name);
     }
+    static Command of (CommandInstance command) { return CommandInstance.of(command.name()); }
 }

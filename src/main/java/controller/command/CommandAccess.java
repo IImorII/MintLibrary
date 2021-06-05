@@ -4,9 +4,12 @@ public enum CommandAccess {
     LIBRARY_PANEL(CommandRoles.LIBRARIAN),
     ADD_BOOK_PANEL(CommandRoles.LIBRARIAN),
     CONFIRM_ORDER_PANEL(CommandRoles.LIBRARIAN),
+    RELEASE_ORDER_PANEL(CommandRoles.LIBRARIAN),
     ADD_BOOK(CommandRoles.LIBRARIAN),
     DELETE_BOOK(CommandRoles.LIBRARIAN),
-    CONFIRM_ORDER(CommandRoles.LIBRARIAN);
+    CONFIRM_ORDER(CommandRoles.LIBRARIAN),
+    ADMIN_PANEL(CommandRoles.ADMIN),
+    ACCOUNTS_PANEL(CommandRoles.ADMIN);
 
     private final CommandRoles role;
 

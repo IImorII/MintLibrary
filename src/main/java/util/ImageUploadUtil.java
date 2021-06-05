@@ -13,7 +13,6 @@ public class ImageUploadUtil {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
-        System.out.println("Upload File Directory="+fileSaveDir.getAbsolutePath());
 
         String fileName;
         //Get all the parts from request and write it to the file on server

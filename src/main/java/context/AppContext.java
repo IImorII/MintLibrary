@@ -1,7 +1,6 @@
 package context;
 
 import util.PropertyReaderUtil;
-
 import java.util.Properties;
 
 public class AppContext {

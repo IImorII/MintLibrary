@@ -38,7 +38,8 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     private static final String GET_ALL_BY_BOOK_ID = "select account.* from account " +
             " join book_account on book_account.account_id = account.id" +
             " join book on book.id = book_account.id where book.id = ?";
-    private static final String BOOK_ACCOUNT_CONFIRM = "update book_account set confirm = ? where id = ? and account_id = ?";
+    private static final String BOOK_ACCOUNT_CONFIRM = "update book_account set confirmed = ? where id = ? and account_id = ?";
+    private static final String DELETE_BOOK_FROM_ACCOUNT = "delete from book_account where id = ? and account_id = ?";
 
     @Override
     public void create(Account account) throws DaoException, ConnectionException {
@@ -63,6 +64,10 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
 
     @Override
     public void update(Account account) throws DaoException, ConnectionException {
+        if (account.getRole().getId() == null) {
+            RoleDaoImpl.getInstance().create(account.getRole());
+            account.getRole().setId(RoleDaoImpl.getInstance().getByName(account.getRole().getName()).get().getId());
+        }
         updateQuery(UPDATE, Arrays.asList(
                 account.getName(),
                 account.getLogin(),
@@ -89,8 +94,13 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     }
 
     @Override
-    public void changeBookAccountConfirm(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException, ConnectionException {
-        updateQuery(BOOK_ACCOUNT_CONFIRM, Arrays.asList(isConfirm, bookId, accountId));
+    public void setBookAccountConfirmState(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException, ConnectionException {
+        updateQuery(BOOK_ACCOUNT_CONFIRM, Arrays.asList((isConfirm) ? 1 : 0, bookId, accountId));
+    }
+
+    @Override
+    public void deleteBookFromAccount(Integer bookId, Integer accountId) throws DaoException, ConnectionException {
+        updateQuery(DELETE_BOOK_FROM_ACCOUNT, Arrays.asList(bookId, accountId));
     }
 
     @Override

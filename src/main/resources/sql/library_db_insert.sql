@@ -51,4 +51,4 @@ select genre.* from genre join book_genre on book_genre.genre_id = genre.id join
 
 update account
 set role_id_fk = 3
-where login = 'Mikunika';
+where login = 'librarian';

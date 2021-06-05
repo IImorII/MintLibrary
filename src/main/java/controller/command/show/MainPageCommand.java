@@ -1,7 +1,6 @@
 package controller.command.show;
 
 import controller.command.*;
-import controller.command.action.books.SwitchPageCommand;
 import exception.CommandException;
 
 import static controller.command.ControllerDestination.MAIN;

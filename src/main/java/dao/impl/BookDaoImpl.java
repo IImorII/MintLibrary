@@ -43,7 +43,12 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     private final String GET_ALL_BY_ACCOUNT_ID = "select book.* from book " +
             "join book_account on book_account.id = book.id " +
             "join account on account.id = book_account.account_id where account.id = ?";
-
+    private final String GET_ALL_CONFIRMED_BY_ACCOUNT_ID = "select book.* from book " +
+            "join book_account on book_account.id = book.id " +
+            "join account on account.id = book_account.account_id where account.id = ? and book_account.confirmed = true";
+    private final String GET_ALL_UNCONFIRMED_BY_ACCOUNT_ID = "select book.* from book " +
+            "join book_account on book_account.id = book.id " +
+            "join account on account.id = book_account.account_id where account.id = ? and book_account.confirmed = false";
     private final String SET_BOOK_TO_GENRE = "insert into book_genre (id, genre_id) values (?, ?)";
     private final String SET_BOOK_TO_AUTHOR = "insert into book_author (id, author_id) values (?, ?)";
     private final String SET_BOOK_TO_ACCOUNT = "insert into book_account (id, account_id) values (?, ?)";
@@ -76,6 +81,10 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
 
     @Override
     public void update(Book book) throws DaoException, ConnectionException {
+        if (book.getLanguage().getId() == null) {
+            LanguageDaoImpl.getInstance().create(book.getLanguage());
+            book.getLanguage().setId(LanguageDaoImpl.getInstance().getByName(book.getLanguage().getName()).get().getId());
+        }
         updateQuery(UPDATE, Arrays.asList(
                 book.getName(),
                 book.getDescription(),
@@ -105,6 +114,14 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     @Override
     public List<Book> getAllByAccountId(Integer id) throws DaoException, ConnectionException {
         return getManyQuery(GET_ALL_BY_ACCOUNT_ID, Collections.singletonList(id));
+    }
+
+    public List<Book> getAllConfirmedByAccountId(Integer id) throws DaoException, ConnectionException {
+        return getManyQuery(GET_ALL_CONFIRMED_BY_ACCOUNT_ID, Collections.singletonList(id));
+    }
+
+    public List<Book> getAllUnconfirmedByAccountId(Integer id) throws DaoException, ConnectionException {
+        return getManyQuery(GET_ALL_UNCONFIRMED_BY_ACCOUNT_ID, Collections.singletonList(id));
     }
 
     @Override

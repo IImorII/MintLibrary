@@ -1,24 +1,28 @@
 package controller.command;
 
-import controller.command.action.account.LoginCommand;
-import controller.command.action.account.LogoutCommand;
-import controller.command.action.account.SignUpCommand;
-import controller.command.action.books.SingleBookCommand;
-import controller.command.action.librarian.AddBookCommand;
-import controller.command.action.librarian.ConfirmOrderCommand;
-import controller.command.action.librarian.DeleteBookCommand;
-import controller.command.action.user.OrderBookCommand;
-import controller.command.show.AddBookPanelCommand;
-import controller.command.show.ConfirmOrderPanelCommand;
-import controller.command.show.LibraryPanelCommand;
-import controller.command.show.MainPageCommand;
-import controller.command.action.books.SearchBookCommand;
-import controller.command.action.books.SwitchPageCommand;
+import controller.command.role.account.LoginCommand;
+import controller.command.role.account.LogoutCommand;
+import controller.command.role.account.SignUpCommand;
+import controller.command.role.books.SingleBookCommand;
+import controller.command.role.librarian.AddBookCommand;
+import controller.command.role.librarian.ConfirmOrderCommand;
+import controller.command.role.librarian.DeleteBookCommand;
+import controller.command.role.librarian.ReleaseOrderCommand;
+import controller.command.role.librarian.show.AddBookPanelCommand;
+import controller.command.role.librarian.show.ConfirmOrderPanelCommand;
+import controller.command.role.librarian.show.LibraryPanelCommand;
+import controller.command.role.librarian.show.ReleaseOrderPanelCommand;
+import controller.command.role.user.OrderBookCommand;
+import controller.command.role.user.ViewOrderPanelCommand;
+import controller.command.show.*;
+import controller.command.role.books.SearchBookCommand;
+import controller.command.role.books.SwitchPageCommand;
 
 public enum CommandInstance {
 
     MAIN(MainPageCommand.getInstance()),
     LOGIN(LoginCommand.getInstance()),
+    ABOUT(AboutPageCommand.getInstance()),
     SEARCH_BOOK(SearchBookCommand.getInstance()),
     SHOW_BOOK(SingleBookCommand.getInstance()),
     SWITCH_PAGE(SwitchPageCommand.getInstance()),
@@ -29,7 +33,10 @@ public enum CommandInstance {
     ADD_BOOK(AddBookCommand.getInstance()),
     DELETE_BOOK(DeleteBookCommand.getInstance()),
     CONFIRM_ORDER_PANEL(ConfirmOrderPanelCommand.getInstance()),
+    RELEASE_ORDER_PANEL(ReleaseOrderPanelCommand.getInstance()),
+    VIEW_ORDER_PANEL(ViewOrderPanelCommand.getInstance()),
     CONFIRM_ORDER(ConfirmOrderCommand.getInstance()),
+    RELEASE_ORDER(ReleaseOrderCommand.getInstance()),
     SIGN_UP(SignUpCommand.getInstance());
 
     private final Command command;

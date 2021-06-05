@@ -25,6 +25,9 @@ public enum ParameterDestination {
     COMMAND("command"),
     BOOKS_LIST_FULL("booksListFull"),
     BOOKS_LIST("booksList"),
+    UNCONFIRMED_BOOKS("unconfirmedBooks"),
+    CONFIRMED_BOOKS("confirmedBooks"),
+    ACCOUNTS_LIST("accountsList"),
     BOOK("book"),
     BOOK_ID("bookId");
 

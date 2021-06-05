@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../../js/templatemo-script.js"></script>
     <title>Login</title>
 </head>
 
@@ -42,7 +43,7 @@
                     Admin panel
                 </a></li>
                 </c:if>
-                <li class="tm-nav-item"><a href="#" class="tm-nav-link">
+                <li class="tm-nav-item"><a href="?command=about" class="tm-nav-link">
                     <i class="far fa-comments"></i>
                     About library
                 </a></li>
@@ -60,11 +61,15 @@
                     <i class="fas fa-sign-out-alt tm-social-icon"></i>
                 </a>
                 <br>
+                Id: ${sessionScope.userId}
+                <br>
                 Name: ${sessionScope.userName}
                 <br>
                 Role: ${sessionScope.userRole}
+                <c:if test="${sessionScope.userRole eq 'User'}">
                 <br>
                 Ticket: ${sessionScope.booksCurrent}/${sessionScope.booksMax}
+                </c:if>
             </c:if>
         </div>
     </div>
