@@ -21,6 +21,7 @@ public enum ParameterDestination {
     YEAR("year"),
     USER("user"),
     ERROR("error"),
+    INFO("info"),
     SEARCH("search"),
     COMMAND("command"),
     BOOKS_LIST_FULL("booksListFull"),

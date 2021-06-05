@@ -9,7 +9,7 @@ import service.impl.AccountServiceImpl;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-import static controller.command.ControllerDestination.ERROR;
+import static controller.command.ControllerDestination.INFO;
 
 public class SignUpCommand implements Command {
 
@@ -47,7 +47,7 @@ public class SignUpCommand implements Command {
                 return Command.of(CommandInstance.MAIN.name()).execute(request);
             } else {
                 request.setAttribute(ParameterDestination.ERROR.getParameter(), ERROR_MESSAGE);
-                return() -> ERROR;
+                return() -> INFO;
             }
         } catch (Exception ex) {
             throw new CommandException(ex.getMessage());

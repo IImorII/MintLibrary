@@ -30,6 +30,10 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
     private BookDao bookDao;
 
+    private final static String HAVE_BOOK_ERROR = "You already have this book!";
+    private final static String SUCCESS_ORDER = "Success order!";
+    private final static String FAIL_ORDER = "Your ticket is full or no books left!";
+
     private AccountServiceImpl() {
         accountDao = (AccountDao) ProxyDaoFactory.getDaoFor(Account.class);
         bookDao = (BookDao) ProxyDaoFactory.getDaoFor(Book.class);
@@ -104,6 +108,7 @@ public class AccountServiceImpl implements AccountService {
                         findFirst().
                         orElse(null));
                 accountDao.create(account);
+                account.setId(accountDao.getByLogin(login).get().getId());
                 return Optional.of(AccountMapper.getInstance().toDto(account));
             }
         } catch (NoSuchAlgorithmException | DaoException | ConnectionException | MapperException ex) {
@@ -114,14 +119,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean orderBook(Integer accountId, Integer bookId) {
+    public String orderBook(Integer accountId, Integer bookId) {
         try {
             Book book = bookDao.getById(bookId).get();
             Account account = accountDao.getById(accountId).get();
             if (account.getBookAmountCurrent() >= account.getBookAmountMax() || book.getCount() <= 0) {
-                return false;
+                return FAIL_ORDER;
             }
             List<Account> accounts = new ArrayList<>(accountDao.getAllByBookId(bookId));
+            if (accounts.contains(account)) {
+                return HAVE_BOOK_ERROR;
+            }
             accounts.add(account);
             book.setCount(book.getCount() - 1);
             account.setBookAmountCurrent(account.getBookAmountCurrent() + 1);
@@ -132,7 +140,7 @@ public class AccountServiceImpl implements AccountService {
             log.error(ex.getMessage());
             ex.printStackTrace();
         }
-        return true;
+        return SUCCESS_ORDER;
     }
 
     @Override
@@ -147,6 +155,22 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void releaseOrder(Integer accountId, Integer bookId) {
+        try {
+            Account account = accountDao.getById(accountId).get();
+            Book book = bookDao.getById(bookId).get();
+            book.setCount(book.getCount() + 1);
+            account.setBookAmountCurrent(account.getBookAmountCurrent() - 1);
+            accountDao.deleteBookFromAccount(bookId, accountId);
+            bookDao.update(book);
+            accountDao.update(account);
+        } catch (DaoException | ConnectionException ex) {
+            log.error(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteOrder(Integer accountId, Integer bookId) {
         try {
             Account account = accountDao.getById(accountId).get();
             Book book = bookDao.getById(bookId).get();

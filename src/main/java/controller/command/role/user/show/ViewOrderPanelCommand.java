@@ -1,4 +1,4 @@
-package controller.command.role.user;
+package controller.command.role.user.show;
 
 import controller.command.Command;
 import controller.command.CommandRequest;
@@ -14,15 +14,14 @@ import service.impl.BookServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import static controller.command.ControllerDestination.CONFIRM_ORDER_PANEL;
 import static controller.command.ControllerDestination.VIEW_ORDER_PANEL;
 
 public class ViewOrderPanelCommand implements Command {
 
     private static ViewOrderPanelCommand INSTANCE;
 
-    private BookService bookService;
-    private AccountService accountService;
+    private final BookService bookService;
+    private final AccountService accountService;
 
     private ViewOrderPanelCommand() {
         bookService = BookServiceImpl.getInstance();
@@ -38,12 +37,12 @@ public class ViewOrderPanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Object userId = request.getParameter(ParameterDestination.USER_ID.getParameter());
+        Object userId = request.getSessionAttribute(ParameterDestination.USER_ID.getParameter());
         List<BookDto> confirmedBooks = new ArrayList<>();
         List<BookDto> unconfirmedBooks = new ArrayList<>();
         if (userId != null) {
             confirmedBooks = bookService.getConfirmedBooks(Integer.parseInt(userId.toString()));
-            unconfirmedBooks = bookService.getConfirmedBooks(Integer.parseInt(userId.toString()));
+            unconfirmedBooks = bookService.getUnconfirmedBooks(Integer.parseInt(userId.toString()));
             request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(userId.toString())));
         }
         request.setAttribute(ParameterDestination.CONFIRMED_BOOKS.getParameter(), confirmedBooks);

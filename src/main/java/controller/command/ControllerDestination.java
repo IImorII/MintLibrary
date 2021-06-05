@@ -13,7 +13,7 @@ public enum ControllerDestination implements Destination {
     RELEASE_ORDER_PANEL("/WEB-INF/jsp/librarian/releaseOrderPanel.jsp"),
     VIEW_ORDER_PANEL("/WEB-INF/jsp/user/viewOrderPanel.jsp"),
     ABOUT("/WEB-INF/jsp/about.jsp"),
-    ERROR("/WEB-INF/jsp/error.jsp");
+    INFO("/WEB-INF/jsp/info.jsp");
 
     private final String PATH;
 

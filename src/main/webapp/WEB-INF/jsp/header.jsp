@@ -43,6 +43,12 @@
                     Admin panel
                 </a></li>
                 </c:if>
+                <c:if test="${sessionScope.userRole eq 'User'}">
+                    <li class="tm-nav-item"><a href="?command=view_order_panel" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        User panel
+                    </a></li>
+                </c:if>
                 <li class="tm-nav-item"><a href="?command=about" class="tm-nav-link">
                     <i class="far fa-comments"></i>
                     About library

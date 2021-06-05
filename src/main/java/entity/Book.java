@@ -105,4 +105,18 @@ public class Book extends BaseEntity {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 9001;
+        int result = 1;
+        result = PRIME + getId();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Book other = (Book) obj;
+        return getId().equals(other.getId()) && getName().equals(other.getName());
+    }
 }

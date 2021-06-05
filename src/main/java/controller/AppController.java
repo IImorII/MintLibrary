@@ -37,7 +37,7 @@ public class AppController extends HttpServlet {
         } catch (CommandException ex) {
             LOGGER.error(ex.getMessage());
             req.setAttribute(ParameterDestination.ERROR.getParameter(), ex.getMessage());
-            final RequestDispatcher dispatcher = req.getRequestDispatcher(ControllerDestination.ERROR.getPath());
+            final RequestDispatcher dispatcher = req.getRequestDispatcher(ControllerDestination.INFO.getPath());
             dispatcher.forward(req, resp);
         }
     }

@@ -8,8 +8,12 @@
 <jsp:include page="header.jsp"/>
 <div class="container-fluid">
     <main class="tm-main">
-        <c:out value="${requestScope.error}"/>
+        <c:out value="${requestScope.info}"/>
     </main>
+    <div>
+        <a href="?command=main"
+           class="mb-2 tm-btn tm-btn-primary tm-prev-next">Go to main</a>
+    </div>
 
 </div>
 </body>

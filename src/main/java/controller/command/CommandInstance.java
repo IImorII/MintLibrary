@@ -13,7 +13,8 @@ import controller.command.role.librarian.show.ConfirmOrderPanelCommand;
 import controller.command.role.librarian.show.LibraryPanelCommand;
 import controller.command.role.librarian.show.ReleaseOrderPanelCommand;
 import controller.command.role.user.OrderBookCommand;
-import controller.command.role.user.ViewOrderPanelCommand;
+import controller.command.role.user.RemoveOrderCommand;
+import controller.command.role.user.show.ViewOrderPanelCommand;
 import controller.command.show.*;
 import controller.command.role.books.SearchBookCommand;
 import controller.command.role.books.SwitchPageCommand;
@@ -37,6 +38,7 @@ public enum CommandInstance {
     VIEW_ORDER_PANEL(ViewOrderPanelCommand.getInstance()),
     CONFIRM_ORDER(ConfirmOrderCommand.getInstance()),
     RELEASE_ORDER(ReleaseOrderCommand.getInstance()),
+    REMOVE_ORDER(RemoveOrderCommand.getInstance()),
     SIGN_UP(SignUpCommand.getInstance());
 
     private final Command command;

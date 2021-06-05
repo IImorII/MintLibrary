@@ -63,4 +63,18 @@ public class Account extends BaseEntity {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 4111;
+        int result = 1;
+        result = PRIME + getId();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Account other = (Account) obj;
+        return getId().equals(other.getId()) && getLogin().equals(other.getLogin());
+    }
 }

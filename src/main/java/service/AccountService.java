@@ -17,7 +17,7 @@ public interface AccountService {
 
     Optional<AccountDto> signUp(String login, String password, String name);
 
-    boolean orderBook(Integer accountId, Integer bookId);
+    String orderBook(Integer accountId, Integer bookId);
 
     void confirmOrder(Integer accountId, Integer bookId);
 
@@ -26,4 +26,6 @@ public interface AccountService {
     void deleteAccount(Integer accountId);
 
     void changeAccountRole(Integer accountId, String role);
+
+    void deleteOrder(Integer accountId, Integer bookId);
 }
