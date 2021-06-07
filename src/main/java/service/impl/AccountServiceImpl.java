@@ -1,10 +1,12 @@
 package service.impl;
 
+import controller.command.CommandRoles;
 import dao.AccountDao;
 import dao.BookDao;
 import dao.impl.AccountDaoImpl;
 import dao.impl.ProxyDaoFactory;
 import dto.AccountDto;
+import dto.BookDto;
 import entity.Account;
 import entity.Book;
 import entity.Role;
@@ -12,6 +14,7 @@ import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 import mapper.AccountMapper;
+import mapper.BookMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repository.EntityCache;
@@ -60,11 +63,16 @@ public class AccountServiceImpl implements AccountService {
         return dtoAccounts;
     }
 
+    public List<AccountDto> removeAdmins(List<AccountDto> accounts) {
+        accounts.removeIf(account -> account.getRole().equals(CommandRoles.ADMIN.getRole()));
+        return accounts;
+    }
+
     @Override
     public AccountDto getOne(Integer id) {
         AccountDto dtoAccount = null;
         try {
-            Account entity = accountDao.getById(id).get();
+            Account entity = accountDao.getById(id).orElse(null);
             dtoAccount = AccountMapper.getInstance().toDto(entity);
         } catch (DaoException | ConnectionException | MapperException ex) {
             log.error(ex.getMessage());
@@ -169,26 +177,24 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+
     @Override
-    public void deleteOrder(Integer accountId, Integer bookId) {
+    public void deleteAccount(Integer accountId) {
         try {
-            Account account = accountDao.getById(accountId).get();
-            Book book = bookDao.getById(bookId).get();
-            book.setCount(book.getCount() + 1);
-            account.setBookAmountCurrent(account.getBookAmountCurrent() - 1);
-            accountDao.deleteBookFromAccount(bookId, accountId);
-            bookDao.update(book);
-            accountDao.update(account);
+            releaseAllBooks(accountId);
+            accountDao.delete(accountId);
         } catch (DaoException | ConnectionException ex) {
             log.error(ex.getMessage());
             ex.printStackTrace();
         }
     }
 
-    @Override
-    public void deleteAccount(Integer accountId) {
+    public void releaseAllBooks(Integer accountId) {
         try {
-            accountDao.delete(accountId);
+            List<Book> books = bookDao.getAllByAccountId(accountId);
+            for (Book b : books) {
+                accountDao.deleteBookFromAccount(b.getId(), accountId);
+            }
         } catch (DaoException | ConnectionException ex) {
             log.error(ex.getMessage());
             ex.printStackTrace();

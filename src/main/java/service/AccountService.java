@@ -27,5 +27,5 @@ public interface AccountService {
 
     void changeAccountRole(Integer accountId, String role);
 
-    void deleteOrder(Integer accountId, Integer bookId);
+    List<AccountDto> removeAdmins(List<AccountDto> accounts);
 }

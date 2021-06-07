@@ -80,32 +80,32 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getUnconfirmedBooks(Integer accountId) {
-        List<BookDto> dtoBooks = new ArrayList<>();
+        List<BookDto> unconfirmedBooks = new ArrayList<>();
         try {
             List<Book> entityBooks = bookDao.getAllUnconfirmedByAccountId(accountId);
             for (Book e : entityBooks) {
-                dtoBooks.add(BookMapper.getInstance().toDto(e));
+                unconfirmedBooks.add(BookMapper.getInstance().toDto(e));
             }
         } catch (DaoException | ConnectionException | MapperException ex) {
             log.error(ex.getMessage());
             ex.printStackTrace();
         }
-        return dtoBooks;
+        return unconfirmedBooks;
     }
 
     @Override
     public List<BookDto> getConfirmedBooks(Integer accountId) {
-        List<BookDto> dtoBooks = new ArrayList<>();
+        List<BookDto> confirmedBooks = new ArrayList<>();
         try {
             List<Book> entityBooks = bookDao.getAllConfirmedByAccountId(accountId);
             for (Book e : entityBooks) {
-                dtoBooks.add(BookMapper.getInstance().toDto(e));
+                confirmedBooks.add(BookMapper.getInstance().toDto(e));
             }
         } catch (DaoException | ConnectionException | MapperException ex) {
             log.error(ex.getMessage());
             ex.printStackTrace();
         }
-        return dtoBooks;
+        return confirmedBooks;
     }
 
     @Override

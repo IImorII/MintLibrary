@@ -38,7 +38,7 @@
                 </a></li>
                 </c:if>
                 <c:if test="${sessionScope.userRole eq 'Admin'}">
-                <li class="tm-nav-item"><a href="#" class="tm-nav-link">
+                <li class="tm-nav-item"><a href="?command=accounts_panel" class="tm-nav-link">
                     <i class="fas fa-users"></i>
                     Admin panel
                 </a></li>

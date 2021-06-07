@@ -26,7 +26,8 @@ public class DeleteBookCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
-            bookService.deleteBook(request.getIntParameter(ParameterDestination.BOOK_ID.getParameter()));
+            Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
+            bookService.deleteBook(bookId);
         } catch (DaoException | ConnectionException ex) {
             throw new CommandException(ex.getMessage());
         }

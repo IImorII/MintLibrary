@@ -80,7 +80,13 @@ public class CommandRequestWrapper implements CommandRequest {
 
     @Override
     public Integer getIntParameter(String name) {
-        return Integer.parseInt(getStringParameter(name));
+        Integer intParameter;
+        try {
+            intParameter = Integer.parseInt(getStringParameter(name));
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+        return intParameter;
     }
 
     @Override

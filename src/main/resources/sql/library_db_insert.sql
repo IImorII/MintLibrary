@@ -56,3 +56,7 @@ where login = 'librarian';
 update account
 set book_amount_current = 0
 where name = 'Lesha';
+
+update account
+set role_id_fk = 2
+where login = 'admin';

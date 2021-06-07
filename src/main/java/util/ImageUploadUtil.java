@@ -8,14 +8,13 @@ import java.util.List;
 public class ImageUploadUtil {
     public static void upload(String path, List<Part> parts) throws IOException {
 
-        // creates the save directory if it does not exists
         File fileSaveDir = new File(path);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
 
         String fileName;
-        //Get all the parts from request and write it to the file on server
+
         for (Part part : parts) {
             fileName = getFileName(part);
             System.out.println(fileName);
