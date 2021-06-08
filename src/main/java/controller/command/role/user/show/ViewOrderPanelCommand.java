@@ -37,13 +37,13 @@ public class ViewOrderPanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Object userId = request.getSessionAttribute(ParameterDestination.USER_ID.getParameter());
+        Object accountId = request.getSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
         List<BookDto> confirmedBooks = new ArrayList<>();
         List<BookDto> unconfirmedBooks = new ArrayList<>();
-        if (userId != null) {
-            confirmedBooks = bookService.getConfirmedBooks(Integer.parseInt(userId.toString()));
-            unconfirmedBooks = bookService.getUnconfirmedBooks(Integer.parseInt(userId.toString()));
-            request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(userId.toString())));
+        if (accountId != null) {
+            confirmedBooks = bookService.getConfirmedBooks(Integer.parseInt(accountId.toString()));
+            unconfirmedBooks = bookService.getUnconfirmedBooks(Integer.parseInt(accountId.toString()));
+            request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(accountId.toString())));
         }
         request.setAttribute(ParameterDestination.CONFIRMED_BOOKS.getParameter(), confirmedBooks);
         request.setAttribute(ParameterDestination.UNCONFIRMED_BOOKS.getParameter(), unconfirmedBooks);

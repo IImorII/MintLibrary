@@ -14,7 +14,6 @@
         <a href="?command=main"
            class="mb-2 tm-btn tm-btn-primary tm-prev-next">Go to main</a>
     </div>
-
 </div>
 </body>
 </html>

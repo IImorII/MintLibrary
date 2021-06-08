@@ -28,6 +28,6 @@ public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
 
     @Override
     public Mapper<Role> getMapper() {
-        return new RoleMapper();
+        return RoleMapper.getInstance();
     }
 }

@@ -25,7 +25,7 @@ public class ReleaseOrderCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-        Integer accountId = request.getIntParameter(ParameterDestination.USER_ID.getParameter());
+        Integer accountId = request.getIntParameter(ParameterDestination.ACCOUNT_ID.getParameter());
         accountService.releaseOrder(accountId, bookId);
         return Command.of(RELEASE_ORDER_PANEL).execute(request);
     }

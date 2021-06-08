@@ -29,11 +29,11 @@ public class SingleBookCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Integer bookIdParameter = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-        if (bookIdParameter == null) {
+        Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
+        if (bookId == null) {
             return () -> MAIN;
         }
-        BookDto book = bookService.getOne(bookIdParameter);
+        BookDto book = bookService.getOne(bookId);
         request.setAttribute(ParameterDestination.BOOK.getParameter(), book);
         return () -> BOOK;
     }

@@ -14,7 +14,7 @@
         <th>Name</th>
         <th>Role</th>
         <th>Ticket</th>
-        <th>Delete</th>
+        <th>Change</th>
     </tr>
     </thead>
     <tbody>
@@ -24,18 +24,17 @@
             <td>${account.login}</td>
             <td>${account.name}</td>
             <td>${account.role}</td>
-
             <td>
                 <c:choose>
-                        <c:when test="${account.role eq 'User'}">
-                            ${account.amountCurrent}/${account.amountMax}
-                        </c:when>
-                        <c:otherwise>
-                            -
-                        </c:otherwise>
-                    </c:choose>
+                    <c:when test="${account.role eq 'User'}">
+                        ${account.amountCurrent}/${account.amountMax}
+                    </c:when>
+                    <c:otherwise>
+                        -
+                    </c:otherwise>
+                </c:choose>
             </td>
-            <td><a href="?command=delete_account&userId=${account.id}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Delete</a></td>
+            <td><a href="?command=single_account&accountId=${account.id}">Change</a></td>
         </tr>
     </c:forEach>
     </tbody>

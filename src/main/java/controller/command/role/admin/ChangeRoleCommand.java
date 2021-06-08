@@ -5,27 +5,27 @@ import exception.CommandException;
 import service.AccountService;
 import service.impl.AccountServiceImpl;
 
-public class DeleteAccountCommand implements Command {
-    private static DeleteAccountCommand INSTANCE;
+public class ChangeRoleCommand implements Command {
+    private static ChangeRoleCommand INSTANCE;
     private AccountService accountService;
 
-    private DeleteAccountCommand() {
+    private ChangeRoleCommand() {
         accountService = AccountServiceImpl.getInstance();
     }
 
-    public static DeleteAccountCommand getInstance() {
+    public static ChangeRoleCommand getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new DeleteAccountCommand();
+            INSTANCE = new ChangeRoleCommand();
         }
         return INSTANCE;
     }
-
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
             Integer accountId = request.getIntParameter(ParameterDestination.ACCOUNT_ID.getParameter());
-            if (accountId != null) {
-                accountService.deleteAccount(accountId);
+            Integer roleId = request.getIntParameter(ParameterDestination.ROLE_ID.getParameter());
+            if (accountId != null && roleId != null) {
+                accountService.changeAccountRole(accountId, roleId);
             }
         } catch (Exception ex) {
             throw new CommandException(ex.getMessage());

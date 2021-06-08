@@ -1,4 +1,4 @@
-package repository;
+package cache;
 
 import dao.BaseDao;
 import dao.impl.ProxyDaoFactory;
@@ -11,8 +11,6 @@ import entity.Language;
 import entity.Role;
 import exception.ConnectionException;
 import exception.DaoException;
-import listener.UpdateDBEvent;
-import listener.UpdateDBListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,9 +54,6 @@ public class EntityCache {
         }
     }
 
-    public void initCache() {
-
-    }
     public List<? extends BaseEntity> retrieveCollection(Class<? extends BaseEntity> tClass) {
         BaseDao dao = ProxyDaoFactory.getDaoFor(tClass);
         SoftReference reference = null;

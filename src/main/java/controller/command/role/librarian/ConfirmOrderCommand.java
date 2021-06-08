@@ -26,8 +26,8 @@ public class ConfirmOrderCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-        Integer userId = request.getIntParameter(ParameterDestination.USER_ID.getParameter());
-        accountService.confirmOrder(userId, bookId);
+        Integer accountId = request.getIntParameter(ParameterDestination.ACCOUNT_ID.getParameter());
+        accountService.confirmOrder(accountId, bookId);
         return Command.of(CONFIRM_ORDER_PANEL).execute(request);
     }
 }

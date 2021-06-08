@@ -67,7 +67,7 @@
                     <i class="fas fa-sign-out-alt tm-social-icon"></i>
                 </a>
                 <br>
-                Id: ${sessionScope.userId}
+                Id: ${sessionScope.accountId}
                 <br>
                 Name: ${sessionScope.userName}
                 <br>

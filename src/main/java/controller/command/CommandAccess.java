@@ -8,7 +8,10 @@ public enum CommandAccess {
     ADD_BOOK(CommandRoles.LIBRARIAN),
     DELETE_BOOK(CommandRoles.LIBRARIAN),
     CONFIRM_ORDER(CommandRoles.LIBRARIAN),
+
     DELETE_ACCOUNT(CommandRoles.ADMIN),
+    SINGLE_ACCOUNT(CommandRoles.ADMIN),
+    CHANGE_ROLE(CommandRoles.ADMIN),
     ACCOUNTS_PANEL(CommandRoles.ADMIN);
 
     private final CommandRoles role;

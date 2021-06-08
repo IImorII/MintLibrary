@@ -35,7 +35,7 @@
             <c:forEach var="book" items="${requestScope.booksList}">
                 <tr class="odd gradeX">
                     <td>${book.name}</td>
-                    <td><a href="?command=release_order&userId=${requestScope.user.id}&bookId=${book.id}"
+                    <td><a href="?command=release_order&accountId=${requestScope.user.id}&bookId=${book.id}"
                            class="mb-2 tm-btn tm-btn-primary tm-prev-next red">Release</a>
                     </td>
                 </tr>

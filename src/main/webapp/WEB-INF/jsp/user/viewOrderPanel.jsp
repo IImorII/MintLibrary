@@ -38,7 +38,7 @@
             <c:forEach var="book" items="${requestScope.unconfirmedBooks}">
                 <tr class="odd gradeX">
                     <td>${book.name}</td>
-                    <td><a href="?command=remove_order&userId=${requestScope.user.id}&bookId=${book.id}"
+                    <td><a href="?command=remove_order&accountId=${requestScope.user.id}&bookId=${book.id}"
                            class="mb-2 tm-btn tm-btn-primary tm-prev-next">Remove</a>
                     </td>
                 </tr>

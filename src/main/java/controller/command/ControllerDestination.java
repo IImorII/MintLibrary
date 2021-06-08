@@ -12,6 +12,7 @@ public enum ControllerDestination implements Destination {
     CONFIRM_ORDER_PANEL("/WEB-INF/jsp/librarian/confirmOrderPanel.jsp"),
     RELEASE_ORDER_PANEL("/WEB-INF/jsp/librarian/releaseOrderPanel.jsp"),
     VIEW_ORDER_PANEL("/WEB-INF/jsp/user/viewOrderPanel.jsp"),
+    SINGLE_ACCOUNT("/WEB-INF/jsp/admin/singleAccount.jsp"),
     ABOUT("/WEB-INF/jsp/about.jsp"),
     INFO("/WEB-INF/jsp/info.jsp");
 

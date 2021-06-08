@@ -37,7 +37,7 @@ public class ReleaseOrderPanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Object userId = request.getParameter(ParameterDestination.USER_ID.getParameter());
+        Object userId = request.getParameter(ParameterDestination.ACCOUNT_ID.getParameter());
         List<BookDto> books = new ArrayList<>();
         if (userId != null) {
             books = bookService.getConfirmedBooks(Integer.parseInt(userId.toString()));

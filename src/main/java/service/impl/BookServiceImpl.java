@@ -13,7 +13,7 @@ import exception.MapperException;
 import mapper.BookMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import repository.EntityCache;
+import cache.EntityCache;
 import service.BookService;
 
 import java.util.ArrayList;
@@ -21,12 +21,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
-    private static Logger log = LogManager.getLogger(BookService.class);
+    private static Logger log = LogManager.getLogger(BookServiceImpl.class);
     private static BookServiceImpl INSTANCE;
-    BookDao bookDao;
+    private BookDao bookDao;
+    private BookMapper bookMapper;
 
     private BookServiceImpl() {
         bookDao = (BookDao) ProxyDaoFactory.getDaoFor(Book.class);
+        bookMapper = BookMapper.getInstance();
     }
 
     public static BookServiceImpl getInstance() {
@@ -42,7 +44,7 @@ public class BookServiceImpl implements BookService {
         try {
             List<Book> entityBooks = (List<Book>) EntityCache.getInstance().retrieveCollection(Book.class);
             for (Book e : entityBooks) {
-                dtoBooks.add(BookMapper.getInstance().toDto(e));
+                dtoBooks.add(bookMapper.toDto(e));
             }
         } catch (MapperException ex) {
             log.error(ex.getMessage());
@@ -56,7 +58,7 @@ public class BookServiceImpl implements BookService {
         BookDto dtoBook = null;
         try {
             Book entity = bookDao.getById(id).get();
-            dtoBook = BookMapper.getInstance().toDto(entity);
+            dtoBook = bookMapper.toDto(entity);
         } catch (DaoException | ConnectionException | MapperException ex) {
             log.error(ex.getMessage());
             ex.printStackTrace();
@@ -84,7 +86,7 @@ public class BookServiceImpl implements BookService {
         try {
             List<Book> entityBooks = bookDao.getAllUnconfirmedByAccountId(accountId);
             for (Book e : entityBooks) {
-                unconfirmedBooks.add(BookMapper.getInstance().toDto(e));
+                unconfirmedBooks.add(bookMapper.toDto(e));
             }
         } catch (DaoException | ConnectionException | MapperException ex) {
             log.error(ex.getMessage());
@@ -99,7 +101,7 @@ public class BookServiceImpl implements BookService {
         try {
             List<Book> entityBooks = bookDao.getAllConfirmedByAccountId(accountId);
             for (Book e : entityBooks) {
-                confirmedBooks.add(BookMapper.getInstance().toDto(e));
+                confirmedBooks.add(bookMapper.toDto(e));
             }
         } catch (DaoException | ConnectionException | MapperException ex) {
             log.error(ex.getMessage());

@@ -31,7 +31,7 @@ public class RemoveOrderCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-        Integer accountId = request.getIntSessionAttribute(ParameterDestination.USER_ID.getParameter());
+        Integer accountId = request.getIntSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
         List<BookDto> unconfirmedBooks = bookService.getUnconfirmedBooks(accountId);
         for (BookDto book : unconfirmedBooks) {
             if (book.getId().equals(bookId)) {

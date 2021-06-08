@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static controller.command.ControllerDestination.ACCOUNTS_PANEL;
-import static controller.command.ControllerDestination.CONFIRM_ORDER_PANEL;
 
 public class AccountsPanelCommand implements Command {
     private static AccountsPanelCommand INSTANCE;

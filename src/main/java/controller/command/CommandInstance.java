@@ -3,8 +3,10 @@ package controller.command;
 import controller.command.role.account.LoginCommand;
 import controller.command.role.account.LogoutCommand;
 import controller.command.role.account.SignUpCommand;
+import controller.command.role.admin.ChangeRoleCommand;
 import controller.command.role.admin.DeleteAccountCommand;
 import controller.command.role.admin.show.AccountsPanelCommand;
+import controller.command.role.admin.show.SingleAccountCommand;
 import controller.command.role.books.SingleBookCommand;
 import controller.command.role.librarian.AddBookCommand;
 import controller.command.role.librarian.ConfirmOrderCommand;
@@ -40,6 +42,8 @@ public enum CommandInstance {
     RELEASE_ORDER_PANEL(ReleaseOrderPanelCommand.getInstance()),
     VIEW_ORDER_PANEL(ViewOrderPanelCommand.getInstance()),
     ACCOUNTS_PANEL(AccountsPanelCommand.getInstance()),
+    SINGLE_ACCOUNT(SingleAccountCommand.getInstance()),
+    CHANGE_ROLE(ChangeRoleCommand.getInstance()),
     CONFIRM_ORDER(ConfirmOrderCommand.getInstance()),
     RELEASE_ORDER(ReleaseOrderCommand.getInstance()),
     REMOVE_ORDER(RemoveOrderCommand.getInstance()),

@@ -1,7 +1,7 @@
 package controller.command;
 
 public enum ParameterDestination {
-    USER_ID("userId"),
+    ACCOUNT_ID("accountId"),
     USER_ROLE("userRole"),
     LOGIN("login"),
     NAME("name"),
@@ -29,8 +29,11 @@ public enum ParameterDestination {
     UNCONFIRMED_BOOKS("unconfirmedBooks"),
     CONFIRMED_BOOKS("confirmedBooks"),
     ACCOUNTS_LIST("accountsList"),
+    ROLES_LIST("rolesList"),
+    ACCOUNT("account"),
     BOOK("book"),
-    BOOK_ID("bookId");
+    BOOK_ID("bookId"),
+    ROLE_ID("roleId");
 
     private final String parameter;
 
