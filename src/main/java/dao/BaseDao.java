@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public interface BaseDao<T extends BaseEntity> {
 
-    ArrayList<UpdateDBListener> listeners = new ArrayList<UpdateDBListener>();
+    ArrayList<UpdateDBListener> listeners = new ArrayList<>();
 
     Lock LOCK = new ReentrantLock();
 
@@ -57,9 +57,9 @@ public interface BaseDao<T extends BaseEntity> {
             List<T> objects = new ArrayList<>();
             PreparedStatement preparedStatement = getPreparedStatement(querySQL, parameters);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Mapper<T> mapper = getMapper();
+            Mapper mapper = getMapper();
             while (resultSet.next()) {
-                T item = mapper.toEntity(resultSet);
+                T item = (T) mapper.toEntity(resultSet);
                 objects.add(item);
             }
             if (objects.isEmpty()) {
@@ -105,7 +105,7 @@ public interface BaseDao<T extends BaseEntity> {
         }
     }
 
-    Mapper<T> getMapper();
+    Mapper getMapper();
 
     static void addUpdateDBEventListener(UpdateDBListener listener) {
         listeners.add(listener);

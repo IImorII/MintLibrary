@@ -2,11 +2,14 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.BookDao;
+import dto.BookDto;
+import entity.Role;
 import mapper.BookMapper;
 import mapper.Mapper;
 import entity.Book;
 import exception.ConnectionException;
 import exception.DaoException;
+import mapper.factory.MapperFactory;
 
 import java.util.*;
 
@@ -20,7 +23,7 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
         setUpdateQuary("update book set name = ?, description = ?, photo_url = ?, year_of_release = ?, rate = ?, count = ?, language_id_fk = ? where id = ?");
     }
 
-    protected static BookDaoImpl getInstance() {
+    public static BookDaoImpl getInstance() {
         try {
             LOCK.lock();
             if (INSTANCE == null) {
@@ -75,8 +78,8 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
                     book.getLanguage().getId()));
             book.setId(getByName(book.getName()).get().getId());
         }
-        List<String> queries = Arrays.asList(SET_BOOK_TO_GENRE, SET_BOOK_TO_AUTHOR, SET_BOOK_TO_ACCOUNT);
-        createDependencies(book, queries, book.getGenres(), book.getAuthors(), book.getAccounts());
+        List<String> queries = Arrays.asList(SET_BOOK_TO_GENRE, SET_BOOK_TO_AUTHOR);
+        createDependencies(book, queries, book.getGenres(), book.getAuthors());
     }
 
     @Override
@@ -125,7 +128,7 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     }
 
     @Override
-    public Mapper<Book> getMapper() {
-        return BookMapper.getInstance();
+    public Mapper<Book, BookDto> getMapper() {
+        return MapperFactory.get(Book.class);
     }
 }

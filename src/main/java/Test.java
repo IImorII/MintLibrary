@@ -1,4 +1,4 @@
-import dao.impl.ProxyDaoFactory;
+import dao.factory.ProxyDaoFactory;
 import entity.Book;
 import entity.Language;
 
@@ -17,9 +17,8 @@ public class Test {
             book.setRate((double)i);
             book.setYearOfRelease(2000 + i);
             book.setLanguage(language);
-            book.setPhotoUrl("img/BookDefault.png");
             try {
-                ProxyDaoFactory.getDaoFor(Book.class).create(book);
+                ProxyDaoFactory.get(Book.class).create(book);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

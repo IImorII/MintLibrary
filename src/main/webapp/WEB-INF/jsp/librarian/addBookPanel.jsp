@@ -34,9 +34,13 @@
             </div>
         </div>
         <div class="form-group row mb-4">
-            <label for="author" class="col-sm-3 col-form-label text-right tm-color-primary">Author</label>
+            <label for="authors" class="col-sm-3 col-form-label text-right tm-color-primary">Author</label>
             <div class="col-sm-9">
-                <input class="form-control mr-0 ml-auto" name="author" id="author" type="text" required>
+                <select name="authors" id="authors" class="selectpicker" multiple data-max-options="2">
+                    <option value="1">lox</option>
+                    <option value="2">sad</option>
+                    <option value="3">sss</option>
+                </select>
             </div>
         </div>
         <div class="form-group row mb-4">

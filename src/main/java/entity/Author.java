@@ -8,14 +8,12 @@ public class Author extends BaseEntity {
 
     private Integer yearOfBirth;
     private List<Language> languages;
-    private List<Book> books;
 
-    public Author(Integer id, String name, Integer yearOfBirth, List<Language> languages, List<Book> books) {
+    public Author(Integer id, String name, Integer yearOfBirth, List<Language> languages) {
         setId(id);
         setName(name);
         setYearOfBirth(yearOfBirth);
         setLanguages(languages);
-        setBooks(books);
     }
 
     public Author() {
@@ -24,14 +22,6 @@ public class Author extends BaseEntity {
 
     public Author(String name) {
         setName(name);
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
     }
 
     public Integer getYearOfBirth() {

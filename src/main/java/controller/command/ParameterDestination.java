@@ -15,6 +15,7 @@ public enum ParameterDestination {
     PHOTO_URL("photoUrl"),
     DESCRIPTION("description"),
     AUTHOR("author"),
+    AUTHORS("authors"),
     GENRE("genre"),
     LANGUAGE("language"),
     COUNT("count"),
@@ -33,6 +34,7 @@ public enum ParameterDestination {
     ACCOUNT("account"),
     BOOK("book"),
     BOOK_ID("bookId"),
+    GENRES("genres"),
     ROLE_ID("roleId");
 
     private final String parameter;

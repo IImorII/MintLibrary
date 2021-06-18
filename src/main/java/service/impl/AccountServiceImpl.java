@@ -4,7 +4,7 @@ import controller.command.CommandRoles;
 import dao.AccountDao;
 import dao.BookDao;
 import dao.RoleDao;
-import dao.impl.ProxyDaoFactory;
+import dao.factory.ProxyDaoFactory;
 import dto.AccountDto;
 import entity.Account;
 import entity.Book;
@@ -13,6 +13,7 @@ import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 import mapper.AccountMapper;
+import mapper.factory.MapperFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import cache.EntityCache;
@@ -32,16 +33,18 @@ public class AccountServiceImpl implements AccountService {
     private BookDao bookDao;
     private RoleDao roleDao;
     private AccountMapper accountMapper;
+    private EntityCache cache;
 
     private final static String HAVE_BOOK_ERROR = "You already have this book!";
     private final static String SUCCESS_ORDER = "Success order!";
     private final static String FAIL_ORDER = "Your ticket is full or no books left!";
 
     private AccountServiceImpl() {
-        accountDao = (AccountDao) ProxyDaoFactory.getDaoFor(Account.class);
-        bookDao = (BookDao) ProxyDaoFactory.getDaoFor(Book.class);
-        roleDao = (RoleDao) ProxyDaoFactory.getDaoFor(Role.class);
-        accountMapper = AccountMapper.getInstance();
+        accountDao = (AccountDao) ProxyDaoFactory.get(Account.class);
+        bookDao = (BookDao) ProxyDaoFactory.get(Book.class);
+        roleDao = (RoleDao) ProxyDaoFactory.get(Role.class);
+        accountMapper = (AccountMapper) MapperFactory.get(Account.class);
+        cache = EntityCache.getInstance();
     }
 
     public static AccountServiceImpl getInstance() {
@@ -55,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountDto> getAll() {
         List<AccountDto> dtoAccounts = new ArrayList<>();
         try {
-            List<Account> entityAccounts = (List<Account>) EntityCache.getInstance().retrieveCollection(Account.class);
+            List<Account> entityAccounts = (List<Account>) cache.retrieveCollection(Account.class);
             for (Account e : entityAccounts) {
                 dtoAccounts.add(accountMapper.toDto(e));
             }
@@ -136,14 +139,14 @@ public class AccountServiceImpl implements AccountService {
             if (account.getBookAmountCurrent() >= account.getBookAmountMax() || book.getCount() <= 0) {
                 return FAIL_ORDER;
             }
-            List<Account> accounts = new ArrayList<>(accountDao.getAllByBookId(bookId));
-            if (accounts.contains(account)) {
+            List<Book> books = new ArrayList<>(bookDao.getAllByAccountId(accountId));
+            if (books.contains(book)) {
                 return HAVE_BOOK_ERROR;
             }
-            accounts.add(account);
+            books.add(book);
             book.setCount(book.getCount() - 1);
             account.setBookAmountCurrent(account.getBookAmountCurrent() + 1);
-            book.setAccounts(accounts);
+            account.setBooks(books);
             bookDao.create(book);
             accountDao.create(account);
         } catch (DaoException | ConnectionException ex) {

@@ -10,6 +10,8 @@ import exception.DaoException;
 import service.BookService;
 import service.impl.BookServiceImpl;
 
+import java.util.List;
+
 import static controller.command.ControllerDestination.ADD_BOOK_PANEL;
 
 public class AddBookCommand implements Command {
@@ -34,11 +36,11 @@ public class AddBookCommand implements Command {
         String description = request.getStringParameter(ParameterDestination.DESCRIPTION.getParameter());
         Integer year = request.getIntParameter(ParameterDestination.YEAR.getParameter());
         Integer count = request.getIntParameter(ParameterDestination.COUNT.getParameter());
-        String author = request.getStringParameter(ParameterDestination.AUTHOR.getParameter());
-        String genre = request.getStringParameter(ParameterDestination.GENRE.getParameter());
-        String language = request.getStringParameter(ParameterDestination.LANGUAGE.getParameter());
+        String[] authorsId = request.getParameterValues(ParameterDestination.AUTHORS.getParameter());
+        String[] genresId = request.getParameterValues(ParameterDestination.GENRES.getParameter());
+        String languageId = request.getStringParameter(ParameterDestination.LANGUAGE.getParameter());
         try {
-            bookService.createBook(name, description, author, genre, language, photoUrl, count, year);
+            bookService.createBook(name, description, authorsId, genresId, languageId, photoUrl, count, year);
         } catch (DaoException | ConnectionException ex) {
             throw new CommandException(ex.getMessage());
         }

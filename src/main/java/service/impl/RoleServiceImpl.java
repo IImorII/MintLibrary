@@ -1,13 +1,12 @@
 package service.impl;
 
 import dao.RoleDao;
-import dao.impl.ProxyDaoFactory;
+import dao.factory.ProxyDaoFactory;
 import dto.RoleDto;
-import entity.Account;
 import entity.Role;
 import exception.MapperException;
-import mapper.AccountMapper;
 import mapper.RoleMapper;
+import mapper.factory.MapperFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import cache.EntityCache;
@@ -22,10 +21,12 @@ public class RoleServiceImpl implements RoleService {
     private static RoleServiceImpl INSTANCE;
     private RoleDao roleDao;
     private RoleMapper roleMapper;
+    private EntityCache cache;
 
     private RoleServiceImpl() {
-        roleDao = (RoleDao) ProxyDaoFactory.getDaoFor(Role.class);
-        roleMapper = RoleMapper.getInstance();
+        roleDao = (RoleDao) ProxyDaoFactory.get(Role.class);
+        roleMapper = (RoleMapper) MapperFactory.get(Role.class);
+        cache = EntityCache.getInstance();
     }
 
     public static RoleServiceImpl getInstance() {
@@ -39,7 +40,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDto> getAll() {
         List<RoleDto> dtoRoles = new ArrayList<>();
         try {
-            List<Role> entityRoles = (List<Role>) EntityCache.getInstance().retrieveCollection(Role.class);
+            List<Role> entityRoles = (List<Role>) cache.retrieveCollection(Role.class);
             for (Role r : entityRoles) {
                 dtoRoles.add(roleMapper.toDto(r));
             }
@@ -48,4 +49,5 @@ public class RoleServiceImpl implements RoleService {
         }
         return dtoRoles;
     }
+
 }

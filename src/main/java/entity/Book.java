@@ -11,13 +11,12 @@ public class Book extends BaseEntity {
     private Double rate = 0.0;
     private Integer count = 0;
     private String description = "No description.";
-    private String photoUrl = "img/BookDefault.png";
-    private List<Account> accounts;
+    private String photoUrl;
     private List<Genre> genres;
     private List<Author> authors;
 
     public Book(int id, String name, String description, String photoUrl, Integer yearOfRelease, Double rate, Integer count,
-                Language language, List<Genre> genres, List<Author> authors, List<Account> accounts) {
+                Language language, List<Genre> genres, List<Author> authors) {
         setId(id);
         setName(name);
         setDescription(description);
@@ -28,7 +27,6 @@ public class Book extends BaseEntity {
         setLanguage(language);
         setGenres(genres);
         setAuthors(authors);
-        setAccounts(accounts);
     }
 
     public Book() {
@@ -48,14 +46,6 @@ public class Book extends BaseEntity {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
     }
 
     public Integer getCount() {

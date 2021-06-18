@@ -15,13 +15,11 @@ public abstract class BaseEntity implements Serializable {
     }
 
     public BaseEntity(Integer id) {
-        this.setId(id);
-        this.setName(null);
+        setId(id);
     }
 
     public BaseEntity(String name) {
-        this.setId(null);
-        this.setName(name);
+        setName(name);
     }
 
     public Integer getId() {

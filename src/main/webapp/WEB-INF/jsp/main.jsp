@@ -16,16 +16,30 @@
                         <div class="col-lg-6 tm-mb-60 tm-person-col">
                             <div class="media tm-person">
                                 <a href="?command=show_book&bookId=${book.id}" class="effect-lily">
-                                <img src="${book.photoUrl}" alt="Image" class="img-fluid mr-4">
+                                    <img src="img/BookDefault.png" class="img-fluid mr-4">
+                                    <img src="${book.photoUrl}" alt="${book.name}"
+                                         onerror="this.onerror=null;
+                                         this.src='img/mockImg.png';"
+                                         class="img-fluid img-cover mr-4">
                                 </a>
                                 <div class="">
                                     <a href="?command=show_book&bookId=${book.id}">
-                                    <h2 class="tm-color-primary tm-post-title mb-2"><c:out value="${book.name}"/></h2>
+                                    <h2 class="tm-color-primary tm-post-title mb-3"><c:out value="${book.name}"/></h2>
                                     </a>
-                                    <h3 class="tm-h3 mb-3">Genre</h3>
+                                    <h3 class="tm-h3 mb-3">
+                                        <c:forEach var="genre" items="${book.genresNames}">
+                                            <c:out value="${genre}"/>
+                                        </c:forEach>
+                                    </h3>
+                                    <h3 class="tm-h3 mb-3">
+                                        <c:forEach var="author" items="${book.authorsNames}">
+                                            <c:out value="${author}"/>
+                                        </c:forEach>
+                                    </h3>
                                     <p class="mb-0 tm-line-height-short">
                                         <c:out value="${book.description}"/>
-                                        <br>
+                                    </p>
+                                    <p class="mb-0">
                                         Left: <c:out value="${book.count}"/>
                                     </p>
                                 </div>

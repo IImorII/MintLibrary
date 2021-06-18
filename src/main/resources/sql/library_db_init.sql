@@ -6,8 +6,8 @@ create table if not exists book
 (
     id              int unique auto_increment primary key,
     name            varchar(50) unique not null,
-    description     varchar(1000),
-    photo_url       varchar(1000),
+    description     text,
+    photo_url       varchar(5000),
     year_of_release int,
     rate            decimal default 0,
     count           int     default 1,
@@ -104,4 +104,5 @@ insert into role (name)
 values ('Admin');
 insert into role (name)
 values ('Librarian');
+
 

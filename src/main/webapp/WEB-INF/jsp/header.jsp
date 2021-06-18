@@ -10,6 +10,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
     <script src="../../js/templatemo-script.js"></script>
     <title>Login</title>
 </head>
@@ -27,23 +35,23 @@
         </div>
         <nav class="tm-nav" id="tm-nav">
             <ul>
-                <li class="tm-nav-item active"><a href="?command=main" class="tm-nav-link">
+                <li class="tm-nav-item"><a href="?command=main" class="tm-nav-link">
                     <i class="fas fa-home"></i>
                     Home
                 </a></li>
-                <c:if test="${sessionScope.userRole eq 'Librarian'}">
+                <c:if test="${sessionScope.account.role eq 'Librarian'}">
                 <li class="tm-nav-item"><a href="?command=library_panel" class="tm-nav-link">
                     <i class="fas fa-pen"></i>
                     Librarian panel
                 </a></li>
                 </c:if>
-                <c:if test="${sessionScope.userRole eq 'Admin'}">
+                <c:if test="${sessionScope.account.role eq 'Admin'}">
                 <li class="tm-nav-item"><a href="?command=accounts_panel" class="tm-nav-link">
                     <i class="fas fa-users"></i>
                     Admin panel
                 </a></li>
                 </c:if>
-                <c:if test="${sessionScope.userRole eq 'User'}">
+                <c:if test="${sessionScope.account.role eq 'User'}">
                     <li class="tm-nav-item"><a href="?command=view_order_panel" class="tm-nav-link">
                         <i class="fas fa-pen"></i>
                         User panel
@@ -57,24 +65,24 @@
         </nav>
 
         <div class="tm-mb-65">
-            <c:if test="${empty sessionScope.userName}">
+            <c:if test="${empty sessionScope.account.name}">
                 <a href="#" data-target="#loginModal" data-toggle="modal" class="tm-social-link">
                     <i class="fas fa-sign-in-alt tm-social-icon"></i>
                 </a>
             </c:if>
-            <c:if test="${not empty sessionScope.userName}">
+            <c:if test="${not empty sessionScope.account.name}">
                 <a href="?command=logout" class="tm-social-link">
                     <i class="fas fa-sign-out-alt tm-social-icon"></i>
                 </a>
                 <br>
-                Id: ${sessionScope.accountId}
+                Id: ${sessionScope.account.id}
                 <br>
-                Name: ${sessionScope.userName}
+                Name: ${sessionScope.account.name}
                 <br>
-                Role: ${sessionScope.userRole}
-                <c:if test="${sessionScope.userRole eq 'User'}">
+                Role: ${sessionScope.account.role}
+                <c:if test="${sessionScope.account.role eq 'User'}">
                 <br>
-                Ticket: ${sessionScope.booksCurrent}/${sessionScope.booksMax}
+                Ticket: ${sessionScope.account.amountCurrent}/${sessionScope.account.amountMax}
                 </c:if>
             </c:if>
         </div>

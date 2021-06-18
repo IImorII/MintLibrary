@@ -2,11 +2,14 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.GenreDao;
+import dto.GenreDto;
+import entity.Role;
 import mapper.GenreMapper;
 import mapper.Mapper;
 import entity.Genre;
 import exception.ConnectionException;
 import exception.DaoException;
+import mapper.factory.MapperFactory;
 
 import java.util.*;
 
@@ -18,7 +21,7 @@ public class GenreDaoImpl extends AbstractBaseDao<Genre> implements GenreDao {
         super("genre");
     }
 
-    protected static GenreDaoImpl getInstance() {
+    public static GenreDaoImpl getInstance() {
         try {
             LOCK.lock();
             if (INSTANCE == null) {
@@ -40,7 +43,7 @@ public class GenreDaoImpl extends AbstractBaseDao<Genre> implements GenreDao {
     }
 
     @Override
-    public Mapper<Genre> getMapper() {
-        return new GenreMapper();
+    public Mapper<Genre, GenreDto> getMapper() {
+        return MapperFactory.get(Genre.class);
     }
 }

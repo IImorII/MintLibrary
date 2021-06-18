@@ -7,7 +7,7 @@
 <body>
 <jsp:include page="../header.jsp"/>
 <div class="col-lg-7 tm-contact-left">
-    <p>Hello, ${requestScope.user.name}! This is your books:</p>
+    <p>Hello, ${sessionScope.user.name}! This is your books:</p>
     <c:if test="${not empty requestScope.confirmedBooks}">
         <p>Rent: </p>
         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
@@ -38,7 +38,7 @@
             <c:forEach var="book" items="${requestScope.unconfirmedBooks}">
                 <tr class="odd gradeX">
                     <td>${book.name}</td>
-                    <td><a href="?command=remove_order&accountId=${requestScope.user.id}&bookId=${book.id}"
+                    <td><a href="?command=remove_order&accountId=${sessionScope.user.id}&bookId=${book.id}"
                            class="mb-2 tm-btn tm-btn-primary tm-prev-next">Remove</a>
                     </td>
                 </tr>

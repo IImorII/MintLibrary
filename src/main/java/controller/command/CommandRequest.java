@@ -34,4 +34,6 @@ public interface CommandRequest {
     List<Part> getParts(String name);
 
     ServletContext getServletContext();
+
+    String[] getParameterValues(String name);
 }

@@ -1,6 +1,6 @@
 package dao;
 
-import dao.impl.ProxyDaoFactory;
+import dao.factory.ProxyDaoFactory;
 import entity.BaseEntity;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -77,17 +77,19 @@ public abstract class AbstractBaseDao<T extends BaseEntity> implements BaseDao<T
             updateQuery(query, Arrays.asList(firstEntity.getId(), secondEnity.getId()));
         } catch (DaoException | ConnectionException ex) {
             log.error(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
     private <L extends BaseEntity, K extends BaseEntity> void createDependentEntities(K entity, String queryEntityToEntity, List<L> dependentEntities) {
-        BaseDao<L> dao = ProxyDaoFactory.getDaoFor(dependentEntities.stream().findAny().get().getClass());
+        BaseDao<L> dao = ProxyDaoFactory.get(dependentEntities.stream().findAny().get().getClass());
         for (L dependentEntity : dependentEntities) {
             try {
                 dao.create(dependentEntity);
                 dependentEntity.setId(dao.getByName(dependentEntity.getName()).get().getId());
             } catch (DaoException | ConnectionException ex) {
                 log.error(ex.getMessage());
+                ex.printStackTrace();
             }
             setEntitiesRelations(entity, queryEntityToEntity, dependentEntity);
         }

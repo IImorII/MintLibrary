@@ -9,7 +9,7 @@ import exception.MapperException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RoleMapper implements Mapper<Role> {
+public class RoleMapper implements Mapper<Role, RoleDto> {
 
     private static RoleMapper INSTANCE;
 
@@ -39,6 +39,7 @@ public class RoleMapper implements Mapper<Role> {
         }
     }
 
+    @Override
     public RoleDto toDto(Role entity) throws MapperException {
         final Integer id = entity.getId();
         final String name = entity.getName();

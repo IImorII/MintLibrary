@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 public class Account extends BaseEntity {
 
     private static final long serialVersionUID = -4220525932797848862L;
@@ -9,8 +11,9 @@ public class Account extends BaseEntity {
     private Role role;
     private Integer bookAmountCurrent = 0;
     private Integer bookAmountMax = 10;
+    private List<Book> books;
 
-    public Account(Integer id, String name, String login, String password, Integer bookAmountCurrent, Integer bookAmountMax, Role role) {
+    public Account(Integer id, String name, String login, String password, Integer bookAmountCurrent, Integer bookAmountMax, Role role, List<Book> books) {
         setId(id);
         setName(name);
         setLogin(login);
@@ -62,6 +65,14 @@ public class Account extends BaseEntity {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override

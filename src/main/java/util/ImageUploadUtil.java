@@ -14,7 +14,6 @@ public class ImageUploadUtil {
         }
 
         String fileName;
-
         for (Part part : parts) {
             fileName = getFileName(part);
             System.out.println(fileName);

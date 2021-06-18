@@ -1,7 +1,7 @@
 package cache;
 
 import dao.BaseDao;
-import dao.impl.ProxyDaoFactory;
+import dao.factory.ProxyDaoFactory;
 import entity.Account;
 import entity.Author;
 import entity.BaseEntity;
@@ -55,7 +55,7 @@ public class EntityCache {
     }
 
     public List<? extends BaseEntity> retrieveCollection(Class<? extends BaseEntity> tClass) {
-        BaseDao dao = ProxyDaoFactory.getDaoFor(tClass);
+        BaseDao dao = ProxyDaoFactory.get(tClass);
         SoftReference reference = null;
         try {
             reference = switch (tClass.getSimpleName()) {

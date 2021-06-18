@@ -1,10 +1,10 @@
 package dto;
 
-public class GenreDto {
+public class LanguageDto {
     Integer id;
     String name;
 
-    public GenreDto(Integer id, String name) {
+    public LanguageDto(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

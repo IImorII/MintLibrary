@@ -37,11 +37,7 @@ public class LoginCommand implements Command {
             if (accountOptional.isPresent()) {
                 AccountDto account = accountOptional.get();
                 HttpSession session = request.getSession();
-                session.setAttribute(ParameterDestination.ACCOUNT_ID.getParameter(), account.getId());
-                session.setAttribute(ParameterDestination.USER_NAME.getParameter(), account.getName());
-                session.setAttribute(ParameterDestination.USER_ROLE.getParameter(), account.getRole());
-                session.setAttribute(ParameterDestination.BOOKS_CURRENT.getParameter(), account.getAmountCurrent());
-                session.setAttribute(ParameterDestination.BOOKS_MAX.getParameter(), account.getAmountMax());
+                session.setAttribute(ParameterDestination.ACCOUNT.getParameter(), account);
                 session.setMaxInactiveInterval(300);
                 return Command.of(CommandInstance.MAIN.name()).execute(request);
             } else {

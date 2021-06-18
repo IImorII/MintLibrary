@@ -1,9 +1,7 @@
 package cache;
 
 import dao.BaseDao;
-import entity.Account;
-import entity.BaseEntity;
-import entity.Book;
+import entity.*;
 import listener.UpdateDBEvent;
 import listener.UpdateDBListener;
 
@@ -23,7 +21,7 @@ public class CacheRefresher extends TimerTask implements UpdateDBListener {
     private CacheRefresher() {
         BaseDao.addUpdateDBEventListener(this);
         updateMap = new HashMap<>();
-        setUpdateEntities(Book.class, Account.class);
+        setUpdateEntities(Book.class, Account.class, Genre.class, Author.class, Language.class);
     }
 
     public static CacheRefresher getInstance() {

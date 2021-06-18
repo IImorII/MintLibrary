@@ -2,9 +2,11 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.RoleDao;
+import dto.RoleDto;
 import mapper.Mapper;
 import mapper.RoleMapper;
 import entity.Role;
+import mapper.factory.MapperFactory;
 
 public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
 
@@ -14,7 +16,7 @@ public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
         super("role");
     }
 
-    protected static RoleDaoImpl getInstance() {
+    public static RoleDaoImpl getInstance() {
         try {
             LOCK.lock();
             if (INSTANCE == null) {
@@ -27,7 +29,7 @@ public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
     }
 
     @Override
-    public Mapper<Role> getMapper() {
-        return RoleMapper.getInstance();
+    public Mapper<Role, RoleDto> getMapper() {
+        return MapperFactory.get(Role.class);
     }
 }

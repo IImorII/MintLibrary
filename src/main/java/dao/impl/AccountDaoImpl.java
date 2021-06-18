@@ -2,11 +2,13 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.AccountDao;
+import dto.AccountDto;
 import mapper.Mapper;
 import mapper.AccountMapper;
 import entity.Account;
 import exception.ConnectionException;
 import exception.DaoException;
+import mapper.factory.MapperFactory;
 
 import java.util.*;
 
@@ -20,7 +22,7 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
         setUpdateQuary("update account set name = ?, login = ?, password = ?, book_amount_current = ?, book_amount_max = ?, role_id_fk = ? where id = ?");
     }
 
-    protected static AccountDaoImpl getInstance() {
+    public static AccountDaoImpl getInstance() {
         try {
             LOCK.lock();
             if (INSTANCE == null) {
@@ -104,7 +106,7 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     }
 
     @Override
-    public Mapper<Account> getMapper() {
-        return AccountMapper.getInstance();
+    public Mapper<Account, AccountDto> getMapper() {
+        return MapperFactory.get(Account.class);
     }
 }

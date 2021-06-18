@@ -2,12 +2,14 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.AuthorDao;
+import dto.AuthorDto;
 import mapper.AuthorMapper;
 import mapper.Mapper;
 import entity.Author;
 
 import exception.ConnectionException;
 import exception.DaoException;
+import mapper.factory.MapperFactory;
 
 import java.util.*;
 
@@ -21,7 +23,7 @@ public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao 
         setUpdateQuary("update author set name = ?, year_of_birth = ? where id = ?");
     }
 
-    protected static AuthorDaoImpl getInstance() {
+    public static AuthorDaoImpl getInstance() {
         try {
             LOCK.lock();
             if (INSTANCE == null) {
@@ -55,8 +57,8 @@ public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao 
             updateQuery(CREATE, Arrays.asList(author.getName(), author.getYearOfBirth()));
             author.setId(getByName(author.getName()).get().getId());
         }
-        List<String> queries = Arrays.asList(SET_AUTHOR_TO_BOOK, SET_AUTHOR_TO_LANGUAGE);
-        createDependencies(author, queries, author.getBooks(), author.getLanguages());
+        List<String> queries = Arrays.asList(SET_AUTHOR_TO_LANGUAGE);
+        createDependencies(author, queries, author.getLanguages());
     }
 
     @Override
@@ -75,7 +77,7 @@ public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao 
     }
 
     @Override
-    public Mapper<Author> getMapper() {
-        return AuthorMapper.getInstance();
+    public Mapper<Author, AuthorDto> getMapper() {
+        return MapperFactory.get(Author.class);
     }
 }

@@ -32,7 +32,7 @@
 <div class="row tm-row">
     <div class="col-lg-8 tm-post-col">
         <div class="tm-post-full">
-            <c:if test="${sessionScope.userRole eq 'User'}">
+            <c:if test="${sessionScope.account.role eq 'User'}">
                 <c:if test="${requestScope.book.count > 0}">
                     <div class="mb-4">
                         <a href="?command=order_book&bookId=${requestScope.book.id}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Order</a>
@@ -44,7 +44,7 @@
                     </div>
                 </c:if>
             </c:if>
-            <c:if test="${sessionScope.userRole eq 'Librarian'}">
+            <c:if test="${sessionScope.account.role eq 'Librarian'}">
                 <div class="mb-4">
                     <a href="?command=delete_book&bookId=${requestScope.book.id}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Delete</a>
                 </div>

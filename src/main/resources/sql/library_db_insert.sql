@@ -21,6 +21,7 @@ insert into role (name) values ('Admin');
 insert into role (name) values ('Librarian');
 
 select * from book;
+select * from author;
 select * from author_language;
 select * from book_author;
 select * from book_genre;
@@ -30,7 +31,8 @@ select * from genre;
 select * from language;
 select * from account;
 select id, name from language where id = 1;
-
+delete from book where id >= 0;
+delete from account where id >= 0;
 delete from author where name = 'Antonio';
 delete from language where name = 'Russian';
 delete from account where login = 'Mikunika';
@@ -49,9 +51,10 @@ set description = 'Using the SELECT command, results were returned in the same o
 where name = 'Book 1';
 select genre.* from genre join book_genre on book_genre.genre_id = genre.id join book on book.id = book_genre.id where book.id = 1;
 
-update account
-set role_id_fk = 3
-where login = 'librarian';
+select book.* from book
+            join book_author on book_author.id = book.id
+            join author on author.id = book_author.author_id where author.id = 1;
+
 
 update account
 set book_amount_current = 0
@@ -60,3 +63,7 @@ where name = 'Lesha';
 update account
 set role_id_fk = 2
 where login = 'admin';
+
+update account
+set role_id_fk = 3
+where login = 'librarian';

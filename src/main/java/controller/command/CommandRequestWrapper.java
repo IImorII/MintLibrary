@@ -39,6 +39,11 @@ public class CommandRequestWrapper implements CommandRequest {
     }
 
     @Override
+    public String[] getParameterValues(String name) {
+        return request.getParameterValues(name);
+    }
+
+    @Override
     public List<Part> getParts(String name) {
         List<Part> parts = null;
         try {

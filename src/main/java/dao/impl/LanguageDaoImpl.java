@@ -2,11 +2,14 @@ package dao.impl;
 
 import dao.AbstractBaseDao;
 import dao.LanguageDao;
+import dto.LanguageDto;
+import entity.Role;
 import mapper.LanguageMapper;
 import mapper.Mapper;
 import entity.Language;
 import exception.ConnectionException;
 import exception.DaoException;
+import mapper.factory.MapperFactory;
 
 import java.util.*;
 
@@ -18,7 +21,7 @@ public class LanguageDaoImpl extends AbstractBaseDao<Language> implements Langua
         super("language");
     }
 
-    protected static LanguageDaoImpl getInstance() {
+    public static LanguageDaoImpl getInstance() {
         try {
             LOCK.lock();
             if (INSTANCE == null) {
@@ -40,7 +43,7 @@ public class LanguageDaoImpl extends AbstractBaseDao<Language> implements Langua
     }
 
     @Override
-    public Mapper<Language> getMapper() {
-        return new LanguageMapper();
+    public Mapper<Language, LanguageDto> getMapper() {
+        return MapperFactory.get(Language.class);
     }
 }

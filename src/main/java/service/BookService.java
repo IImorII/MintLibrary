@@ -13,8 +13,8 @@ public interface BookService {
 
     void createBook(String name,
                     String description,
-                    String author,
-                    String genre,
+                    String[] authorsId,
+                    String[] genresId,
                     String language,
                     String photoUrl,
                     Integer count,
