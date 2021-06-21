@@ -2,11 +2,14 @@ package controller.command.role.user;
 
 import controller.command.*;
 import dto.BookDto;
+import entity.Account;
+import entity.Book;
 import exception.CommandException;
 import service.AccountService;
 import service.BookService;
-import service.impl.AccountServiceImpl;
-import service.impl.BookServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
+
 import java.util.List;
 
 import static controller.command.CommandInstance.VIEW_ORDER_PANEL;
@@ -18,8 +21,8 @@ public class RemoveOrderCommand implements Command {
     private final AccountService accountService;
 
     private RemoveOrderCommand() {
-        bookService = BookServiceImpl.getInstance();
-        accountService = AccountServiceImpl.getInstance();
+        bookService = (BookService) Service.of(Book.class);
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static RemoveOrderCommand getInstance() {

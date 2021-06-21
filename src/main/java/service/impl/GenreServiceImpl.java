@@ -1,13 +1,18 @@
 package service.impl;
 
 import cache.EntityCache;
+import dao.Dao;
 import dao.GenreDao;
-import dao.factory.ProxyDaoFactory;
+import dao.factory.ProxyDaoInstance;
 import dto.GenreDto;
 import entity.Genre;
+import entity.Language;
+import exception.DaoException;
 import exception.MapperException;
+import exception.ServiceException;
 import mapper.GenreMapper;
-import mapper.factory.MapperFactory;
+import mapper.Mapper;
+import mapper.factory.MapperInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.GenreService;
@@ -23,8 +28,8 @@ public class GenreServiceImpl implements GenreService {
     private EntityCache cache;
 
     private GenreServiceImpl() {
-        genreDao = (GenreDao) ProxyDaoFactory.get(Genre.class);
-        genreMapper = (GenreMapper) MapperFactory.get(Genre.class);
+        genreDao = (GenreDao) Dao.of(Genre.class);
+        genreMapper = (GenreMapper) Mapper.of(Genre.class);
         cache = EntityCache.getInstance();
     }
 
@@ -50,7 +55,13 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void createGenre(String name) {
-
+    public void createGenre(String name) throws ServiceException{
+        try {
+            Genre genre = new Genre();
+            genre.setName(name);
+            genreDao.create(genre);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
     }
 }

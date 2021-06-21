@@ -12,7 +12,7 @@
     </main>
     <div>
         <a href="?command=main"
-           class="mb-2 tm-btn tm-btn-primary tm-prev-next">Go to main</a>
+           class="mb-2 tm-btn tm-btn-primary tm-prev-next">Go to home page</a>
     </div>
 </div>
 </body>

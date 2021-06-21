@@ -1,9 +1,11 @@
 package controller.command.role.librarian;
 
 import controller.command.*;
+import entity.Account;
 import exception.CommandException;
 import service.AccountService;
-import service.impl.AccountServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import static controller.command.CommandInstance.CONFIRM_ORDER_PANEL;
 
@@ -13,7 +15,7 @@ public class ConfirmOrderCommand implements Command {
     private AccountService accountService;
 
     private ConfirmOrderCommand() {
-        accountService = AccountServiceImpl.getInstance();
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static ConfirmOrderCommand getInstance() {

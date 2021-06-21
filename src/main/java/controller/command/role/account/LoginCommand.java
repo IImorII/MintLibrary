@@ -2,9 +2,11 @@ package controller.command.role.account;
 
 import controller.command.*;
 import dto.AccountDto;
+import entity.Account;
 import exception.CommandException;
 import service.AccountService;
-import service.impl.AccountServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -19,7 +21,7 @@ public class LoginCommand implements Command {
     private static String ERROR_MESSAGE = "Incorrect login or password!";
 
     private LoginCommand() {
-        accountService = AccountServiceImpl.getInstance();
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static LoginCommand getInstance() {

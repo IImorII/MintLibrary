@@ -4,14 +4,13 @@ import entity.Book;
 import exception.ConnectionException;
 import exception.DaoException;
 
-import java.util.Collections;
 import java.util.List;
 
-public interface BookDao extends BaseDao<Book> {
-    List<Book> getAllByAuthorId(Integer id) throws DaoException, ConnectionException;
-    List<Book> getAllByGenreId(Integer id) throws DaoException, ConnectionException;
-    List<Book> getAllByLanguageId(Integer id) throws DaoException, ConnectionException;
-    List<Book> getAllByAccountId(Integer id) throws DaoException, ConnectionException;
-    List<Book> getAllConfirmedByAccountId(Integer id) throws DaoException, ConnectionException;
-    List<Book> getAllUnconfirmedByAccountId(Integer id) throws DaoException, ConnectionException;
+public interface BookDao extends Dao<Book> {
+    List<Book> retrieveAllByAuthorId(Integer id) throws DaoException;
+    List<Book> retrieveAllByGenreId(Integer id) throws DaoException;
+    List<Book> retrieveAllByLanguageId(Integer id) throws DaoException;
+    List<Book> retrieveAllByAccountId(Integer id) throws DaoException;
+    List<Book> retrieveAllConfirmedByAccountId(Integer id) throws DaoException;
+    List<Book> retrieveAllUnconfirmedByAccountId(Integer id) throws DaoException;
 }

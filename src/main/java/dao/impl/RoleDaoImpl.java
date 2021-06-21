@@ -1,14 +1,14 @@
 package dao.impl;
 
-import dao.AbstractBaseDao;
+import dao.AbstractDao;
 import dao.RoleDao;
 import dto.RoleDto;
 import mapper.Mapper;
-import mapper.RoleMapper;
 import entity.Role;
-import mapper.factory.MapperFactory;
+import mapper.RoleMapper;
+import mapper.factory.MapperInstance;
 
-public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
+public class RoleDaoImpl extends AbstractDao<Role> implements RoleDao {
 
     private static RoleDaoImpl INSTANCE;
 
@@ -30,6 +30,6 @@ public class RoleDaoImpl extends AbstractBaseDao<Role> implements RoleDao {
 
     @Override
     public Mapper<Role, RoleDto> getMapper() {
-        return MapperFactory.get(Role.class);
+        return Mapper.of(Role.class);
     }
 }

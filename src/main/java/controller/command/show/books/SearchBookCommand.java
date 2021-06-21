@@ -5,8 +5,10 @@ import controller.command.CommandRequest;
 import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
 import dto.BookDto;
+import entity.Book;
 import exception.CommandException;
 import service.BookService;
+import service.Service;
 import service.impl.BookServiceImpl;
 
 import javax.servlet.http.HttpSession;
@@ -21,7 +23,7 @@ public class SearchBookCommand implements Command {
     private BookService bookService;
 
     private SearchBookCommand() {
-        bookService = BookServiceImpl.getInstance();
+        bookService = (BookService) Service.of(Book.class);
     }
 
     public static SearchBookCommand getInstance() {

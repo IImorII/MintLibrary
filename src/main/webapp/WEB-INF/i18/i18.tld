@@ -7,7 +7,7 @@ https://java.sun.com/xml/ns/j2ee"
     <short-name>ctg</short-name>
     <uri>/WEB-INF/i18</uri>
     <tag>
-        <name>locale_tag</name>
+        <name>lc_tag</name>
         <tag-class>locale.LocaleTagSupport</tag-class>
         <body-content>empty</body-content>
         <attribute>

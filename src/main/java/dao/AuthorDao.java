@@ -6,8 +6,8 @@ import exception.DaoException;
 
 import java.util.List;
 
-public interface AuthorDao extends BaseDao<Author> {
-    List<Author> getAllByBookId(Integer id) throws DaoException, ConnectionException;
+public interface AuthorDao extends Dao<Author> {
+    List<Author> retrieveAllByBookId(Integer id) throws DaoException;
 
-    List<Author> getAllByLanguageId(Integer id) throws DaoException, ConnectionException;
+    List<Author> retrieveAllByLanguageId(Integer id) throws DaoException;
 }

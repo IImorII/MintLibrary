@@ -7,10 +7,10 @@ import exception.DaoException;
 import java.util.List;
 import java.util.Optional;
 
-public interface AccountDao extends BaseDao<Account> {
-    Optional<Account> getByLogin(String login) throws DaoException, ConnectionException;
-    List<Account> getAllByRoleId(Integer id) throws DaoException, ConnectionException;
-    List<Account> getAllByBookId(Integer id) throws DaoException, ConnectionException;
-    void setBookAccountConfirmState(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException, ConnectionException;
-    void deleteBookFromAccount(Integer bookId, Integer accountId) throws DaoException, ConnectionException;
+public interface AccountDao extends Dao<Account> {
+    Optional<Account> retrieveByLogin(String login) throws DaoException;
+    List<Account> retrieveAllByRoleId(Integer id) throws DaoException;
+    List<Account> retrieveAllByBookId(Integer id) throws DaoException;
+    void setBookAccountConfirmState(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException;
+    void deleteBookFromAccount(Integer bookId, Integer accountId) throws DaoException;
 }

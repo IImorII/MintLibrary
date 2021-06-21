@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.AbstractBaseDao;
+import dao.AbstractDao;
 import dao.AuthorDao;
 import dto.AuthorDto;
 import mapper.AuthorMapper;
@@ -9,11 +9,11 @@ import entity.Author;
 
 import exception.ConnectionException;
 import exception.DaoException;
-import mapper.factory.MapperFactory;
+import mapper.factory.MapperInstance;
 
 import java.util.*;
 
-public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao {
+public class AuthorDaoImpl extends AbstractDao<Author> implements AuthorDao {
 
     private static AuthorDaoImpl INSTANCE;
 
@@ -47,37 +47,34 @@ public class AuthorDaoImpl extends AbstractBaseDao<Author> implements AuthorDao 
 
 
     @Override
-    public void create(Author author) throws DaoException, ConnectionException {
-        if (getByName(author.getName()).isPresent()) {
-            if (author.getId() == null) {
-                author.setId(getByName(author.getName()).get().getId());
-            }
+    public void create(Author author) throws DaoException {
+        if (retrieveByName(author.getName()).isPresent()) {
             update(author);
         } else {
             updateQuery(CREATE, Arrays.asList(author.getName(), author.getYearOfBirth()));
-            author.setId(getByName(author.getName()).get().getId());
+            author.setId(retrieveByName(author.getName()).get().getId());
         }
         List<String> queries = Arrays.asList(SET_AUTHOR_TO_LANGUAGE);
         createDependencies(author, queries, author.getLanguages());
     }
 
     @Override
-    public void update(Author author) throws DaoException, ConnectionException {
+    public void update(Author author) throws DaoException {
         updateQuery(UPDATE, Arrays.asList(author.getName(), author.getYearOfBirth(), author.getId()));
     }
 
     @Override
-    public List<Author> getAllByBookId(Integer id) throws DaoException, ConnectionException {
+    public List<Author> retrieveAllByBookId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_BOOK_ID, Collections.singletonList(id));
     }
 
     @Override
-    public List<Author> getAllByLanguageId(Integer id) throws DaoException, ConnectionException {
+    public List<Author> retrieveAllByLanguageId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_LANGUAGE_ID, Collections.singletonList(id));
     }
 
     @Override
     public Mapper<Author, AuthorDto> getMapper() {
-        return MapperFactory.get(Author.class);
+        return Mapper.of(Author.class);
     }
 }

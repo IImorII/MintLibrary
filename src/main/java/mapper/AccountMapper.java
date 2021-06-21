@@ -1,12 +1,11 @@
 package mapper;
 
 import dao.BookDao;
+import dao.Dao;
 import dao.RoleDao;
-import dao.factory.ProxyDaoFactory;
 import dto.AccountDto;
 import entity.Account;
 import entity.Book;
-import entity.Language;
 import entity.Role;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -20,10 +19,13 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
 
     private BookDao bookDao;
 
+    private RoleDao roleDao;
+
     private static AccountMapper INSTANCE;
 
     private AccountMapper() {
-        bookDao = (BookDao) ProxyDaoFactory.get(Book.class);
+        bookDao = (BookDao) Dao.of(Book.class);
+        roleDao = (RoleDao) Dao.of(Role.class);
     }
 
     public static AccountMapper getInstance() {
@@ -75,7 +77,7 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
     private Role getRoleById(Integer id) throws MapperException {
         Role role;
         try {
-            role = ((RoleDao) ProxyDaoFactory.get(Role.class)).getById(id).get();
+            role = roleDao.retrieveById(id).get();
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }
@@ -85,7 +87,7 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
     private List<Book> getBooksByAccountId(Integer accountId) throws MapperException {
         List<Book> books;
         try {
-            books = bookDao.getAllByAccountId(accountId);
+            books = bookDao.retrieveAllByAccountId(accountId);
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }

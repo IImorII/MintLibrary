@@ -2,16 +2,20 @@ package service.impl;
 
 import cache.EntityCache;
 import dao.AuthorDao;
+import dao.Dao;
 import dao.LanguageDao;
-import dao.factory.ProxyDaoFactory;
+import dao.factory.ProxyDaoInstance;
 import dto.AuthorDto;
-import dto.LanguageDto;
 import entity.Author;
+import entity.Book;
+import entity.Genre;
 import entity.Language;
+import exception.DaoException;
 import exception.MapperException;
+import exception.ServiceException;
 import mapper.AuthorMapper;
-import mapper.LanguageMapper;
-import mapper.factory.MapperFactory;
+import mapper.Mapper;
+import mapper.factory.MapperInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.AuthorService;
@@ -24,11 +28,13 @@ public class AuthorServiceImpl implements AuthorService {
     private static AuthorServiceImpl INSTANCE;
     private AuthorDao authorDao;
     private AuthorMapper authorMapper;
+    private LanguageDao languageDao;
     private EntityCache cache;
 
     private AuthorServiceImpl() {
-        authorDao = (AuthorDao) ProxyDaoFactory.get(Author.class);
-        authorMapper = (AuthorMapper) MapperFactory.get(Author.class);
+        authorDao = (AuthorDao) Dao.of(Author.class);
+        languageDao = (LanguageDao) Dao.of(Language.class);
+        authorMapper = (AuthorMapper) Mapper.of(Author.class);
         cache = EntityCache.getInstance();
     }
 
@@ -54,7 +60,20 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void createAuthor(String name, Integer birth, String[] languagesId) {
-
+    public void createAuthor(String name, Integer birth, String[] languagesId) throws ServiceException {
+        try {
+            Author author = new Author();
+            List<Language> languages = new ArrayList<>();
+            author.setName(name);
+            author.setYearOfBirth(birth);
+            for (String id : languagesId) {
+                Language language = languageDao.retrieveById(Integer.parseInt(id)).get();
+                languages.add(language);
+            }
+            author.getLanguages();
+            authorDao.create(author);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
     }
 }

@@ -1,19 +1,18 @@
 package dao.impl;
 
-import dao.AbstractBaseDao;
+import dao.AbstractDao;
 import dao.LanguageDao;
 import dto.LanguageDto;
-import entity.Role;
 import mapper.LanguageMapper;
 import mapper.Mapper;
 import entity.Language;
 import exception.ConnectionException;
 import exception.DaoException;
-import mapper.factory.MapperFactory;
+import mapper.factory.MapperInstance;
 
 import java.util.*;
 
-public class LanguageDaoImpl extends AbstractBaseDao<Language> implements LanguageDao {
+public class LanguageDaoImpl extends AbstractDao<Language> implements LanguageDao {
 
     private static LanguageDaoImpl INSTANCE;
 
@@ -38,12 +37,12 @@ public class LanguageDaoImpl extends AbstractBaseDao<Language> implements Langua
             "join author on author.id = author_language.id where author.id = ?";
 
     @Override
-    public List<Language> getAllByAuthorId(Integer id) throws DaoException, ConnectionException {
+    public List<Language> retrieveAllByAuthorId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_AUTHOR_ID, Collections.singletonList(id));
     }
 
     @Override
     public Mapper<Language, LanguageDto> getMapper() {
-        return MapperFactory.get(Language.class);
+        return Mapper.of(Language.class);
     }
 }

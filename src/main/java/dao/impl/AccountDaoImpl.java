@@ -1,18 +1,19 @@
 package dao.impl;
 
-import dao.AbstractBaseDao;
+import dao.AbstractDao;
 import dao.AccountDao;
+import dao.Dao;
+import dao.RoleDao;
 import dto.AccountDto;
+import entity.Role;
 import mapper.Mapper;
-import mapper.AccountMapper;
 import entity.Account;
 import exception.ConnectionException;
 import exception.DaoException;
-import mapper.factory.MapperFactory;
 
 import java.util.*;
 
-public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountDao {
+public class AccountDaoImpl extends AbstractDao<Account> implements AccountDao {
 
     private static AccountDaoImpl INSTANCE;
 
@@ -44,14 +45,15 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     private static final String DELETE_BOOK_FROM_ACCOUNT = "delete from book_account where id = ? and account_id = ?";
 
     @Override
-    public void create(Account account) throws DaoException, ConnectionException {
+    public void create(Account account) throws DaoException {
         if (account.getRole().getId() == null) {
-            RoleDaoImpl.getInstance().create(account.getRole());
-            account.getRole().setId(RoleDaoImpl.getInstance().getByName(account.getRole().getName()).get().getId());
+            RoleDao roleDao = (RoleDao) Dao.of(Role.class);
+            roleDao.create(account.getRole());
+            account.getRole().setId(roleDao.retrieveByName(account.getRole().getName()).get().getId());
         }
-        if (getByLogin(account.getLogin()).isPresent()) {
+        if (retrieveByLogin(account.getLogin()).isPresent()) {
             if (account.getId() == null) {
-                account.setId(getByLogin(account.getLogin()).get().getId());
+                account.setId(retrieveByLogin(account.getLogin()).get().getId());
             }
             update(account);
         } else {
@@ -65,11 +67,7 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     }
 
     @Override
-    public void update(Account account) throws DaoException, ConnectionException {
-        if (account.getRole().getId() == null) {
-            RoleDaoImpl.getInstance().create(account.getRole());
-            account.getRole().setId(RoleDaoImpl.getInstance().getByName(account.getRole().getName()).get().getId());
-        }
+    public void update(Account account) throws DaoException {
         updateQuery(UPDATE, Arrays.asList(
                 account.getName(),
                 account.getLogin(),
@@ -81,32 +79,32 @@ public class AccountDaoImpl extends AbstractBaseDao<Account> implements AccountD
     }
 
     @Override
-    public Optional<Account> getByLogin(String login) throws DaoException, ConnectionException {
+    public Optional<Account> retrieveByLogin(String login) throws DaoException {
         return getOneQuery(GET_ONE_BY_LOGIN, Collections.singletonList(login));
     }
 
     @Override
-    public List<Account> getAllByRoleId(Integer id) throws DaoException, ConnectionException {
+    public List<Account> retrieveAllByRoleId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_ROLE_ID, Collections.singletonList(id));
     }
 
     @Override
-    public List<Account> getAllByBookId(Integer id) throws DaoException, ConnectionException {
+    public List<Account> retrieveAllByBookId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_BOOK_ID, Collections.singletonList(id));
     }
 
     @Override
-    public void setBookAccountConfirmState(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException, ConnectionException {
+    public void setBookAccountConfirmState(Boolean isConfirm, Integer bookId, Integer accountId) throws DaoException {
         updateQuery(BOOK_ACCOUNT_CONFIRM, Arrays.asList((isConfirm) ? 1 : 0, bookId, accountId));
     }
 
     @Override
-    public void deleteBookFromAccount(Integer bookId, Integer accountId) throws DaoException, ConnectionException {
+    public void deleteBookFromAccount(Integer bookId, Integer accountId) throws DaoException {
         updateQuery(DELETE_BOOK_FROM_ACCOUNT, Arrays.asList(bookId, accountId));
     }
 
     @Override
     public Mapper<Account, AccountDto> getMapper() {
-        return MapperFactory.get(Account.class);
+        return Mapper.of(Account.class);
     }
 }

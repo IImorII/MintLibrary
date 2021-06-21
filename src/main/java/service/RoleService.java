@@ -1,9 +1,9 @@
 package service;
 
 import dto.RoleDto;
+import entity.Role;
 
 import java.util.List;
 
-public interface RoleService {
-    List<RoleDto> getAll();
+public interface RoleService extends Service<Role, RoleDto> {
 }

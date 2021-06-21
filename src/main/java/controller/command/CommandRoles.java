@@ -2,7 +2,6 @@ package controller.command;
 
 public enum CommandRoles {
     ADMIN("Admin"),
-    USER("User"),
     LIBRARIAN("Librarian");
 
 

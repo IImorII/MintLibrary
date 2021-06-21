@@ -5,9 +5,11 @@ import controller.command.CommandRequest;
 import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
 import dto.BookDto;
+import entity.Book;
 import exception.CommandException;
 import service.BookService;
-import service.impl.BookServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import static controller.command.ControllerDestination.BOOK;
 import static controller.command.ControllerDestination.MAIN;
@@ -17,7 +19,7 @@ public class SingleBookCommand implements Command {
     private static SingleBookCommand INSTANCE;
     private BookService bookService;
     private SingleBookCommand() {
-        bookService = BookServiceImpl.getInstance();
+        bookService = (BookService) Service.of(Book.class);
     }
 
     public static SingleBookCommand getInstance() {

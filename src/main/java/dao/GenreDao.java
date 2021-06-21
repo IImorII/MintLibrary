@@ -6,6 +6,6 @@ import exception.DaoException;
 
 import java.util.List;
 
-public interface GenreDao extends BaseDao<Genre> {
-    List<Genre> getAllByBookId(Integer id) throws DaoException, ConnectionException;
+public interface GenreDao extends Dao<Genre> {
+    List<Genre> retrieveAllByBookId(Integer id) throws DaoException;
 }

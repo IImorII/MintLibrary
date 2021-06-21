@@ -1,9 +1,11 @@
 package controller.command.role.user;
 
 import controller.command.*;
+import entity.Account;
 import exception.CommandException;
 import service.AccountService;
-import service.impl.AccountServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import static controller.command.ControllerDestination.INFO;
 
@@ -13,7 +15,7 @@ public class OrderBookCommand implements Command {
     private AccountService accountService;
 
     private OrderBookCommand() {
-        accountService = AccountServiceImpl.getInstance();
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static OrderBookCommand getInstance() {

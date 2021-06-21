@@ -1,7 +1,7 @@
 package cache;
 
-import dao.BaseDao;
-import dao.factory.ProxyDaoFactory;
+import dao.Dao;
+import dao.factory.ProxyDaoInstance;
 import entity.Account;
 import entity.Author;
 import entity.BaseEntity;
@@ -55,16 +55,16 @@ public class EntityCache {
     }
 
     public List<? extends BaseEntity> retrieveCollection(Class<? extends BaseEntity> tClass) {
-        BaseDao dao = ProxyDaoFactory.get(tClass);
+        Dao dao = Dao.of(tClass);
         SoftReference reference = null;
         try {
             reference = switch (tClass.getSimpleName()) {
-                case "Book" -> (books == null) ? books = new SoftReference<List<Book>>(dao.getAll()) : books;
-                case "Author" -> (authors == null) ? authors = new SoftReference<List<Author>>(dao.getAll()) : authors;
-                case "Genre" -> (genres == null) ? genres = new SoftReference<List<Genre>>(dao.getAll()) : genres;
-                case "Language" -> (languages == null) ? languages = new SoftReference<List<Language>>(dao.getAll()) : languages;
-                case "Account" -> (accounts == null) ? accounts = new SoftReference<List<Account>>(dao.getAll()) : accounts;
-                case "Role" -> (roles == null) ? roles = new SoftReference<List<Role>>(dao.getAll()) : roles;
+                case "Book" -> (books == null) ? books = new SoftReference<List<Book>>(dao.retrieveAll()) : books;
+                case "Author" -> (authors == null) ? authors = new SoftReference<List<Author>>(dao.retrieveAll()) : authors;
+                case "Genre" -> (genres == null) ? genres = new SoftReference<List<Genre>>(dao.retrieveAll()) : genres;
+                case "Language" -> (languages == null) ? languages = new SoftReference<List<Language>>(dao.retrieveAll()) : languages;
+                case "Account" -> (accounts == null) ? accounts = new SoftReference<List<Account>>(dao.retrieveAll()) : accounts;
+                case "Role" -> (roles == null) ? roles = new SoftReference<List<Role>>(dao.retrieveAll()) : roles;
                 default -> null;
             };
         } catch (DaoException | ConnectionException ex) {

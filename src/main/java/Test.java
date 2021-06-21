@@ -1,4 +1,5 @@
-import dao.factory.ProxyDaoFactory;
+import dao.Dao;
+import dao.factory.ProxyDaoInstance;
 import entity.Book;
 import entity.Language;
 
@@ -18,7 +19,7 @@ public class Test {
             book.setYearOfRelease(2000 + i);
             book.setLanguage(language);
             try {
-                ProxyDaoFactory.get(Book.class).create(book);
+                Dao.of(Book.class).create(book);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

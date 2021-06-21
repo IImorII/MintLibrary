@@ -5,18 +5,20 @@ import controller.command.CommandRequest;
 import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
 import dto.BookDto;
+import entity.Account;
+import entity.Book;
 import exception.CommandException;
 import service.AccountService;
 import service.BookService;
-import service.impl.AccountServiceImpl;
-import service.impl.BookServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static controller.command.ControllerDestination.CONFIRM_ORDER_PANEL;
 
-public class ConfirmOrderPanelCommand implements Command {
+public class  ConfirmOrderPanelCommand implements Command {
 
     private static ConfirmOrderPanelCommand INSTANCE;
 
@@ -24,8 +26,8 @@ public class ConfirmOrderPanelCommand implements Command {
     private AccountService accountService;
 
     private ConfirmOrderPanelCommand() {
-        bookService = BookServiceImpl.getInstance();
-        accountService = AccountServiceImpl.getInstance();
+        bookService = (BookService) Service.of(Book.class);
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static ConfirmOrderPanelCommand getInstance() {

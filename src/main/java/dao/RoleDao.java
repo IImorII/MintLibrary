@@ -2,5 +2,5 @@ package dao;
 
 import entity.Role;
 
-public interface RoleDao extends BaseDao<Role> {
+public interface RoleDao extends Dao<Role> {
 }

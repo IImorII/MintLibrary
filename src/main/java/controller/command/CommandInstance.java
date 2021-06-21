@@ -8,14 +8,8 @@ import controller.command.role.admin.DeleteAccountCommand;
 import controller.command.role.admin.show.AccountsPanelCommand;
 import controller.command.role.admin.show.SingleAccountCommand;
 import controller.command.role.books.SingleBookCommand;
-import controller.command.role.librarian.AddBookCommand;
-import controller.command.role.librarian.ConfirmOrderCommand;
-import controller.command.role.librarian.DeleteBookCommand;
-import controller.command.role.librarian.ReleaseOrderCommand;
-import controller.command.role.librarian.show.AddBookPanelCommand;
-import controller.command.role.librarian.show.ConfirmOrderPanelCommand;
-import controller.command.role.librarian.show.LibraryPanelCommand;
-import controller.command.role.librarian.show.ReleaseOrderPanelCommand;
+import controller.command.role.librarian.*;
+import controller.command.role.librarian.show.*;
 import controller.command.role.user.OrderBookCommand;
 import controller.command.role.user.RemoveOrderCommand;
 import controller.command.role.user.show.ViewOrderPanelCommand;
@@ -24,30 +18,33 @@ import controller.command.role.books.SearchBookCommand;
 import controller.command.role.books.SwitchPageCommand;
 
 public enum CommandInstance {
-
-    MAIN(MainPageCommand.getInstance()),
-    LOGIN(LoginCommand.getInstance()),
     ABOUT(AboutPageCommand.getInstance()),
-    SEARCH_BOOK(SearchBookCommand.getInstance()),
-    SHOW_BOOK(SingleBookCommand.getInstance()),
-    SWITCH_PAGE(SwitchPageCommand.getInstance()),
-    LOGOUT(LogoutCommand.getInstance()),
-    ORDER_BOOK(OrderBookCommand.getInstance()),
-    LIBRARY_PANEL(LibraryPanelCommand.getInstance()),
-    ADD_BOOK_PANEL(AddBookPanelCommand.getInstance()),
-    ADD_BOOK(AddBookCommand.getInstance()),
-    DELETE_BOOK(DeleteBookCommand.getInstance()),
-    DELETE_ACCOUNT(DeleteAccountCommand.getInstance()),
-    CONFIRM_ORDER_PANEL(ConfirmOrderPanelCommand.getInstance()),
-    RELEASE_ORDER_PANEL(ReleaseOrderPanelCommand.getInstance()),
-    VIEW_ORDER_PANEL(ViewOrderPanelCommand.getInstance()),
     ACCOUNTS_PANEL(AccountsPanelCommand.getInstance()),
-    SINGLE_ACCOUNT(SingleAccountCommand.getInstance()),
+    ADD_BOOK(AddBookCommand.getInstance()),
+    ADD_BOOK_PANEL(AddBookPanelCommand.getInstance()),
+    ADD_AUTHOR_PANEL(AddAuthorPanelCommand.getInstance()),
+    ADD_AUTHOR(AddAuthorCommand.getInstance()),
+    ADD_GENRE_PANEL(AddGenrePanelCommand.getInstance()),
+    ADD_LANGUAGE_PANEL(AddLanguagePanelCommand.getInstance()),
     CHANGE_ROLE(ChangeRoleCommand.getInstance()),
     CONFIRM_ORDER(ConfirmOrderCommand.getInstance()),
+    CONFIRM_ORDER_PANEL(ConfirmOrderPanelCommand.getInstance()),
+    DELETE_ACCOUNT(DeleteAccountCommand.getInstance()),
+    DELETE_BOOK(DeleteBookCommand.getInstance()),
+    LIBRARY_PANEL(LibraryPanelCommand.getInstance()),
+    LOGIN(LoginCommand.getInstance()),
+    LOGOUT(LogoutCommand.getInstance()),
+    MAIN(MainPageCommand.getInstance()),
+    ORDER_BOOK(OrderBookCommand.getInstance()),
     RELEASE_ORDER(ReleaseOrderCommand.getInstance()),
+    RELEASE_ORDER_PANEL(ReleaseOrderPanelCommand.getInstance()),
     REMOVE_ORDER(RemoveOrderCommand.getInstance()),
-    SIGN_UP(SignUpCommand.getInstance());
+    SEARCH_BOOK(SearchBookCommand.getInstance()),
+    SHOW_BOOK(SingleBookCommand.getInstance()),
+    SIGN_UP(SignUpCommand.getInstance()),
+    SINGLE_ACCOUNT(SingleAccountCommand.getInstance()),
+    SWITCH_PAGE(SwitchPageCommand.getInstance()),
+    VIEW_ORDER_PANEL(ViewOrderPanelCommand.getInstance());
 
     private final Command command;
 
@@ -56,7 +53,7 @@ public enum CommandInstance {
     }
 
     static Command of(String name) {
-        for (CommandInstance c: values()) {
+        for (CommandInstance c : values()) {
             if (c.name().equalsIgnoreCase(name)) {
                 return c.command;
             }

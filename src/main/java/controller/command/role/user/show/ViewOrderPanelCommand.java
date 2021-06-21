@@ -5,11 +5,13 @@ import controller.command.CommandRequest;
 import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
 import dto.BookDto;
+import entity.Account;
+import entity.Book;
 import exception.CommandException;
 import service.AccountService;
 import service.BookService;
-import service.impl.AccountServiceImpl;
-import service.impl.BookServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +26,8 @@ public class ViewOrderPanelCommand implements Command {
     private final AccountService accountService;
 
     private ViewOrderPanelCommand() {
-        bookService = BookServiceImpl.getInstance();
-        accountService = AccountServiceImpl.getInstance();
+        bookService = (BookService) Service.of(Book.class);
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static ViewOrderPanelCommand getInstance() {

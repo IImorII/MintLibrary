@@ -1,9 +1,11 @@
 package controller.command.role.librarian;
 
 import controller.command.*;
+import entity.Account;
 import exception.CommandException;
 import service.AccountService;
-import service.impl.AccountServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import static controller.command.CommandInstance.RELEASE_ORDER_PANEL;
 
@@ -13,7 +15,7 @@ public class ReleaseOrderCommand implements Command {
     private AccountService accountService;
 
     private ReleaseOrderCommand() {
-        accountService = AccountServiceImpl.getInstance();
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static ReleaseOrderCommand getInstance() {

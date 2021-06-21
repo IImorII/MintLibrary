@@ -1,19 +1,21 @@
 package dao.impl;
 
-import dao.AbstractBaseDao;
+import dao.AbstractDao;
 import dao.BookDao;
+import dao.Dao;
+import dao.LanguageDao;
 import dto.BookDto;
-import entity.Role;
+import entity.Language;
 import mapper.BookMapper;
 import mapper.Mapper;
 import entity.Book;
 import exception.ConnectionException;
 import exception.DaoException;
-import mapper.factory.MapperFactory;
+import mapper.factory.MapperInstance;
 
 import java.util.*;
 
-public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
+public class BookDaoImpl extends AbstractDao<Book> implements BookDao {
 
     private static BookDaoImpl INSTANCE;
 
@@ -57,14 +59,15 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     private final String SET_BOOK_TO_ACCOUNT = "insert into book_account (id, account_id) values (?, ?)";
 
     @Override
-    public void create(Book book) throws DaoException, ConnectionException {
+    public void create(Book book) throws DaoException {
         if (book.getLanguage().getId() == null) {
-            LanguageDaoImpl.getInstance().create(book.getLanguage());
-            book.getLanguage().setId(LanguageDaoImpl.getInstance().getByName(book.getLanguage().getName()).get().getId());
+            LanguageDao languageDao = (LanguageDao) Dao.of(Language.class);
+            languageDao.create(book.getLanguage());
+            book.getLanguage().setId(languageDao.retrieveByName(book.getLanguage().getName()).get().getId());
         }
-        if (getByName(book.getName()).isPresent()) {
+        if (retrieveByName(book.getName()).isPresent()) {
             if (book.getId() == null) {
-                book.setId(getByName(book.getName()).get().getId());
+                book.setId(retrieveByName(book.getName()).get().getId());
             }
             update(book);
         } else {
@@ -76,18 +79,14 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
                     book.getRate(),
                     book.getCount(),
                     book.getLanguage().getId()));
-            book.setId(getByName(book.getName()).get().getId());
+            book.setId(retrieveByName(book.getName()).get().getId());
         }
         List<String> queries = Arrays.asList(SET_BOOK_TO_GENRE, SET_BOOK_TO_AUTHOR);
         createDependencies(book, queries, book.getGenres(), book.getAuthors());
     }
 
     @Override
-    public void update(Book book) throws DaoException, ConnectionException {
-        if (book.getLanguage().getId() == null) {
-            LanguageDaoImpl.getInstance().create(book.getLanguage());
-            book.getLanguage().setId(LanguageDaoImpl.getInstance().getByName(book.getLanguage().getName()).get().getId());
-        }
+    public void update(Book book) throws DaoException {
         updateQuery(UPDATE, Arrays.asList(
                 book.getName(),
                 book.getDescription(),
@@ -100,35 +99,35 @@ public class BookDaoImpl extends AbstractBaseDao<Book> implements BookDao {
     }
 
     @Override
-    public List<Book> getAllByAuthorId(Integer id) throws DaoException, ConnectionException {
+    public List<Book> retrieveAllByAuthorId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_AUTHOR_ID, Collections.singletonList(id));
     }
 
     @Override
-    public List<Book> getAllByGenreId(Integer id) throws DaoException, ConnectionException {
+    public List<Book> retrieveAllByGenreId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_GENRE_ID, Collections.singletonList(id));
     }
 
     @Override
-    public List<Book> getAllByLanguageId(Integer id) throws DaoException, ConnectionException {
+    public List<Book> retrieveAllByLanguageId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_LANGUAGE_ID, Collections.singletonList(id));
     }
 
     @Override
-    public List<Book> getAllByAccountId(Integer id) throws DaoException, ConnectionException {
+    public List<Book> retrieveAllByAccountId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_ACCOUNT_ID, Collections.singletonList(id));
     }
 
-    public List<Book> getAllConfirmedByAccountId(Integer id) throws DaoException, ConnectionException {
+    public List<Book> retrieveAllConfirmedByAccountId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_CONFIRMED_BY_ACCOUNT_ID, Collections.singletonList(id));
     }
 
-    public List<Book> getAllUnconfirmedByAccountId(Integer id) throws DaoException, ConnectionException {
+    public List<Book> retrieveAllUnconfirmedByAccountId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_UNCONFIRMED_BY_ACCOUNT_ID, Collections.singletonList(id));
     }
 
     @Override
     public Mapper<Book, BookDto> getMapper() {
-        return MapperFactory.get(Book.class);
+        return Mapper.of(Book.class);
     }
 }

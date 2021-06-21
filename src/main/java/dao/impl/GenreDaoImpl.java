@@ -1,19 +1,18 @@
 package dao.impl;
 
-import dao.AbstractBaseDao;
+import dao.AbstractDao;
 import dao.GenreDao;
 import dto.GenreDto;
-import entity.Role;
 import mapper.GenreMapper;
 import mapper.Mapper;
 import entity.Genre;
 import exception.ConnectionException;
 import exception.DaoException;
-import mapper.factory.MapperFactory;
+import mapper.factory.MapperInstance;
 
 import java.util.*;
 
-public class GenreDaoImpl extends AbstractBaseDao<Genre> implements GenreDao {
+public class GenreDaoImpl extends AbstractDao<Genre> implements GenreDao {
 
     private static GenreDaoImpl INSTANCE;
 
@@ -38,12 +37,12 @@ public class GenreDaoImpl extends AbstractBaseDao<Genre> implements GenreDao {
             "join book on book.id = book_genre.id where book.id = ?";
 
     @Override
-    public List<Genre> getAllByBookId(Integer id) throws DaoException, ConnectionException {
+    public List<Genre> retrieveAllByBookId(Integer id) throws DaoException {
         return getManyQuery(GET_ALL_BY_BOOK_ID, Collections.singletonList(id));
     }
 
     @Override
     public Mapper<Genre, GenreDto> getMapper() {
-        return MapperFactory.get(Genre.class);
+        return Mapper.of(Genre.class);
     }
 }

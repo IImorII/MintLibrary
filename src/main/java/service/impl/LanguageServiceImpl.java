@@ -1,13 +1,17 @@
 package service.impl;
 
 import cache.EntityCache;
+import dao.Dao;
 import dao.LanguageDao;
-import dao.factory.ProxyDaoFactory;
+import dao.factory.ProxyDaoInstance;
 import dto.LanguageDto;
 import entity.*;
+import exception.DaoException;
 import exception.MapperException;
+import exception.ServiceException;
 import mapper.LanguageMapper;
-import mapper.factory.MapperFactory;
+import mapper.Mapper;
+import mapper.factory.MapperInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.LanguageService;
@@ -23,8 +27,8 @@ public class LanguageServiceImpl implements LanguageService {
     private EntityCache cache;
 
     private LanguageServiceImpl() {
-        languageDao = (LanguageDao) ProxyDaoFactory.get(Language.class);
-        languageMapper = (LanguageMapper) MapperFactory.get(Language.class);
+        languageDao = (LanguageDao) Dao.of(Language.class);
+        languageMapper = (LanguageMapper) Mapper.of(Language.class);
         cache = EntityCache.getInstance();
     }
 
@@ -50,7 +54,13 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public void createLanguage(String name) {
-
+    public void createLanguage(String name) throws ServiceException{
+        try {
+            Language language = new Language();
+            language.setName(name);
+            languageDao.create(language);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
     }
 }

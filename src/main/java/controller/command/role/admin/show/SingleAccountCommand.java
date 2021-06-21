@@ -5,13 +5,14 @@ import controller.command.CommandRequest;
 import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
 import dto.AccountDto;
-import dto.BookDto;
 import dto.RoleDto;
+import entity.Account;
+import entity.Role;
 import exception.CommandException;
 import service.AccountService;
 import service.RoleService;
-import service.impl.AccountServiceImpl;
-import service.impl.RoleServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class SingleAccountCommand implements Command {
     private RoleService roleService;
 
     private SingleAccountCommand() {
-        accountService = AccountServiceImpl.getInstance();
-        roleService = RoleServiceImpl.getInstance();
+        accountService = (AccountService) Service.of(Account.class);
+        roleService = (RoleService) Service.of(Role.class);
     }
 
     public static SingleAccountCommand getInstance() {

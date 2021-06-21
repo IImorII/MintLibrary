@@ -25,9 +25,9 @@ public class AppController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            final String command = req.getParameter(ParameterDestination.COMMAND.getParameter());
-            final Command commandName = Command.of(command);
-            final CommandResponse result = commandName.execute(CommandRequestWrapper.of(req));
+            final String commandName = req.getParameter(ParameterDestination.COMMAND.getParameter());
+            final Command command = Command.of(commandName);
+            final CommandResponse result = command.execute(CommandRequestWrapper.of(req));
             if (result.isRedirect()) {
                 resp.sendRedirect(req.getContextPath() + result.getDestination().getPath());
             } else {

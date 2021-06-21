@@ -1,12 +1,10 @@
 package mapper;
 
 
-import dao.BookDao;
+import dao.Dao;
 import dao.LanguageDao;
-import dao.factory.ProxyDaoFactory;
 import dto.AuthorDto;
 import entity.Author;
-import entity.Book;
 import entity.Language;
 import exception.ConnectionException;
 import exception.DaoException;
@@ -14,17 +12,16 @@ import exception.MapperException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorMapper implements Mapper<Author, AuthorDto> {
 
     private static AuthorMapper INSTANCE;
-    private BookDao bookDao;
     private LanguageDao languageDao;
 
     private AuthorMapper() {
-        bookDao = (BookDao) ProxyDaoFactory.get(Book.class);
-        languageDao = (LanguageDao) ProxyDaoFactory.get(Language.class);
+        languageDao = (LanguageDao) Dao.of(Language.class);
     }
 
     public static AuthorMapper getInstance() {
@@ -60,13 +57,20 @@ public class AuthorMapper implements Mapper<Author, AuthorDto> {
 
     @Override
     public AuthorDto toDto(Author entity) throws MapperException {
-        return null;
+        final Integer id = entity.getId();
+        final String name = entity.getName();
+        final Integer yearOfBirth = entity.getYearOfBirth();
+        final List<String> languages = new ArrayList<>();
+        for (Language e : entity.getLanguages()) {
+            languages.add(e.getName());
+        }
+        return new AuthorDto(id, name, yearOfBirth, languages);
     }
 
     private List<Language> getLanguagesByAuthorId(Integer id) throws MapperException {
         List<Language> languages;
         try {
-            languages = languageDao.getAllByAuthorId(id);
+            languages = languageDao.retrieveAllByAuthorId(id);
         } catch (DaoException | ConnectionException ex) {
             throw new MapperException(ex.getMessage());
         }

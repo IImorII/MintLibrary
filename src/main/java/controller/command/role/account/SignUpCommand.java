@@ -2,9 +2,11 @@ package controller.command.role.account;
 
 import controller.command.*;
 import dto.AccountDto;
+import entity.Account;
 import exception.CommandException;
 import service.AccountService;
-import service.impl.AccountServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -18,7 +20,7 @@ public class SignUpCommand implements Command {
     private static String ERROR_MESSAGE = "Account with this login is already exists!";
 
     private SignUpCommand() {
-        accountService = AccountServiceImpl.getInstance();
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static SignUpCommand getInstance() {

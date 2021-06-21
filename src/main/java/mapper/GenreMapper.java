@@ -1,6 +1,9 @@
 package mapper;
 
+import dao.Dao;
+import dao.GenreDao;
 import dto.GenreDto;
+import dto.LanguageDto;
 import entity.Genre;
 import exception.MapperException;
 
@@ -10,6 +13,7 @@ import java.sql.SQLException;
 public class GenreMapper implements Mapper<Genre, GenreDto> {
 
     private static GenreMapper INSTANCE;
+
 
     private GenreMapper() {
     }
@@ -39,6 +43,8 @@ public class GenreMapper implements Mapper<Genre, GenreDto> {
 
     @Override
     public GenreDto toDto(Genre entity) throws MapperException {
-        return null;
+        final Integer id = entity.getId();
+        final String name = entity.getName();
+        return new GenreDto(id, name);
     }
 }

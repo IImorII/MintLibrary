@@ -7,9 +7,7 @@ import entity.Role;
 import java.util.List;
 import java.util.Optional;
 
-public interface AccountService {
-
-    List<AccountDto> getAll();
+public interface AccountService extends Service<Account, AccountDto> {
 
     AccountDto getOne(Integer id);
 

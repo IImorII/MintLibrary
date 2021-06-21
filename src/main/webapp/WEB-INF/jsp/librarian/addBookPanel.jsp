@@ -1,4 +1,3 @@
-<%@ page import="javax.servlet.annotation.MultipartConfig" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -34,25 +33,33 @@
             </div>
         </div>
         <div class="form-group row mb-4">
-            <label for="authors" class="col-sm-3 col-form-label text-right tm-color-primary">Author</label>
+            <label for="genres" class="col-sm-3 col-form-label text-right tm-color-primary">Genres</label>
             <div class="col-sm-9">
-                <select name="authors" id="authors" class="selectpicker" multiple data-max-options="2">
-                    <option value="1">lox</option>
-                    <option value="2">sad</option>
-                    <option value="3">sss</option>
+                <select name="genres" id="genres" class="selectpicker" multiple data-min-options="1" data-max-options="3" required>
+                    <c:forEach var="genre" items="${requestScope.genresList}">
+                        <option value="${genre.id}">${genre.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row mb-4">
+            <label for="authors" class="col-sm-3 col-form-label text-right tm-color-primary">Authors</label>
+            <div class="col-sm-9">
+                <select name="authors" id="authors" class="selectpicker" multiple data-min-options="1" data-max-options="3" required>
+                    <c:forEach var="author" items="${requestScope.authorsList}">
+                        <option value="${author.id}">${author.name}</option>
+                    </c:forEach>
                 </select>
             </div>
         </div>
         <div class="form-group row mb-4">
             <label for="language" class="col-sm-3 col-form-label text-right tm-color-primary">Language</label>
             <div class="col-sm-9">
-                <input class="form-control mr-0 ml-auto" name="language" id="language" type="text" required>
-            </div>
-        </div>
-        <div class="form-group row mb-4">
-            <label for="genre" class="col-sm-3 col-form-label text-right tm-color-primary">Genre</label>
-            <div class="col-sm-9">
-                <input class="form-control mr-0 ml-auto" name="genre" id="genre" type="text" required>
+                <select name="language" id="language" class="selectpicker" required>
+                    <c:forEach var="language" items="${requestScope.languagesList}">
+                        <option value="${language.id}">${language.name}</option>
+                    </c:forEach>
+                </select>
             </div>
         </div>
         <div class="form-group row mb-5">

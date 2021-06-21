@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <head>
     <meta charset="UTF-8">
@@ -37,29 +38,29 @@
             <ul>
                 <li class="tm-nav-item"><a href="?command=main" class="tm-nav-link">
                     <i class="fas fa-home"></i>
-                    Home
+                    <lc:lc_tag key="home"/>
                 </a></li>
                 <c:if test="${sessionScope.account.role eq 'Librarian'}">
                 <li class="tm-nav-item"><a href="?command=library_panel" class="tm-nav-link">
                     <i class="fas fa-pen"></i>
-                    Librarian panel
+                    <lc:lc_tag key="librarian_panel"/>
                 </a></li>
                 </c:if>
                 <c:if test="${sessionScope.account.role eq 'Admin'}">
                 <li class="tm-nav-item"><a href="?command=accounts_panel" class="tm-nav-link">
                     <i class="fas fa-users"></i>
-                    Admin panel
+                    <lc:lc_tag key="admin_panel"/>
                 </a></li>
                 </c:if>
                 <c:if test="${sessionScope.account.role eq 'User'}">
                     <li class="tm-nav-item"><a href="?command=view_order_panel" class="tm-nav-link">
                         <i class="fas fa-pen"></i>
-                        User panel
+                        <lc:lc_tag key="user_panel"/>
                     </a></li>
                 </c:if>
                 <li class="tm-nav-item"><a href="?command=about" class="tm-nav-link">
                     <i class="far fa-comments"></i>
-                    About library
+                    <lc:lc_tag key="about_library"/>
                 </a></li>
             </ul>
         </nav>

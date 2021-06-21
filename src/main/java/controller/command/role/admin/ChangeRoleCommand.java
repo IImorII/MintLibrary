@@ -1,16 +1,18 @@
 package controller.command.role.admin;
 
 import controller.command.*;
+import entity.Account;
 import exception.CommandException;
 import service.AccountService;
-import service.impl.AccountServiceImpl;
+import service.Service;
+import service.factory.ServiceInstance;
 
 public class ChangeRoleCommand implements Command {
     private static ChangeRoleCommand INSTANCE;
     private AccountService accountService;
 
     private ChangeRoleCommand() {
-        accountService = AccountServiceImpl.getInstance();
+        accountService = (AccountService) Service.of(Account.class);
     }
 
     public static ChangeRoleCommand getInstance() {
