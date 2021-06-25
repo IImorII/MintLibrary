@@ -67,7 +67,8 @@ public class EntityCache {
                 case "Role" -> (roles == null) ? roles = new SoftReference<List<Role>>(dao.retrieveAll()) : roles;
                 default -> null;
             };
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
+            log.error(ex.getMessage());
             ex.printStackTrace();
         }
         return (List) reference.get();

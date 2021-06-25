@@ -3,6 +3,7 @@ package controller.command.role.user;
 import controller.command.*;
 import entity.Account;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AccountService;
 import service.Service;
 import service.factory.ServiceInstance;
@@ -26,10 +27,14 @@ public class OrderBookCommand implements Command {
     }
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-        Integer accountId = (Integer) request.getSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
-        request.setAttribute(ParameterDestination.INFO.getParameter(), accountService.orderBook(accountId, bookId));
-        request.setSessionAttribute(ParameterDestination.BOOKS_CURRENT.getParameter(), accountService.getOne(accountId).getAmountCurrent());
+        try {
+            Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
+            Integer accountId = (Integer) request.getSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
+            request.setAttribute(ParameterDestination.INFO.getParameter(), accountService.orderBook(accountId, bookId));
+            request.setSessionAttribute(ParameterDestination.BOOKS_CURRENT.getParameter(), accountService.getOne(accountId).getAmountCurrent());
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
+        }
         return() -> INFO;
     }
 }

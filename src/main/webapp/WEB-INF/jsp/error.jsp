@@ -7,11 +7,11 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="container">
-    <h1>Oops...</h1>
+    <h1>Sorry :(</h1>
     <c:if test="${requestScope.info != null}">
         <h4>${requestScope.info}</h4>
     </c:if>
-    <p>Oops, you are on the wrong way :(</p>
+    <p>You are on the wrong way :(</p>
     <p>Please, return back to home page :3</p>
     <div>
         <a href="?command=main"

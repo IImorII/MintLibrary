@@ -8,6 +8,7 @@ import dto.BookDto;
 import entity.Account;
 import entity.Book;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AccountService;
 import service.BookService;
 import service.Service;
@@ -39,16 +40,20 @@ public class ViewOrderPanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Object accountId = request.getSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
-        List<BookDto> confirmedBooks = new ArrayList<>();
-        List<BookDto> unconfirmedBooks = new ArrayList<>();
-        if (accountId != null) {
-            confirmedBooks = bookService.getConfirmedBooks(Integer.parseInt(accountId.toString()));
-            unconfirmedBooks = bookService.getUnconfirmedBooks(Integer.parseInt(accountId.toString()));
-            request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(accountId.toString())));
+        try {
+            Object accountId = request.getSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
+            List<BookDto> confirmedBooks = new ArrayList<>();
+            List<BookDto> unconfirmedBooks = new ArrayList<>();
+            if (accountId != null) {
+                confirmedBooks = bookService.getConfirmedBooks(Integer.parseInt(accountId.toString()));
+                unconfirmedBooks = bookService.getUnconfirmedBooks(Integer.parseInt(accountId.toString()));
+                request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(accountId.toString())));
+            }
+            request.setAttribute(ParameterDestination.CONFIRMED_BOOKS.getParameter(), confirmedBooks);
+            request.setAttribute(ParameterDestination.UNCONFIRMED_BOOKS.getParameter(), unconfirmedBooks);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
         }
-        request.setAttribute(ParameterDestination.CONFIRMED_BOOKS.getParameter(), confirmedBooks);
-        request.setAttribute(ParameterDestination.UNCONFIRMED_BOOKS.getParameter(), unconfirmedBooks);
         return () -> VIEW_ORDER_PANEL;
     }
 }

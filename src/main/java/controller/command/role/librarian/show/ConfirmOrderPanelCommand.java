@@ -8,6 +8,7 @@ import dto.BookDto;
 import entity.Account;
 import entity.Book;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AccountService;
 import service.BookService;
 import service.Service;
@@ -39,13 +40,17 @@ public class  ConfirmOrderPanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Object userId = request.getParameter(ParameterDestination.ACCOUNT_ID.getParameter());
-        List<BookDto> books = new ArrayList<>();
-        if (userId != null) {
-            books = bookService.getUnconfirmedBooks(Integer.parseInt(userId.toString()));
-            request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(userId.toString())));
+        try {
+            Object userId = request.getParameter(ParameterDestination.ACCOUNT_ID.getParameter());
+            List<BookDto> books = new ArrayList<>();
+            if (userId != null) {
+                books = bookService.getUnconfirmedBooks(Integer.parseInt(userId.toString()));
+                request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(userId.toString())));
+            }
+            request.setAttribute(ParameterDestination.BOOKS_LIST.getParameter(), books);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
         }
-        request.setAttribute(ParameterDestination.BOOKS_LIST.getParameter(), books);
         return () -> CONFIRM_ORDER_PANEL;
     }
 }

@@ -24,6 +24,8 @@ public enum CommandInstance {
     ADD_BOOK_PANEL(AddBookPanelCommand.getInstance()),
     ADD_AUTHOR_PANEL(AddAuthorPanelCommand.getInstance()),
     ADD_AUTHOR(AddAuthorCommand.getInstance()),
+    ADD_GENRE(AddGenreCommand.getInstance()),
+    ADD_LANGUAGE(AddLanguageCommand.getInstance()),
     ADD_GENRE_PANEL(AddGenrePanelCommand.getInstance()),
     ADD_LANGUAGE_PANEL(AddLanguagePanelCommand.getInstance()),
     CHANGE_ROLE(ChangeRoleCommand.getInstance()),

@@ -15,9 +15,9 @@
             </div>
         </div>
         <div class="form-group row mb-4">
-            <label for="yearOfBirth" class="col-sm-3 col-form-label text-right tm-color-primary">Year of birth</label>
+            <label for="year" class="col-sm-3 col-form-label text-right tm-color-primary">Year of birth</label>
             <div class="col-sm-9">
-                <input class="form-control mr-0 ml-auto" name="yearOfBirth" id="yearOfBirth" type="text" required/>
+                <input class="form-control mr-0 ml-auto" name="year" id="year" type="number" required/>
             </div>
         </div>
         <div class="form-group row mb-4">

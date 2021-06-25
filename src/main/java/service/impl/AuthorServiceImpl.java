@@ -70,7 +70,7 @@ public class AuthorServiceImpl implements AuthorService {
                 Language language = languageDao.retrieveById(Integer.parseInt(id)).get();
                 languages.add(language);
             }
-            author.getLanguages();
+            author.setLanguages(languages);
             authorDao.create(author);
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());

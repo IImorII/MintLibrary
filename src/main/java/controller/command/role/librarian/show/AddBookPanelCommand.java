@@ -11,6 +11,7 @@ import entity.Author;
 import entity.Genre;
 import entity.Language;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AuthorService;
 import service.GenreService;
 import service.LanguageService;
@@ -44,12 +45,16 @@ public class AddBookPanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        List<GenreDto> genres = genreService.getAll();
-        List<AuthorDto> authors = authorService.getAll();
-        List<LanguageDto> languages = languageService.getAll();
-        request.setAttribute(ParameterDestination.GENRES_LIST.getParameter(), genres);
-        request.setAttribute(ParameterDestination.AUTHORS_LIST.getParameter(), authors);
-        request.setAttribute(ParameterDestination.LANGUAGES_LIST.getParameter(), languages);
+        try {
+            List<GenreDto> genres = genreService.getAll();
+            List<AuthorDto> authors = authorService.getAll();
+            List<LanguageDto> languages = languageService.getAll();
+            request.setAttribute(ParameterDestination.GENRES_LIST.getParameter(), genres);
+            request.setAttribute(ParameterDestination.AUTHORS_LIST.getParameter(), authors);
+            request.setAttribute(ParameterDestination.LANGUAGES_LIST.getParameter(), languages);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
+        }
         return () -> ADD_BOOK_PANEL;
     }
 }

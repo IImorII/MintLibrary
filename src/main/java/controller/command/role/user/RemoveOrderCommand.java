@@ -5,6 +5,7 @@ import dto.BookDto;
 import entity.Account;
 import entity.Book;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AccountService;
 import service.BookService;
 import service.Service;
@@ -33,15 +34,19 @@ public class RemoveOrderCommand implements Command {
     }
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-        Integer accountId = request.getIntSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
-        List<BookDto> unconfirmedBooks = bookService.getUnconfirmedBooks(accountId);
-        for (BookDto book : unconfirmedBooks) {
-            if (book.getId().equals(bookId)) {
-                accountService.releaseOrder(accountId, bookId);
-                request.setSessionAttribute(ParameterDestination.BOOKS_CURRENT.getParameter(),
-                        accountService.getOne(accountId).getAmountCurrent());
+        try {
+            Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
+            Integer accountId = request.getIntSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
+            List<BookDto> unconfirmedBooks = bookService.getUnconfirmedBooks(accountId);
+            for (BookDto book : unconfirmedBooks) {
+                if (book.getId().equals(bookId)) {
+                    accountService.releaseOrder(accountId, bookId);
+                    request.setSessionAttribute(ParameterDestination.BOOKS_CURRENT.getParameter(),
+                            accountService.getOne(accountId).getAmountCurrent());
+                }
             }
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
         }
         return Command.of(VIEW_ORDER_PANEL).execute(request);
     }

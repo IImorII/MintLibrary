@@ -71,7 +71,7 @@ public class AuthorMapper implements Mapper<Author, AuthorDto> {
         List<Language> languages;
         try {
             languages = languageDao.retrieveAllByAuthorId(id);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException  ex) {
             throw new MapperException(ex.getMessage());
         }
         return languages;

@@ -103,7 +103,7 @@ public class BookMapper implements Mapper<Book, BookDto> {
         Language language;
         try {
             language = languageDao.retrieveById(id).get();
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             throw new MapperException(ex.getMessage());
         }
         return language;
@@ -113,7 +113,7 @@ public class BookMapper implements Mapper<Book, BookDto> {
         List<Author> authors;
         try {
             authors = authorDao.retrieveAllByBookId(id);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             throw new MapperException(ex.getMessage());
         }
         return authors;
@@ -123,7 +123,7 @@ public class BookMapper implements Mapper<Book, BookDto> {
         List<Genre> genres;
         try {
             genres = genreDao.retrieveAllByBookId(id);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             throw new MapperException(ex.getMessage());
         }
         return genres;

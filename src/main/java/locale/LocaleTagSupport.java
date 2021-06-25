@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class LocaleTagSupport extends TagSupport {
-    private static final String CANNOT_LOAD_DB_PROPERTIES_MSG = "Cannot load database property file";
+    private static final String NO_PROPERTY_FILE = "No property file!";
     private static final String CANNOT_PRINT_FOR_THIS_LOCALE_MSG = "Could not print message! locale {} message {}";
     private static final String LOCALE = "locale_";
     private static final String PROPERTIES = ".properties";
@@ -21,7 +21,6 @@ public class LocaleTagSupport extends TagSupport {
 
     @Override
     public int doStartTag() {
-
         JspWriter out = pageContext.getOut();
         String language = RU;
 
@@ -33,24 +32,20 @@ public class LocaleTagSupport extends TagSupport {
                     language = temp.getValue();
                 }
             }
-
             Properties properties = new Properties();
-
             try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
                     .getResourceAsStream(LOCALE + language + PROPERTIES)) {
                 properties.load(inputStream);
-            } catch (IOException e) {
-                throw new IllegalStateException(CANNOT_LOAD_DB_PROPERTIES_MSG);
+            } catch (IOException ex) {
+                throw new IllegalStateException(NO_PROPERTY_FILE);
             }
             String message = properties.getProperty(key);
-
             try {
                 out.print(message);
-            } catch (IOException e) {
-
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         }
-
         return EVAL_PAGE;
     }
 

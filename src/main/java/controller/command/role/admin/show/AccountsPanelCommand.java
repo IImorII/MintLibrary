@@ -7,6 +7,7 @@ import controller.command.ParameterDestination;
 import dto.AccountDto;
 import entity.Account;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AccountService;
 import service.Service;
 import service.factory.ServiceInstance;
@@ -33,10 +34,14 @@ public class AccountsPanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        List<AccountDto> accounts;
-        accounts = accountService.getAll();
-        accounts = accountService.removeAdmins(accounts);
-        request.setAttribute(ParameterDestination.ACCOUNTS_LIST.getParameter(), accounts);
+        try {
+            List<AccountDto> accounts;
+            accounts = accountService.getAll();
+            accounts = accountService.removeAdmins(accounts);
+            request.setAttribute(ParameterDestination.ACCOUNTS_LIST.getParameter(), accounts);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
+        }
         return () -> ACCOUNTS_PANEL;
     }
 }

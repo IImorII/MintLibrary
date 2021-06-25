@@ -12,6 +12,7 @@ import entity.Role;
 import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
+import exception.ServiceException;
 import mapper.AccountMapper;
 import mapper.Mapper;
 import org.apache.logging.log4j.LogManager;
@@ -55,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDto> getAll() {
+    public List<AccountDto> getAll() throws ServiceException {
         List<AccountDto> dtoAccounts = new ArrayList<>();
         try {
             List<Account> entityAccounts = (List<Account>) cache.retrieveCollection(Account.class);
@@ -64,6 +65,7 @@ public class AccountServiceImpl implements AccountService {
             }
         } catch (MapperException ex) {
             log.error(ex.getMessage());
+            throw new ServiceException(ex.getMessage());
         }
         return dtoAccounts;
     }
@@ -74,20 +76,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDto getOne(Integer id) {
+    public AccountDto getOne(Integer id) throws ServiceException {
         AccountDto dtoAccount = null;
         try {
             Account entity = accountDao.retrieveById(id).orElse(null);
             dtoAccount = accountMapper.toDto(entity);
-        } catch (DaoException | ConnectionException | MapperException ex) {
+        } catch (DaoException | MapperException ex) {
             log.error(ex.getMessage());
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
         return dtoAccount;
     }
 
     @Override
-    public Optional<AccountDto> login(String login, String password) {
+    public Optional<AccountDto> login(String login, String password) throws ServiceException{
         try {
             final Optional<Account> accountOptional = accountDao.retrieveByLogin(login);
             if (accountOptional.isPresent()) {
@@ -98,14 +100,15 @@ public class AccountServiceImpl implements AccountService {
                     return Optional.of(accountMapper.toDto(accountOptional.get()));
                 }
             }
-        } catch (DaoException | ConnectionException | MapperException ex) {
+        } catch (DaoException | MapperException ex) {
             log.error(ex.getMessage());
+            throw new ServiceException(ex.getMessage());
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<AccountDto> signUp(String login, String password, String name) {
+    public Optional<AccountDto> signUp(String login, String password, String name) throws ServiceException {
         try {
             final Optional<Account> accountOptional = accountDao.retrieveByLogin(login);
             if (!accountOptional.isPresent()) {
@@ -124,15 +127,15 @@ public class AccountServiceImpl implements AccountService {
                 account.setId(accountDao.retrieveByLogin(login).get().getId());
                 return Optional.of(accountMapper.toDto(account));
             }
-        } catch (NoSuchAlgorithmException | DaoException | ConnectionException | MapperException ex) {
+        } catch (NoSuchAlgorithmException | DaoException | MapperException ex) {
             log.error(ex.getMessage());
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
         return Optional.empty();
     }
 
     @Override
-    public String orderBook(Integer accountId, Integer bookId) {
+    public String orderBook(Integer accountId, Integer bookId) throws ServiceException {
         try {
             Book book = bookDao.retrieveById(bookId).get();
             Account account = accountDao.retrieveById(accountId).get();
@@ -149,25 +152,25 @@ public class AccountServiceImpl implements AccountService {
             account.setBooks(books);
             bookDao.create(book);
             accountDao.create(account);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             log.error(ex.getMessage());
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
         return SUCCESS_ORDER;
     }
 
     @Override
-    public void confirmOrder(Integer accountId, Integer bookId) {
+    public void confirmOrder(Integer accountId, Integer bookId) throws ServiceException {
         try {
             accountDao.setBookAccountConfirmState(true, bookId, accountId);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             log.error(ex);
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
     }
 
     @Override
-    public void releaseOrder(Integer accountId, Integer bookId) {
+    public void releaseOrder(Integer accountId, Integer bookId) throws ServiceException {
         try {
             Account account = accountDao.retrieveById(accountId).get();
             Book book = bookDao.retrieveById(bookId).get();
@@ -176,45 +179,45 @@ public class AccountServiceImpl implements AccountService {
             accountDao.deleteBookFromAccount(bookId, accountId);
             bookDao.update(book);
             accountDao.update(account);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             log.error(ex.getMessage());
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
     }
 
 
     @Override
-    public void deleteAccount(Integer accountId) {
+    public void deleteAccount(Integer accountId) throws ServiceException {
         try {
             releaseAllBooks(accountId);
             accountDao.delete(accountId);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             log.error(ex.getMessage());
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
     }
 
-    public void releaseAllBooks(Integer accountId) {
+    public void releaseAllBooks(Integer accountId) throws ServiceException {
         try {
             List<Book> books = bookDao.retrieveAllByAccountId(accountId);
             for (Book b : books) {
                 accountDao.deleteBookFromAccount(b.getId(), accountId);
             }
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             log.error(ex.getMessage());
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
     }
 
     @Override
-    public void changeAccountRole(Integer accountId, Integer roleId) {
+    public void changeAccountRole(Integer accountId, Integer roleId) throws ServiceException {
         try {
             Account account = accountDao.retrieveById(accountId).get();
             account.setRole(roleDao.retrieveById(roleId).orElse(new Role("User")));
             accountDao.update(account);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException ex) {
             log.error(ex.getMessage());
-            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
     }
 }

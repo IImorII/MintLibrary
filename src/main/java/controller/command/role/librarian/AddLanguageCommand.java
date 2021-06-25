@@ -34,7 +34,7 @@ public class AddLanguageCommand implements Command {
     }
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        String name = request.getStringParameter(ParameterDestination.GENRE.getParameter());
+        String name = request.getStringParameter(ParameterDestination.NAME.getParameter());
         try {
             languageService.createLanguage(name);
         } catch (ServiceException ex) {

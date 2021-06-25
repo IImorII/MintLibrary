@@ -9,11 +9,13 @@ import dto.RoleDto;
 import entity.Account;
 import entity.Role;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AccountService;
 import service.RoleService;
 import service.Service;
 import service.factory.ServiceInstance;
 
+import javax.sql.rowset.serial.SerialException;
 import java.util.List;
 
 import static controller.command.CommandInstance.ACCOUNTS_PANEL;
@@ -40,14 +42,18 @@ public class SingleAccountCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Integer accountId = request.getIntParameter(ParameterDestination.ACCOUNT_ID.getParameter());
-        if (accountId == null) {
-            return Command.of(ACCOUNTS_PANEL).execute(request);
+        try {
+            Integer accountId = request.getIntParameter(ParameterDestination.ACCOUNT_ID.getParameter());
+            if (accountId == null) {
+                return Command.of(ACCOUNTS_PANEL).execute(request);
+            }
+            AccountDto account = accountService.getOne(accountId);
+            List<RoleDto> roles = roleService.getAll();
+            request.setAttribute(ParameterDestination.ACCOUNT.getParameter(), account);
+            request.setAttribute(ParameterDestination.ROLES_LIST.getParameter(), roles);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
         }
-        AccountDto account = accountService.getOne(accountId);
-        List<RoleDto> roles = roleService.getAll();
-        request.setAttribute(ParameterDestination.ACCOUNT.getParameter(), account);
-        request.setAttribute(ParameterDestination.ROLES_LIST.getParameter(), roles);
         return () -> SINGLE_ACCOUNT;
     }
 }

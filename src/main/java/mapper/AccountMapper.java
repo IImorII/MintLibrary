@@ -78,7 +78,7 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
         Role role;
         try {
             role = roleDao.retrieveById(id).get();
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException  ex) {
             throw new MapperException(ex.getMessage());
         }
         return role;
@@ -88,7 +88,7 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
         List<Book> books;
         try {
             books = bookDao.retrieveAllByAccountId(accountId);
-        } catch (DaoException | ConnectionException ex) {
+        } catch (DaoException  ex) {
             throw new MapperException(ex.getMessage());
         }
         return books;
