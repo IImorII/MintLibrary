@@ -10,7 +10,6 @@ import java.util.Properties;
 
 public class LocaleTagSupport extends TagSupport {
     private static final String NO_PROPERTY_FILE = "No property file!";
-    private static final String CANNOT_PRINT_FOR_THIS_LOCALE_MSG = "Could not print message! locale {} message {}";
     private static final String LOCALE = "locale_";
     private static final String PROPERTIES = ".properties";
     private static final String LANGUAGE = "language";

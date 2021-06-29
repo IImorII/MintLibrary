@@ -18,7 +18,9 @@ import cache.EntityCache;
 import service.BookService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookServiceImpl implements BookService {
     private static Logger log = LogManager.getLogger(BookServiceImpl.class);
@@ -47,7 +49,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAll() {
+    public List<BookDto> getAll() throws ServiceException {
         List<BookDto> dtoBooks = new ArrayList<>();
         try {
             List<Book> entityBooks = (List<Book>) cache.retrieveCollection(Book.class);
@@ -62,16 +64,37 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto getOne(Integer id) {
-        BookDto dtoBook = null;
+    public BookDto getOne(Integer id) throws ServiceException {
+        BookDto dtoBook;
         try {
-            Book entity = bookDao.retrieveById(id).get();
+            Book entity = bookDao.retrieveById(id).orElse(null);
             dtoBook = bookMapper.toDto(entity);
         } catch (DaoException | MapperException ex) {
-            log.error(ex.getMessage());
             ex.printStackTrace();
+            throw new ServiceException(ex.getMessage());
         }
         return dtoBook;
+    }
+
+    @Override
+    public List<BookDto> getAllByCriteria(String searchName, String[] genresNames, String[] authorsNames) throws ServiceException {
+        List<BookDto> books = getAll();
+        if (searchName != null) {
+            books = books.stream()
+                    .filter(book -> book.getName().contains(searchName))
+                    .collect(Collectors.toList());
+        }
+        if (authorsNames != null) {
+            books = books.stream()
+                    .filter(book -> !Collections.disjoint(book.getAuthorsNames(), List.of(authorsNames)))
+                    .collect(Collectors.toList());
+        }
+        if (genresNames != null) {
+            books = books.stream()
+                    .filter(book -> !Collections.disjoint(book.getGenresNames(), List.of(genresNames)))
+                    .collect(Collectors.toList());
+        }
+        return books;
     }
 
     @Override

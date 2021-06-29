@@ -7,6 +7,7 @@ import controller.command.ParameterDestination;
 import dto.BookDto;
 import entity.Book;
 import exception.CommandException;
+import exception.ServiceException;
 import service.BookService;
 import service.Service;
 import service.factory.ServiceInstance;
@@ -31,12 +32,16 @@ public class SingleBookCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
-        Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-        if (bookId == null) {
-            return () -> MAIN;
+        try {
+            Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
+            if (bookId == null) {
+                return () -> MAIN;
+            }
+            BookDto book = bookService.getOne(bookId);
+            request.setAttribute(ParameterDestination.BOOK.getParameter(), book);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
         }
-        BookDto book = bookService.getOne(bookId);
-        request.setAttribute(ParameterDestination.BOOK.getParameter(), book);
         return () -> BOOK;
     }
 }

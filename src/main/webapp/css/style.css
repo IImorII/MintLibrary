@@ -159,19 +159,21 @@ ul {
 
 
 .navbar-toggler { display: none; }
-
+.tm-search-filter {
+    font-weight: bold;
+    justify-content: normal;
+}
 .tm-search-form {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .form-inline .form-control.tm-search-input {
     display: block;
     height: 60px;
     width: 480px;
-    margin-right: 30px;
-    border-radius: 0;
+    border-radius: 10px;
     border-color: #0CC;
     font-size: 1.2rem;
 }
@@ -179,7 +181,8 @@ ul {
 .tm-search-button {
     width: 60px;
     height: 60px;
-    border: none;
+    border-radius: 10px;
+    border: none #0CC;
     background-color: #0CC;
     transition: all 0.3s ease;
 }

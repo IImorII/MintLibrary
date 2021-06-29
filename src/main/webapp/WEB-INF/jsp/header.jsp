@@ -121,8 +121,31 @@
         </div>
         <!-- Search form -->
         <div class="row tm-row">
+
             <div class="col-12">
                 <form action="?command=search_book" method="POST" class="form-inline tm-mb-40 tm-search-form">
+                    <div>
+                    <div class="form-group row">
+                        <label for="genres" style="justify-content: normal;" class="col-sm-3 col-form-label tm-search-filter tm-color-primary"><lc:lc_tag key="genre"/></label>
+                        <div class="col-sm-9">
+                            <select name="genres" id="genres" class="selectpicker" multiple data-max-options="3">
+                                <c:forEach var="genre" items="${requestScope.genresList}">
+                                    <option value="${genre.name}">${genre.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="authors" style="justify-content: normal;" class="col-sm-3 col-form-label tm-search-filter text-right tm-color-primary"><lc:lc_tag key="author"/></label>
+                        <div class="col-sm-9">
+                            <select name="authors" id="authors" class="selectpicker" multiple data-max-options="3">
+                                <c:forEach var="author" items="${requestScope.authorsList}">
+                                    <option value="${author.name}">${author.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
                     <input class="form-control tm-search-input" name="search" type="text" placeholder="<lc:lc_tag key="search"/>" aria-label="Search">
                     <button class="tm-search-button" type="submit">
                         <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
