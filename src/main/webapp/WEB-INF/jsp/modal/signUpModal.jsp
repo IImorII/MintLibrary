@@ -1,9 +1,10 @@
+<%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <div class="modal fade" id="signUpModal" role="dialog" aria-labelledby="signUpModalWindow" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="signUpModalTitle">
-                    Sign up
+                    <lc:lc_tag key="sign_up"/>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
@@ -13,7 +14,7 @@
                 <form action="?command=sign_up" method="post">
                     <div class="form-group">
                         <label>
-                            Name
+                            <lc:lc_tag key="name"/>
                         </label>
                         <input type="text" class="form-control" aria-describedby="name" placeholder="Enter name" name="userName" minlength="3" maxlength="63" required>
                         <div class="valid-feedback">
@@ -25,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Login
+                            <lc:lc_tag key="login"/>
                         </label>
                         <input type="text" class="form-control" aria-describedby="login" placeholder="Enter login" name="login" minlength="3" maxlength="63" required>
                         <div class="valid-feedback">
@@ -37,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Password
+                            <lc:lc_tag key="password"/>
                         </label>
                         <input type="password" class="form-control" aria-describedby="password" placeholder="Enter password" name="password" minlength="8" maxlength="63" required>
                         <div class="valid-feedback">
@@ -48,7 +49,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-dark btn-lg btn-block">
-                        Sign up
+                        <lc:lc_tag key="sign_up"/>
                     </button>
                 </form>
             </div>

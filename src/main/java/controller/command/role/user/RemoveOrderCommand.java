@@ -1,6 +1,7 @@
 package controller.command.role.user;
 
 import controller.command.*;
+import dto.AccountDto;
 import dto.BookDto;
 import entity.Account;
 import entity.Book;
@@ -36,13 +37,14 @@ public class RemoveOrderCommand implements Command {
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
             Integer bookId = request.getIntParameter(ParameterDestination.BOOK_ID.getParameter());
-            Integer accountId = request.getIntSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
+            AccountDto account = (AccountDto) request.getSessionAttribute(ParameterDestination.ACCOUNT.getParameter());
+            Integer accountId = account.getId();
             List<BookDto> unconfirmedBooks = bookService.getUnconfirmedBooks(accountId);
             for (BookDto book : unconfirmedBooks) {
                 if (book.getId().equals(bookId)) {
                     accountService.releaseOrder(accountId, bookId);
-                    request.setSessionAttribute(ParameterDestination.BOOKS_CURRENT.getParameter(),
-                            accountService.getOne(accountId).getAmountCurrent());
+                    account = accountService.getOne(accountId);
+                    request.setSessionAttribute(ParameterDestination.ACCOUNT.getParameter(), account);
                 }
             }
         } catch (ServiceException ex) {

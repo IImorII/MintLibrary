@@ -1,5 +1,6 @@
 package cache;
 
+import context.AppContext;
 import dao.Dao;
 import dao.factory.ProxyDaoInstance;
 import entity.Account;
@@ -22,11 +23,12 @@ import java.util.TimerTask;
 public class EntityCache {
     private static EntityCache INSTANCE;
     private static final Logger log = LogManager.getLogger(EntityCache.class);
+    private static Integer refreshPeriod = AppContext.getCacheCheckRefreshRate();
 
     private EntityCache() {
         TimerTask cacheRefresher = CacheRefresher.getInstance();
         Timer updateTimer = new Timer(true);
-        updateTimer.scheduleAtFixedRate(cacheRefresher, 0, 5_000);
+        updateTimer.scheduleAtFixedRate(cacheRefresher, 0, refreshPeriod);
     }
 
     public static EntityCache getInstance() {

@@ -33,6 +33,8 @@ select * from account;
 select id, name from language where id = 1;
 delete from book where id >= 0;
 delete from account where id >= 0;
+delete from book_account where id >= 0;
+delete from account where id >= 0;
 delete from author where name = 'Antonio';
 delete from language where name = 'Russian';
 delete from account where login = 'Mikunika';
@@ -58,7 +60,7 @@ select book.* from book
 
 update account
 set book_amount_current = 0
-where name = 'Lesha';
+where login = 'user';
 
 update account
 set role_id_fk = 2

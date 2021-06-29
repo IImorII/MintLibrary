@@ -4,6 +4,7 @@ import controller.command.Command;
 import controller.command.CommandRequest;
 import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
+import dto.AccountDto;
 import dto.BookDto;
 import entity.Account;
 import entity.Book;
@@ -41,17 +42,16 @@ public class ViewOrderPanelCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
-            Object accountId = request.getSessionAttribute(ParameterDestination.ACCOUNT_ID.getParameter());
+            AccountDto account = (AccountDto) request.getSessionAttribute(ParameterDestination.ACCOUNT.getParameter());
             List<BookDto> confirmedBooks = new ArrayList<>();
             List<BookDto> unconfirmedBooks = new ArrayList<>();
-            if (accountId != null) {
-                confirmedBooks = bookService.getConfirmedBooks(Integer.parseInt(accountId.toString()));
-                unconfirmedBooks = bookService.getUnconfirmedBooks(Integer.parseInt(accountId.toString()));
-                request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(accountId.toString())));
+            if (account != null) {
+                confirmedBooks = bookService.getConfirmedBooks(account.getId());
+                unconfirmedBooks = bookService.getUnconfirmedBooks(account.getId());
             }
             request.setAttribute(ParameterDestination.CONFIRMED_BOOKS.getParameter(), confirmedBooks);
             request.setAttribute(ParameterDestination.UNCONFIRMED_BOOKS.getParameter(), unconfirmedBooks);
-        } catch (ServiceException ex) {
+        } catch (Exception ex) {
             throw new CommandException(ex.getMessage());
         }
         return () -> VIEW_ORDER_PANEL;

@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <html>
 <head>
@@ -9,9 +10,6 @@
     <div class="container-fluid">
             <c:if test="${not empty requestScope.booksList}">
                 <div class="row tm-row tm-mb-60">
-                    <div class="col-12">
-                        <hr class="tm-hr-primary  tm-mb-55">
-                    </div>
                     <c:forEach var="book" items="${requestScope.booksList}">
                         <div class="col-lg-6 tm-mb-60 tm-person-col">
                             <div class="media tm-person">
@@ -39,11 +37,11 @@
                                     <p class="mb-0 tm-line-height-short">
                                         <c:out value="${book.description}"/>
                                     </p>
-                                    <p class="mb-0">
-                                        Left: <c:out value="${book.count}"/>
-                                    </p>
                                 </div>
                             </div>
+                            <p class="mb-0 ml-count">
+                                <lc:lc_tag key="count"/>: <c:out value="${book.count}"/>
+                            </p>
                         </div>
                     </c:forEach>
                 </div>

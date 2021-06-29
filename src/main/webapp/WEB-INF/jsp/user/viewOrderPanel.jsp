@@ -1,19 +1,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>View orders</title>
+    <title><lc:lc_tag key="user_panel"/></title>
 </head>
 <body>
 <jsp:include page="../header.jsp"/>
 <div class="col-lg-7 tm-contact-left">
-    <p>Hello, ${sessionScope.user.name}! This is your books:</p>
+    <c:if test="${(not empty requestScope.confirmedBooks) or (not empty requestScope.unconfirmedBooks)}">
+        <p><lc:lc_tag key="hello"/>, ${sessionScope.account.name}! </p>
+        <p><lc:lc_tag key="this_is_your_books"/>: </p>
+    </c:if>
+    <c:if test="${(empty requestScope.confirmedBooks) and (empty requestScope.unconfirmedBooks)}">
+        <p><lc:lc_tag key="empty_ticket"/>! </p>
+    </c:if>
     <c:if test="${not empty requestScope.confirmedBooks}">
-        <p>Rent: </p>
+        <p><lc:lc_tag key="rented"/>: </p>
         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
             <thead>
             <tr>
-                <th>Book</th>
+                <th><lc:lc_tag key="book"/></th>
             </tr>
             </thead>
             <tbody>
@@ -26,12 +33,12 @@
         </table>
     </c:if>
     <c:if test="${not empty requestScope.unconfirmedBooks}">
-        <p>Orders: </p>
+        <p><lc:lc_tag key="ordered"/>: </p>
         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTable2">
             <thead>
             <tr>
-                <th>Book</th>
-                <th>Remove</th>
+                <th><lc:lc_tag key="book"/></th>
+                <th><lc:lc_tag key="delete"/></th>
             </tr>
             </thead>
             <tbody>
@@ -39,7 +46,7 @@
                 <tr class="odd gradeX">
                     <td>${book.name}</td>
                     <td><a href="?command=remove_order&accountId=${sessionScope.user.id}&bookId=${book.id}"
-                           class="mb-2 tm-btn tm-btn-primary tm-prev-next">Remove</a>
+                           class="mb-2 tm-btn tm-btn-primary tm-prev-next"><lc:lc_tag key="delete"/></a>
                     </td>
                 </tr>
             </c:forEach>

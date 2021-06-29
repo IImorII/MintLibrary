@@ -144,8 +144,12 @@ public abstract class AbstractDao<T extends BaseEntity> implements Dao<T> {
         this.UPDATE = UPDATE;
     }
 
-    private <L extends BaseEntity, K extends BaseEntity> void setEntitiesRelations(L firstEntity, String query, K secondEntity) throws DaoException {
-        updateQuery(query, Arrays.asList(firstEntity.getId(), secondEntity.getId()));
+    private <L extends BaseEntity, K extends BaseEntity> void setEntitiesRelations(L firstEntity, String query, K secondEntity) {
+        try {
+            updateQuery(query, Arrays.asList(firstEntity.getId(), secondEntity.getId()));
+        } catch (DaoException ex) {
+
+        }
     }
 
     private <L extends BaseEntity, K extends BaseEntity> void createDependentEntities(K entity, String queryEntityToEntity, List<L> dependentEntities) throws DaoException {

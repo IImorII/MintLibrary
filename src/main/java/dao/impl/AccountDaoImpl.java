@@ -43,6 +43,7 @@ public class AccountDaoImpl extends AbstractDao<Account> implements AccountDao {
             " join book on book.id = book_account.id where book.id = ?";
     private static final String BOOK_ACCOUNT_CONFIRM = "update book_account set confirmed = ? where id = ? and account_id = ?";
     private static final String DELETE_BOOK_FROM_ACCOUNT = "delete from book_account where id = ? and account_id = ?";
+    private static final String SET_ACCOUNT_TO_BOOK = "insert into book_account (account_id, id) values (?, ?)";
 
     @Override
     public void create(Account account) throws DaoException {
@@ -64,6 +65,8 @@ public class AccountDaoImpl extends AbstractDao<Account> implements AccountDao {
                     account.getBookAmountMax(),
                     account.getRole().getId()));
         }
+        List<String> queries = Arrays.asList(SET_ACCOUNT_TO_BOOK);
+        createDependencies(account, queries, account.getBooks());
     }
 
     @Override

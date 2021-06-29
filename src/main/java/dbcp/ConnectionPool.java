@@ -21,6 +21,8 @@ public class ConnectionPool {
     private static final String URL = AppContext.getURL();
     private static final String LOGIN = AppContext.getLogin();
     private static final String PASSWORD = AppContext.getPassword();
+    private static final String NAME = AppContext.getName();
+    private static final String DRIVER = AppContext.getDriver();
     private static final Integer MAX_POOL_SIZE = AppContext.getMaxPoolSize();
     private static final Integer INIT_POOL_SIZE = AppContext.getInitPoolSize();
 
@@ -61,7 +63,7 @@ public class ConnectionPool {
         log.info("Start init connection pool.");
         registerDrivers();
         for (int i = 0; i < INIT_POOL_SIZE; i++) {
-            try (Connection newConnection = new ConnectionProxy(DriverManager.getConnection(URL, LOGIN, PASSWORD))) {
+            try (Connection newConnection = new ConnectionProxy(DriverManager.getConnection(URL + NAME, LOGIN, PASSWORD))) {
                 freeConnections.add(newConnection);
             } catch (SQLException ex) {
                 log.error(ex.getMessage());
@@ -88,8 +90,8 @@ public class ConnectionPool {
 
     private static void registerDrivers() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            DriverManager.registerDriver(DriverManager.getDriver(URL));
+            Class.forName(DRIVER);
+            DriverManager.registerDriver(DriverManager.getDriver(URL + NAME));
         } catch (SQLException | ClassNotFoundException e) {
             log.error("Cannot register drivers");
         }

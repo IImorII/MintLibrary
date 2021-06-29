@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ltx7
-  Date: 28.05.2021
-  Time: 4:24
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,7 +7,6 @@
 <jsp:include page="header.jsp"/>
 <div class="row tm-row tm-mb-45">
     <div class="col-12">
-        <hr class="tm-hr-primary tm-mb-55">
         <div class="gmap_canvas"> <!-- Google Map -->
             <iframe width="100%" height="477" id="gmap_canvas"
                     src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed"

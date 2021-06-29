@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/templatemo-xtra-blog.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -19,12 +19,11 @@
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-    <script src="../../js/templatemo-script.js"></script>
+    <script src="js/header-script.js"></script>
     <title>Login</title>
 </head>
 
 <body>
-
 <header class="tm-header" id="tm-header">
     <div class="tm-header-wrapper">
         <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
@@ -64,47 +63,77 @@
                 </a></li>
             </ul>
         </nav>
-
-        <div class="tm-mb-65">
+        <div class="tm-mb-40 fixed-bottom">
             <c:if test="${empty sessionScope.account.name}">
                 <a href="#" data-target="#loginModal" data-toggle="modal" class="tm-social-link">
                     <i class="fas fa-sign-in-alt tm-social-icon"></i>
                 </a>
+                <lc:lc_tag key="login_register"/>
             </c:if>
             <c:if test="${not empty sessionScope.account.name}">
                 <a href="?command=logout" class="tm-social-link">
                     <i class="fas fa-sign-out-alt tm-social-icon"></i>
                 </a>
-                <br>
-                Id: ${sessionScope.account.id}
-                <br>
-                Name: ${sessionScope.account.name}
-                <br>
-                Role: ${sessionScope.account.role}
-                <c:if test="${sessionScope.account.role eq 'User'}">
-                <br>
-                Ticket: ${sessionScope.account.amountCurrent}/${sessionScope.account.amountMax}
-                </c:if>
+                <lc:lc_tag key="sign_out"/>
             </c:if>
         </div>
     </div>
 </header>
 <div class="container-fluid">
     <main class="tm-main">
+        <div class="row tm-row">
+            <div class="col-12 tm-search-form tm-mb-40">
+            <c:if test="${not empty sessionScope.account.name}">
+                <!--ID-->
+                <a href="?command=logout" class="tm-social-link">
+                    <i class="fa fa-tag tm-social-icon" aria-hidden="true"></i>
+                </a>
+                <h2 class="tm-color-primary tm-header-title mb-3">
+                    <lc:lc_tag key="id"/>: ${sessionScope.account.id}
+                </h2>
+                <!--Name-->
+                    <a href="?command=logout" class="tm-social-link">
+                        <i class="fa fa-user-circle tm-social-icon" aria-hidden="true"></i>
+                    </a>
+                    <h2 class="tm-color-primary tm-header-title mb-3">
+                            ${sessionScope.account.name}
+                    </h2>
+                <!--Role-->
+                <c:if test="${!(sessionScope.account.role eq 'User')}">
+                    <a href="?command=logout" class="tm-social-link">
+                        <i class="fa fa-users tm-social-icon" aria-hidden="true"></i>
+                    </a>
+                    <h2 class="tm-color-primary tm-header-title mb-3">
+                            ${sessionScope.account.role}
+                    </h2>
+                </c:if>
+                <!--Ticket-->
+                <c:if test="${sessionScope.account.role eq 'User'}">
+                        <a href="?command=logout" class="tm-social-link">
+                            <i class="fa fa-book tm-social-icon" aria-hidden="true"></i>
+                        </a>
+                        <h2 class="tm-color-primary tm-header-title mb-3">
+                                ${sessionScope.account.amountCurrent}/${sessionScope.account.amountMax}
+                        </h2>
+                </c:if>
+            </c:if>
+            </div>
+        </div>
         <!-- Search form -->
         <div class="row tm-row">
             <div class="col-12">
-                <form action="?command=search_book" method="POST" class="form-inline tm-mb-80 tm-search-form">
-                    <input class="form-control tm-search-input" name="search" type="text" placeholder="Search..." aria-label="Search">
+                <form action="?command=search_book" method="POST" class="form-inline tm-mb-40 tm-search-form">
+                    <input class="form-control tm-search-input" name="search" type="text" placeholder="<lc:lc_tag key="search"/>" aria-label="Search">
                     <button class="tm-search-button" type="submit">
                         <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
                     </button>
                 </form>
             </div>
+            <div class="col-12">
+                <hr class="tm-hr-primary tm-mb-55">
+            </div>
         </div>
 </body>
-
-<script src="js/templatemo-script.js"></script>
 
 <jsp:include page="modal/loginModal.jsp"/>
 <jsp:include page="modal/signUpModal.jsp"/>
