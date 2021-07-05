@@ -10,6 +10,8 @@ import mapper.Mapper;
 import entity.Account;
 import exception.ConnectionException;
 import exception.DaoException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 

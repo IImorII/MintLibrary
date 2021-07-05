@@ -11,6 +11,7 @@ import entity.Author;
 import entity.Genre;
 import entity.Language;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AuthorService;
 import service.GenreService;
 import service.LanguageService;
@@ -26,7 +27,10 @@ public class AddGenrePanelCommand implements Command {
 
     private static AddGenrePanelCommand INSTANCE;
 
+    private GenreService genreService;
+
     private AddGenrePanelCommand() {
+        genreService = (GenreService) Service.of(Genre.class);
     }
 
     public static AddGenrePanelCommand getInstance() {
@@ -38,6 +42,12 @@ public class AddGenrePanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
+        try {
+            List<GenreDto> genres = genreService.getAll();
+            request.setAttribute(ParameterDestination.GENRES_LIST.getParameter(), genres);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
+        }
         return () -> ADD_GENRE_PANEL;
     }
 }

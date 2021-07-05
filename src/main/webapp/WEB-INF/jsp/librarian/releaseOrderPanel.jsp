@@ -23,7 +23,7 @@
 </div>
 <c:if test="${not empty requestScope.booksList}">
     <div class="col-lg-7 tm-contact-left">
-        <p>${requestScope.user.name}'s confirmed books:</p>
+        <p>${requestScope.account.name}'s confirmed books:</p>
         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
             <thead>
             <tr>
@@ -35,7 +35,7 @@
             <c:forEach var="book" items="${requestScope.booksList}">
                 <tr class="odd gradeX">
                     <td>${book.name}</td>
-                    <td><a href="?command=release_order&accountId=${requestScope.user.id}&bookId=${book.id}"
+                    <td><a href="?command=release_order&accountId=${requestScope.account.id}&bookId=${book.id}"
                            class="mb-2 tm-btn tm-btn-primary tm-prev-next red">Release</a>
                     </td>
                 </tr>

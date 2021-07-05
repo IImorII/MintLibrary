@@ -90,10 +90,11 @@ public class ConnectionPool {
 
     private static void registerDrivers() {
         try {
+            log.info("Start register drivers.");
             Class.forName(DRIVER);
             DriverManager.registerDriver(DriverManager.getDriver(URL + NAME));
         } catch (SQLException | ClassNotFoundException e) {
-            log.error("Cannot register drivers");
+            log.error("Cannot register drivers.");
         }
     }
 

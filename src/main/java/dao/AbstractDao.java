@@ -7,6 +7,8 @@ import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 import mapper.Mapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 public abstract class AbstractDao<T extends BaseEntity> implements Dao<T> {
+
+    private Logger log = LogManager.getLogger(Dao.class);
 
     protected final String TABLE_NAME;
     protected final String GET_ONE_BY_ID;

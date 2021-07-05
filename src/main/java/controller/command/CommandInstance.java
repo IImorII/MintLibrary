@@ -9,6 +9,14 @@ import controller.command.role.admin.show.AccountsPanelCommand;
 import controller.command.role.admin.show.SingleAccountCommand;
 import controller.command.role.books.SingleBookCommand;
 import controller.command.role.librarian.*;
+import controller.command.role.librarian.add.AddAuthorCommand;
+import controller.command.role.librarian.add.AddBookCommand;
+import controller.command.role.librarian.add.AddGenreCommand;
+import controller.command.role.librarian.add.AddLanguageCommand;
+import controller.command.role.librarian.delete.DeleteAuthorCommand;
+import controller.command.role.librarian.delete.DeleteBookCommand;
+import controller.command.role.librarian.delete.DeleteGenreCommand;
+import controller.command.role.librarian.delete.DeleteLanguageCommand;
 import controller.command.role.librarian.show.*;
 import controller.command.role.user.OrderBookCommand;
 import controller.command.role.user.RemoveOrderCommand;
@@ -31,8 +39,12 @@ public enum CommandInstance {
     CHANGE_ROLE(ChangeRoleCommand.getInstance()),
     CONFIRM_ORDER(ConfirmOrderCommand.getInstance()),
     CONFIRM_ORDER_PANEL(ConfirmOrderPanelCommand.getInstance()),
+    CHANGE_LOCALE(ChangeLocaleCommand.getInstance()),
     DELETE_ACCOUNT(DeleteAccountCommand.getInstance()),
     DELETE_BOOK(DeleteBookCommand.getInstance()),
+    DELETE_AUTHOR(DeleteAuthorCommand.getInstance()),
+    DELETE_LANGUAGE(DeleteLanguageCommand.getInstance()),
+    DELETE_GENRE(DeleteGenreCommand.getInstance()),
     LIBRARY_PANEL(LibraryPanelCommand.getInstance()),
     LOGIN(LoginCommand.getInstance()),
     LOGOUT(LogoutCommand.getInstance()),

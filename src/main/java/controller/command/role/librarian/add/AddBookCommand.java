@@ -1,4 +1,4 @@
-package controller.command.role.librarian;
+package controller.command.role.librarian.add;
 
 import controller.command.Command;
 import controller.command.CommandRequest;
@@ -6,19 +6,16 @@ import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
 import entity.Book;
 import exception.CommandException;
-import exception.ConnectionException;
-import exception.DaoException;
 import exception.ServiceException;
 import service.BookService;
 import service.Service;
-import service.factory.ServiceInstance;
 
 import static controller.command.ControllerDestination.ADD_BOOK_PANEL;
 
 public class AddBookCommand implements Command {
 
     private static AddBookCommand INSTANCE;
-    private BookService bookService;
+    private final BookService bookService;
 
     private AddBookCommand() {
         bookService = (BookService) Service.of(Book.class);

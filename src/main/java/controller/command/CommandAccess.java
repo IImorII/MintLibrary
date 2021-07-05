@@ -1,5 +1,9 @@
 package controller.command;
 
+import controller.command.role.librarian.delete.DeleteAuthorCommand;
+import controller.command.role.librarian.delete.DeleteGenreCommand;
+import controller.command.role.librarian.delete.DeleteLanguageCommand;
+
 public enum CommandAccess {
     ACCOUNTS_PANEL(CommandRoles.ADMIN),
     ADD_AUTHOR(CommandRoles.LIBRARIAN),
@@ -15,6 +19,9 @@ public enum CommandAccess {
     CONFIRM_ORDER_PANEL(CommandRoles.LIBRARIAN),
     DELETE_ACCOUNT(CommandRoles.ADMIN),
     DELETE_BOOK(CommandRoles.LIBRARIAN),
+    DELETE_AUTHOR(CommandRoles.LIBRARIAN),
+    DELETE_LANGUAGE(CommandRoles.LIBRARIAN),
+    DELETE_GENRE(CommandRoles.LIBRARIAN),
     LIBRARY_PANEL(CommandRoles.LIBRARIAN),
     RELEASE_ORDER_PANEL(CommandRoles.LIBRARIAN),
     SINGLE_ACCOUNT(CommandRoles.ADMIN);

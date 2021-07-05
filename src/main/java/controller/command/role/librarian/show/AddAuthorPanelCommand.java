@@ -28,9 +28,11 @@ public class AddAuthorPanelCommand implements Command {
     private static AddAuthorPanelCommand INSTANCE;
 
     private LanguageService languageService;
+    private AuthorService authorService;
 
     private AddAuthorPanelCommand() {
         languageService = (LanguageService) Service.of(Language.class);
+        authorService = (AuthorService) Service.of(Author.class);
     }
 
     public static AddAuthorPanelCommand getInstance() {
@@ -45,6 +47,8 @@ public class AddAuthorPanelCommand implements Command {
         try {
             List<LanguageDto> languages = languageService.getAll();
             request.setAttribute(ParameterDestination.LANGUAGES_LIST.getParameter(), languages);
+            List<AuthorDto> authors = authorService.getAll();
+            request.setAttribute(ParameterDestination.AUTHORS_LIST.getParameter(), authors);
         } catch (ServiceException ex) {
             throw new CommandException(ex.getMessage());
         }

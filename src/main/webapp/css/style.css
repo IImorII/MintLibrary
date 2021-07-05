@@ -169,6 +169,11 @@ ul {
     justify-content: space-between;
 }
 
+.tm-header-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 .form-inline .form-control.tm-search-input {
     display: block;
     height: 60px;
@@ -176,6 +181,65 @@ ul {
     border-radius: 10px;
     border-color: #0CC;
     font-size: 1.2rem;
+}
+
+.tm-panel-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.tm-panel-icon {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.tm-add-form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.tm-add-button {
+    width: 150px;
+    height: 60px;
+    border-radius: 10px;
+    border: none #0CC;
+    background-color: #0CC;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.tm-add-icon {
+    color: white;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.tm-add-input {
+    display: block;
+    height: 60px;
+    width: 480px;
+    border-radius: 10px;
+    border-color:  #0CC;
+    font-size: 1.2rem;
+    margin-right: 50px;
+}
+
+.tm-panel-button {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    border: none #0CC;
+    background-color: #0CC;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
 }
 
 .tm-search-button {
@@ -366,11 +430,16 @@ video {
 .tm-comment-reply { padding-left: 37px; }
 
 .form-control {
-    height: 45px;
+    height: 60px;
     border-color: #0CC;
-    border-radius: 0;
+    border-radius: 10px;
 }
 
+.tm-table-text {
+    text-align: center;
+    vertical-align: center;
+    font-size: 1.2rem;
+}
 .tm-comment-form { max-width: 360px; }
 .tm-category-list { list-style-type: none; }
 figure { margin: 0; }
@@ -394,7 +463,8 @@ figcaption { line-height: 1.4; }
 .tm-pt-30 { padding-top: 30px; }
 .tm-pt-45 { padding-top: 45px; }
 .tm-pt-60 { padding-top: 60px; }
-.tm-mb-40 { margin-bottom: 40px; margin-left: 20px; }
+.tm-mb-40 { margin-bottom: 40px; }
+.tm-mb-ml-40 { margin-bottom: 40px; margin-left: 20px; }
 .tm-mb-45 { margin-bottom: 45px; }
 .tm-mb-55 { margin-bottom: 55px; }
 .tm-mb-60 { margin-bottom: 60px; }

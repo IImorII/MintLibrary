@@ -28,8 +28,6 @@ public interface Dao<T extends BaseEntity> {
 
     Lock LOCK = new ReentrantLock();
 
-    Logger log = LogManager.getLogger(Dao.class);
-
     void create(T entity) throws DaoException;
 
     void update(T entity) throws DaoException;

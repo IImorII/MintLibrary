@@ -20,7 +20,7 @@ import java.io.IOException;
         maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
 public class AppController extends HttpServlet {
 
-    private static final Logger LOGGER = LogManager.getLogger(AppController.class);
+    private static final Logger log = LogManager.getLogger(AppController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,7 +35,7 @@ public class AppController extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         } catch (CommandException ex) {
-            LOGGER.error(ex.getMessage());
+            log.error(ex.getMessage());
             req.setAttribute(ParameterDestination.ERROR.getParameter(), ex.getMessage());
             final RequestDispatcher dispatcher = req.getRequestDispatcher(ControllerDestination.INFO.getPath());
             dispatcher.forward(req, resp);

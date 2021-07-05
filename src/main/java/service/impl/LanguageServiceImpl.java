@@ -63,4 +63,27 @@ public class LanguageServiceImpl implements LanguageService {
             throw new ServiceException(ex.getMessage());
         }
     }
+
+    @Override
+    public void deleteLanguage(Integer languageId) throws ServiceException {
+        try {
+            languageDao.delete(languageId);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+
+    }
+
+    @Override
+    public void updateLanguage(Integer languageId, String name) throws ServiceException {
+        try {
+            Language language = languageDao.retrieveById(languageId).get();
+            if (name != null) {
+                language.setName(name);
+            }
+            languageDao.update(language);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 }

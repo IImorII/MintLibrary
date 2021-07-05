@@ -1,19 +1,16 @@
-package controller.command.role.librarian;
+package controller.command.role.librarian.delete;
 
 import controller.command.*;
 import entity.Book;
 import exception.CommandException;
-import exception.ConnectionException;
-import exception.DaoException;
 import exception.ServiceException;
 import service.BookService;
 import service.Service;
-import service.factory.ServiceInstance;
 
 public class DeleteBookCommand implements Command {
 
     private static DeleteBookCommand INSTANCE;
-    private BookService bookService;
+    private final BookService bookService;
 
     private DeleteBookCommand() {
         bookService = (BookService) Service.of(Book.class);

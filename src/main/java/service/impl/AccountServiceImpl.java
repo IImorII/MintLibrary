@@ -189,7 +189,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccount(Integer accountId) throws ServiceException {
         try {
-            releaseAllBooks(accountId);
+            releaseAllUnconfirmedBooks(accountId);
             accountDao.delete(accountId);
         } catch (DaoException ex) {
             log.error(ex.getMessage());
@@ -197,10 +197,12 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    public void releaseAllBooks(Integer accountId) throws ServiceException {
+    public void releaseAllUnconfirmedBooks(Integer accountId) throws ServiceException {
         try {
-            List<Book> books = bookDao.retrieveAllByAccountId(accountId);
-            for (Book b : books) {
+            List<Book> unconfirmedBooks = bookDao.retrieveAllUnconfirmedByAccountId(accountId);
+            for (Book b : unconfirmedBooks) {
+                b.setCount(b.getCount() + 1);
+                bookDao.update(b);
                 accountDao.deleteBookFromAccount(b.getId(), accountId);
             }
         } catch (DaoException ex) {

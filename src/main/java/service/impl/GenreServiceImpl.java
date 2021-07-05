@@ -64,4 +64,27 @@ public class GenreServiceImpl implements GenreService {
             throw new ServiceException(ex.getMessage());
         }
     }
+
+    @Override
+    public void deleteGenre(Integer genreId) throws ServiceException {
+        try {
+            genreDao.delete(genreId);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+
+    }
+
+    @Override
+    public void updateGenre(Integer genreId, String name) throws ServiceException {
+        try {
+            Genre genre = genreDao.retrieveById(genreId).get();
+            if (name != null) {
+                genre.setName(name);
+            }
+            genreDao.update(genre);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 }

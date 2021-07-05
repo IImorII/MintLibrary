@@ -11,6 +11,7 @@ import entity.Author;
 import entity.Genre;
 import entity.Language;
 import exception.CommandException;
+import exception.ServiceException;
 import service.AuthorService;
 import service.GenreService;
 import service.LanguageService;
@@ -26,7 +27,10 @@ public class AddLanguagePanelCommand implements Command {
 
     private static AddLanguagePanelCommand INSTANCE;
 
+    private LanguageService languageService;
+
     private AddLanguagePanelCommand() {
+        languageService = (LanguageService) Service.of(Language.class);
     }
 
     public static AddLanguagePanelCommand getInstance() {
@@ -38,6 +42,12 @@ public class AddLanguagePanelCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
+        try {
+            List<LanguageDto> languages = languageService.getAll();
+            request.setAttribute(ParameterDestination.LANGUAGES_LIST.getParameter(), languages);
+        } catch (ServiceException ex) {
+            throw new CommandException(ex.getMessage());
+        }
         return () -> ADD_LANGUAGE_PANEL;
     }
 }

@@ -54,20 +54,28 @@ create table if not exists role
 alter table account
     add role_id_fk int not null;
 alter table account
-    add constraint account_role_fk foreign key (role_id_fk) references role (id) on delete no action;
+    add constraint account_role_fk foreign key (role_id_fk) references role (id)
+        on delete set null
+        on update cascade;
 
 alter table book
     add language_id_fk int not null;
 alter table book
-    add constraint book_language_id_fk foreign key (language_id_fk) references language (id) on delete no action;
+    add constraint book_language_id_fk foreign key (language_id_fk) references language (id)
+        on delete set null
+        on update cascade;
 
 create table if not exists book_genre
 (
     id       int not null,
     genre_id int not null,
     primary key (id, genre_id),
-    foreign key (id) references book (id) on delete cascade,
-    foreign key (genre_id) references genre (id) on delete cascade
+    foreign key (id) references book (id)
+        on delete cascade
+        on update cascade,
+    foreign key (genre_id) references genre (id)
+        on delete cascade
+        on update cascade
 );
 
 create table if not exists book_author
@@ -75,8 +83,12 @@ create table if not exists book_author
     id        int not null,
     author_id int not null,
     primary key (id, author_id),
-    foreign key (id) references book (id) on delete cascade,
-    foreign key (author_id) references author (id) on delete cascade
+    foreign key (id) references book (id)
+        on delete cascade
+        on update cascade,
+    foreign key (author_id) references author (id)
+        on delete cascade
+        on update cascade
 );
 
 create table if not exists book_account
@@ -85,8 +97,12 @@ create table if not exists book_account
     account_id int not null,
     confirmed  boolean default false,
     primary key (id, account_id),
-    foreign key (id) references book (id) on delete cascade,
-    foreign key (account_id) references account (id) on delete cascade
+    foreign key (id) references book (id)
+        on delete cascade
+        on update cascade,
+    foreign key (account_id) references account (id)
+        on delete cascade
+        on update cascade
 );
 
 create table if not exists author_language
@@ -94,8 +110,12 @@ create table if not exists author_language
     id          int not null,
     language_id int not null,
     primary key (id, language_id),
-    foreign key (id) references author (id) on delete cascade,
-    foreign key (language_id) references language (id) on delete cascade
+    foreign key (id) references author (id)
+        on delete cascade
+        on update cascade,
+    foreign key (language_id) references language (id)
+        on delete cascade
+        on update cascade
 );
 
 insert into role (name)

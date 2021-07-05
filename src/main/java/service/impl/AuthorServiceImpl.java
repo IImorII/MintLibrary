@@ -76,4 +76,30 @@ public class AuthorServiceImpl implements AuthorService {
             throw new ServiceException(ex.getMessage());
         }
     }
+
+    @Override
+    public void deleteAuthor(Integer authorId) throws ServiceException {
+        try {
+            authorDao.delete(authorId);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+
+    }
+
+    @Override
+    public void updateAuthor(Integer authorId, String name, Integer birth) throws ServiceException {
+        try {
+            Author author = authorDao.retrieveById(authorId).get();
+            if (name != null) {
+                author.setName(name);
+            }
+            if (birth != null) {
+                author.setYearOfBirth(birth);
+            }
+            authorDao.update(author);
+        } catch (DaoException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 }

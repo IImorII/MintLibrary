@@ -1,27 +1,21 @@
-package controller.command.role.librarian;
+package controller.command.role.librarian.add;
 
 import controller.command.Command;
 import controller.command.CommandRequest;
 import controller.command.CommandResponse;
 import controller.command.ParameterDestination;
 import entity.Author;
-import entity.Book;
 import exception.CommandException;
-import exception.ConnectionException;
-import exception.DaoException;
 import exception.ServiceException;
 import service.AuthorService;
-import service.BookService;
 import service.Service;
-import service.factory.ServiceInstance;
 
 import static controller.command.ControllerDestination.ADD_AUTHOR_PANEL;
-import static controller.command.ControllerDestination.ADD_BOOK_PANEL;
 
 public class AddAuthorCommand implements Command {
 
     private static AddAuthorCommand INSTANCE;
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
     private AddAuthorCommand() {
         authorService = (AuthorService) Service.of(Author.class);
