@@ -95,8 +95,8 @@ class BookServiceTest {
             assertEquals(bookDto.getPhotoUrl(), entityBook.getPhotoUrl());
             assertEquals(bookDto.getYearOfRelease(), entityBook.getYearOfRelease());
             assertEquals(bookDto.getLanguage(), entityBook.getLanguage().getName());
-            assertEquals(bookDto.getAuthorsNames().get(0), entityBook.getAuthors().get(0).getName());
-            assertEquals(bookDto.getGenresNames().get(0), entityBook.getGenres().get(0).getName());
+            assertEquals(bookDto.getAuthorsNamesList().get(0), entityBook.getAuthors().get(0).getName());
+            assertEquals(bookDto.getGenresNamesList().get(0), entityBook.getGenres().get(0).getName());
         }
     }
 }

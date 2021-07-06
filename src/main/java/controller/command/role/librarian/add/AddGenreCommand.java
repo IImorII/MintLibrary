@@ -1,9 +1,6 @@
 package controller.command.role.librarian.add;
 
-import controller.command.Command;
-import controller.command.CommandRequest;
-import controller.command.CommandResponse;
-import controller.command.ParameterDestination;
+import controller.command.*;
 import entity.Genre;
 import exception.CommandException;
 import exception.ServiceException;
@@ -35,6 +32,6 @@ public class AddGenreCommand implements Command {
         } catch (ServiceException ex) {
             throw new CommandException(ex.getMessage());
         }
-        return() -> ADD_GENRE_PANEL;
+        return Command.of(CommandInstance.ADD_GENRE_PANEL).execute(request);
     }
 }

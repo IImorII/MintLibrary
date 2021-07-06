@@ -33,11 +33,19 @@ public class BookDto {
         return count;
     }
 
-    public List<String> getAuthorsNames() {
+    public String[] getAuthorsNames() {
+        return authorsNames.toArray(new String[0]);
+    }
+
+    public List<String> getAuthorsNamesList() {
         return authorsNames;
     }
 
-    public List<String> getGenresNames() {
+    public String[] getGenresNames() {
+        return genresNames.toArray(new String[0]);
+    }
+
+    public List<String> getGenresNamesList() {
         return genresNames;
     }
 

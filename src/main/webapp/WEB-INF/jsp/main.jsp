@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <html>
 <head>
     <title><lc:lc_tag key="home"/></title>
@@ -24,12 +25,12 @@
                                     <a href="?command=show_book&bookId=${book.id}">
                                     <h2 class="tm-color-primary tm-post-title mb-3"><c:out value="${book.name}"/></h2>
                                     </a>
-                                    <h3 class="tm-h3 mb-3">
-                                        <c:forEach var="genre" items="${book.genresNames}">
-                                            <c:out value="${genre}"/>
-                                        </c:forEach>
+                                    <c:set var = "genres" value = "${fn:join(book.genresNames, ' | ')}" />
+                                    <h3 class="tm-h3 mb-3 tm-line-text">
+                                            <c:out value="${genres}"/>
                                     </h3>
-                                    <h3 class="tm-h3 mb-3">
+                                    <c:set var = "authors" value = "${fn:join(book.authorsNames, ', ')}" />
+                                    <h3 class="tm-h3 mb-3 tm-line-text">
                                         <c:forEach var="author" items="${book.authorsNames}">
                                             <c:out value="${author}"/>
                                         </c:forEach>

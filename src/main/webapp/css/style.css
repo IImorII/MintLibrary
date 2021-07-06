@@ -503,6 +503,12 @@ a:hover {
     color: #048c8c;
 }
 
+.tm-line-text-single {
+    background-color: #0CC;
+    font-size: 24px;
+    color: white;
+}
+
 a:hover figcaption { color: #056767; }
 .img-thumbnail { max-width: none; }
 .tm-about-pad { padding: 40px 35px; }
@@ -510,11 +516,16 @@ a:hover figcaption { color: #056767; }
 .tm-line-height-short { line-height: 1.3em;}
 
 .tm-person h3 {
-    line-height: 0.5;
+    line-height: 0.3;
+    font-size: 16px;
 }
 
 .tm-person.mb-2 {
     margin-bottom: 1.2rem!important;
+}
+
+.tm-bold-text {
+    font-weight: bold;
 }
 
 p.mb-0.tm-line-height-short {
@@ -522,6 +533,12 @@ p.mb-0.tm-line-height-short {
     max-width: 130px;
     overflow-y: clip;
     word-break: break-all;
+}
+
+.tm-line-text {
+    max-width: 240px;
+    overflow-x: clip;
+    word-break: break-word;
 }
 
 .gmap_canvas {

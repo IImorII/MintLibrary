@@ -35,6 +35,6 @@ public class DeleteAuthorCommand implements Command {
         } catch (ServiceException ex) {
             throw new CommandException(ex.getMessage());
         }
-        return Command.of(CommandInstance.MAIN).execute(request);
+        return Command.of(CommandInstance.ADD_AUTHOR_PANEL).execute(request);
     }
 }

@@ -35,6 +35,6 @@ public class DeleteLanguageCommand implements Command {
         } catch (ServiceException ex) {
             throw new CommandException(ex.getMessage());
         }
-        return Command.of(CommandInstance.MAIN).execute(request);
+        return Command.of(CommandInstance.ADD_LANGUAGE_PANEL).execute(request);
     }
 }

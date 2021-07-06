@@ -85,12 +85,12 @@ public class BookServiceImpl implements BookService {
         }
         if (authorsNames != null) {
             books = books.stream()
-                    .filter(book -> !Collections.disjoint(book.getAuthorsNames(), List.of(authorsNames)))
+                    .filter(book -> !Collections.disjoint(book.getAuthorsNamesList(), List.of(authorsNames)))
                     .collect(Collectors.toList());
         }
         if (genresNames != null) {
             books = books.stream()
-                    .filter(book -> !Collections.disjoint(book.getGenresNames(), List.of(genresNames)))
+                    .filter(book -> !Collections.disjoint(book.getGenresNamesList(), List.of(genresNames)))
                     .collect(Collectors.toList());
         }
         return books;

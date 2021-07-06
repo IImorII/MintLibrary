@@ -11,7 +11,7 @@
     <div class="col-12">
         <form action="?command=add_author" method="POST" class="tm-mb-40 tm-add-form form-inline">
             <input class="tm-add-input form-control" name="name" type="text" aria-label="name" placeholder="<lc:lc_tag key="name"/>">
-            <input class="tm-add-input form-control" name="birth" type="text" aria-label="birth" placeholder="<lc:lc_tag key="birth"/>">
+            <input class="tm-add-input form-control" name="year" type="text" aria-label="year" placeholder="<lc:lc_tag key="birth"/>">
             <select name="languages" id="languages" class="selectpicker" multiple data-min-options="1"
                     data-max-options="3" required>
                 <c:forEach var="language" items="${requestScope.languagesList}">

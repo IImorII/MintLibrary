@@ -35,6 +35,6 @@ public class DeleteGenreCommand implements Command {
         } catch (ServiceException ex) {
             throw new CommandException(ex.getMessage());
         }
-        return Command.of(CommandInstance.MAIN).execute(request);
+        return Command.of(CommandInstance.ADD_GENRE_PANEL).execute(request);
     }
 }
