@@ -9,7 +9,6 @@ import dto.AccountDto;
 import entity.Account;
 import entity.Book;
 import entity.Role;
-import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 import exception.ServiceException;
@@ -27,14 +26,16 @@ import java.util.List;
 import java.util.Optional;
 
 public class AccountServiceImpl implements AccountService {
-    private static Logger log = LogManager.getLogger(AccountServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(AccountServiceImpl.class);
     private static AccountServiceImpl INSTANCE;
 
-    private AccountDao accountDao;
-    private BookDao bookDao;
-    private RoleDao roleDao;
-    private AccountMapper accountMapper;
-    private EntityCache cache;
+    private static final String ADMIN = "Admin";
+
+    private final AccountDao accountDao;
+    private final BookDao bookDao;
+    private final RoleDao roleDao;
+    private final AccountMapper accountMapper;
+    private final EntityCache cache;
 
     private final static String HAVE_BOOK_ERROR = "You already have this book!";
     private final static String SUCCESS_ORDER = "Success order!";
@@ -61,6 +62,24 @@ public class AccountServiceImpl implements AccountService {
         try {
             List<Account> entityAccounts = (List<Account>) cache.retrieveCollection(Account.class);
             for (Account e : entityAccounts) {
+                dtoAccounts.add(accountMapper.toDto(e));
+            }
+        } catch (MapperException ex) {
+            log.error(ex.getMessage());
+            throw new ServiceException(ex.getMessage());
+        }
+        return dtoAccounts;
+    }
+
+    @Override
+    public List<AccountDto> getAllWithoutAdmin() throws ServiceException {
+        List<AccountDto> dtoAccounts = new ArrayList<>();
+        try {
+            List<Account> entityAccounts = (List<Account>) cache.retrieveCollection(Account.class);
+            for (Account e : entityAccounts) {
+                if (e.getRole().getName().equalsIgnoreCase(ADMIN)) {
+                    continue;
+                }
                 dtoAccounts.add(accountMapper.toDto(e));
             }
         } catch (MapperException ex) {

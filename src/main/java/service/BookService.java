@@ -1,8 +1,6 @@
 package service;
 
 import entity.Book;
-import exception.ConnectionException;
-import exception.DaoException;
 import dto.BookDto;
 import exception.ServiceException;
 

@@ -48,7 +48,7 @@ public class SingleAccountCommand implements Command {
                 return Command.of(ACCOUNTS_PANEL).execute(request);
             }
             AccountDto account = accountService.getOne(accountId);
-            List<RoleDto> roles = roleService.getAll();
+            List<RoleDto> roles = roleService.getAllWithoutAdmin();
             request.setAttribute(ParameterDestination.ACCOUNT.getParameter(), account);
             request.setAttribute(ParameterDestination.ROLES_LIST.getParameter(), roles);
         } catch (ServiceException ex) {

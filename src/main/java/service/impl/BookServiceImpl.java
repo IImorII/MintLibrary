@@ -6,7 +6,6 @@ import entity.Author;
 import entity.Book;
 import entity.Genre;
 import entity.Language;
-import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 import exception.ServiceException;
@@ -23,14 +22,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BookServiceImpl implements BookService {
-    private static Logger log = LogManager.getLogger(BookServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(BookServiceImpl.class);
     private static BookServiceImpl INSTANCE;
-    private BookDao bookDao;
-    private LanguageDao languageDao;
-    private GenreDao genreDao;
-    private AuthorDao authorDao;
-    private BookMapper bookMapper;
-    private EntityCache cache;
+    private final BookDao bookDao;
+    private final LanguageDao languageDao;
+    private final GenreDao genreDao;
+    private final AuthorDao authorDao;
+    private final BookMapper bookMapper;
+    private final EntityCache cache;
 
     private BookServiceImpl() {
         bookDao = (BookDao) Dao.of(Book.class);

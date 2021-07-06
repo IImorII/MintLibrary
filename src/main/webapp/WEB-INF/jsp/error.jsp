@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Error</title>
+    <title><lc:lc_tag key="error"/></title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>

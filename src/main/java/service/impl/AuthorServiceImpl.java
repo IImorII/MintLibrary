@@ -4,18 +4,14 @@ import cache.EntityCache;
 import dao.AuthorDao;
 import dao.Dao;
 import dao.LanguageDao;
-import dao.factory.ProxyDaoInstance;
 import dto.AuthorDto;
 import entity.Author;
-import entity.Book;
-import entity.Genre;
 import entity.Language;
 import exception.DaoException;
 import exception.MapperException;
 import exception.ServiceException;
 import mapper.AuthorMapper;
 import mapper.Mapper;
-import mapper.factory.MapperInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.AuthorService;
@@ -24,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorServiceImpl implements AuthorService {
-    private static Logger log = LogManager.getLogger(LanguageServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(LanguageServiceImpl.class);
     private static AuthorServiceImpl INSTANCE;
-    private AuthorDao authorDao;
-    private AuthorMapper authorMapper;
-    private LanguageDao languageDao;
-    private EntityCache cache;
+    private final AuthorDao authorDao;
+    private final AuthorMapper authorMapper;
+    private final LanguageDao languageDao;
+    private final EntityCache cache;
 
     private AuthorServiceImpl() {
         authorDao = (AuthorDao) Dao.of(Author.class);

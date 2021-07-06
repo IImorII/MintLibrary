@@ -2,7 +2,6 @@ package service;
 
 import dto.AccountDto;
 import entity.Account;
-import entity.Role;
 import exception.ServiceException;
 
 import java.util.List;
@@ -11,6 +10,8 @@ import java.util.Optional;
 public interface AccountService extends Service<Account, AccountDto> {
 
     AccountDto getOne(Integer id) throws ServiceException;
+
+    List<AccountDto> getAllWithoutAdmin() throws ServiceException;
 
     Optional<AccountDto> login(String login, String password) throws ServiceException;
 

@@ -41,11 +41,11 @@ public class ReleaseOrderPanelCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
-            Object userId = request.getParameter(ParameterDestination.ACCOUNT_ID.getParameter());
+            Object accountId = request.getParameter(ParameterDestination.ACCOUNT_ID.getParameter());
             List<BookDto> books = new ArrayList<>();
-            if (userId != null) {
-                books = bookService.getConfirmedBooks(Integer.parseInt(userId.toString()));
-                request.setAttribute(ParameterDestination.USER.getParameter(), accountService.getOne(Integer.parseInt(userId.toString())));
+            if (accountId != null) {
+                books = bookService.getConfirmedBooks(Integer.parseInt(accountId.toString()));
+                request.setAttribute(ParameterDestination.ACCOUNT.getParameter(), accountService.getOne(Integer.parseInt(accountId.toString())));
             }
             request.setAttribute(ParameterDestination.BOOKS_LIST.getParameter(), books);
         } catch (ServiceException ex) {

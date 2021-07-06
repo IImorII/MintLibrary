@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <html>
 <head>
-    <title>Main</title>
+    <title><lc:lc_tag key="home"/></title>
 </head>
 <body>
     <jsp:include page="header.jsp"/>

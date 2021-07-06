@@ -71,6 +71,17 @@ hr {
     justify-content: center;
 }
 
+.tm-site-locale {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: white;
+}
+
+.tm-site-locale a {
+    color: white;
+}
+
 .tm-site-logo i { color: #0CC; }
 
 .tm-main {
@@ -211,6 +222,7 @@ ul {
     color: white;
     font-weight: bold;
     font-size: 1.2rem;
+    margin-left: auto;
 }
 
 .tm-add-icon {
@@ -226,7 +238,7 @@ ul {
     border-radius: 10px;
     border-color:  #0CC;
     font-size: 1.2rem;
-    margin-right: 50px;
+    margin-right: auto;
 }
 
 .tm-panel-button {

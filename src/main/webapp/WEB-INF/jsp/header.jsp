@@ -30,8 +30,12 @@
             <i class="fas fa-bars"></i>
         </button>
         <div class="tm-site-header">
+            <div class="mb-5 mx-auto tm-site-locale">
+                <a href="?command=change_locale&language=en">EN</a>
             <a href="?command=change_locale&language=ru">RU</a>
-            <a href="?command=change_locale&language=en">EN</a>
+            <a href="?command=change_locale&language=be">BE</a>
+            <a href="?command=change_locale&language=pl">PL</a>
+            </div>
             <div class="mb-3 mx-auto tm-site-logo"><i class="fas fa-book-reader"></i></div>
             <h1 class="text-center">Mint Library</h1>
         </div>
@@ -48,7 +52,7 @@
                     </a></li>
                 </c:if>
                 <c:if test="${sessionScope.account.role eq 'Admin'}">
-                    <li class="tm-nav-item"><a href="?command=accounts_panel" class="tm-nav-link">
+                    <li class="tm-nav-item"><a href="?command=admin_panel" class="tm-nav-link">
                         <i class="fas fa-users"></i>
                         <lc:lc_tag key="admin_panel"/>
                     </a></li>

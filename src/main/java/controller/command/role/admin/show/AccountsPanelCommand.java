@@ -36,8 +36,7 @@ public class AccountsPanelCommand implements Command {
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
             List<AccountDto> accounts;
-            accounts = accountService.getAll();
-            accounts = accountService.removeAdmins(accounts);
+            accounts = accountService.getAllWithoutAdmin();
             request.setAttribute(ParameterDestination.ACCOUNTS_LIST.getParameter(), accounts);
         } catch (ServiceException ex) {
             throw new CommandException(ex.getMessage());

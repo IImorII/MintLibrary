@@ -2,7 +2,7 @@
 <%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <html>
 <head>
-    <title>Library panel</title>
+    <title><lc:lc_tag key="librarian_panel"/></title>
 </head>
 <body>
 <jsp:include page="../header.jsp"/>

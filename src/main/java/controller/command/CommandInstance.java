@@ -6,6 +6,7 @@ import controller.command.role.account.SignUpCommand;
 import controller.command.role.admin.ChangeRoleCommand;
 import controller.command.role.admin.DeleteAccountCommand;
 import controller.command.role.admin.show.AccountsPanelCommand;
+import controller.command.role.admin.show.AdminPanelCommand;
 import controller.command.role.admin.show.SingleAccountCommand;
 import controller.command.role.books.SingleBookCommand;
 import controller.command.role.librarian.*;
@@ -36,6 +37,7 @@ public enum CommandInstance {
     ADD_LANGUAGE(AddLanguageCommand.getInstance()),
     ADD_GENRE_PANEL(AddGenrePanelCommand.getInstance()),
     ADD_LANGUAGE_PANEL(AddLanguagePanelCommand.getInstance()),
+    ADMIN_PANEL(AdminPanelCommand.getInstance()),
     CHANGE_ROLE(ChangeRoleCommand.getInstance()),
     CONFIRM_ORDER(ConfirmOrderCommand.getInstance()),
     CONFIRM_ORDER_PANEL(ConfirmOrderPanelCommand.getInstance()),

@@ -26,11 +26,14 @@ public class LocaleTagSupport extends TagSupport {
     private static final String EN = "en";
     private static final String RU = "ru";
     private static final String PL = "pl";
+    private static final String BE = "be";
+    private static final String DEFAULT = EN;
 
     public LocaleTagSupport() {
         languages.add(EN);
         languages.add(RU);
         languages.add(PL);
+        languages.add(BE);
     }
 
     private String key;
@@ -50,7 +53,7 @@ public class LocaleTagSupport extends TagSupport {
             language = userLanguage.toString().toLowerCase();
         }
         if (language == null || !languages.contains(language)) {
-            language = RU;
+            language = DEFAULT;
         }
         Properties properties = new Properties();
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader()

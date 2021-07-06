@@ -42,13 +42,11 @@ public class  ConfirmOrderPanelCommand implements Command {
     public CommandResponse execute(CommandRequest request) throws CommandException {
         try {
             Object accountId = request.getParameter(ParameterDestination.ACCOUNT_ID.getParameter());
-            System.out.println(accountId);
             List<BookDto> books = new ArrayList<>();
             if (accountId != null) {
                 books = bookService.getUnconfirmedBooks(Integer.parseInt(accountId.toString()));
                 request.setAttribute(ParameterDestination.ACCOUNT.getParameter(), accountService.getOne(Integer.parseInt(accountId.toString())));
             }
-            System.out.println(books);
             request.setAttribute(ParameterDestination.BOOKS_LIST.getParameter(), books);
         } catch (ServiceException ex) {
             throw new CommandException(ex.getMessage());

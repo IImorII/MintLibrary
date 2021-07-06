@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${requestScope.book.name}</title>
+    <title><lc:lc_tag key="book"/>: ${requestScope.book.name}</title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>

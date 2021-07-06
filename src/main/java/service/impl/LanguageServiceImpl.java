@@ -3,15 +3,13 @@ package service.impl;
 import cache.EntityCache;
 import dao.Dao;
 import dao.LanguageDao;
-import dao.factory.ProxyDaoInstance;
 import dto.LanguageDto;
-import entity.*;
+import entity.Language;
 import exception.DaoException;
 import exception.MapperException;
 import exception.ServiceException;
 import mapper.LanguageMapper;
 import mapper.Mapper;
-import mapper.factory.MapperInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.LanguageService;
@@ -20,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LanguageServiceImpl implements LanguageService {
-    private static Logger log = LogManager.getLogger(LanguageServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(LanguageServiceImpl.class);
     private static LanguageServiceImpl INSTANCE;
-    private LanguageDao languageDao;
-    private LanguageMapper languageMapper;
-    private EntityCache cache;
+    private final LanguageDao languageDao;
+    private final LanguageMapper languageMapper;
+    private final EntityCache cache;
 
     private LanguageServiceImpl() {
         languageDao = (LanguageDao) Dao.of(Language.class);

@@ -3,16 +3,13 @@ package service.impl;
 import cache.EntityCache;
 import dao.Dao;
 import dao.GenreDao;
-import dao.factory.ProxyDaoInstance;
 import dto.GenreDto;
 import entity.Genre;
-import entity.Language;
 import exception.DaoException;
 import exception.MapperException;
 import exception.ServiceException;
 import mapper.GenreMapper;
 import mapper.Mapper;
-import mapper.factory.MapperInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.GenreService;
@@ -21,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenreServiceImpl implements GenreService {
-    private static Logger log = LogManager.getLogger(GenreServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(GenreServiceImpl.class);
     private static GenreServiceImpl INSTANCE;
-    private GenreDao genreDao;
-    private GenreMapper genreMapper;
-    private EntityCache cache;
+    private final GenreDao genreDao;
+    private final GenreMapper genreMapper;
+    private final EntityCache cache;
 
     private GenreServiceImpl() {
         genreDao = (GenreDao) Dao.of(Genre.class);

@@ -3,14 +3,14 @@
 <%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <html>
 <head>
-    <title>Add genre</title>
+    <title><lc:lc_tag key="add_genres"/></title>
 </head>
 <body>
 <jsp:include page="../header.jsp"/>
 <div class="row tm-row">
     <div class="col-12">
         <form action="?command=add_genre" method="POST" class="tm-mb-40 tm-add-form form-inline">
-            <input class="tm-add-input form-control" name="name" type="text" aria-label="name">
+            <input class="tm-add-input form-control" name="name" type="text" aria-label="name" placeholder="<lc:lc_tag key="genre"/>">
             <button class="tm-add-button" type="submit">
                 <i class="fa fa-check tm-add-icon" aria-hidden="true"></i>
                 <lc:lc_tag key="add"/>
@@ -24,7 +24,7 @@
         <c:if test="${not empty requestScope.genresList}">
             <p><lc:lc_tag key="genres"/>: </p>
         </c:if>
-        <c:if test="${empty empty requestScope.genresList}">
+        <c:if test="${empty requestScope.genresList}">
             <p><lc:lc_tag key="empty_genres"/>! </p>
         </c:if>
         <c:if test="${not empty requestScope.genresList}">
