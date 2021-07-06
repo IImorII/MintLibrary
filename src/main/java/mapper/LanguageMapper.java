@@ -1,9 +1,7 @@
 package mapper;
 
 import dto.LanguageDto;
-import dto.RoleDto;
 import entity.Language;
-import entity.Role;
 import exception.MapperException;
 
 import java.sql.ResultSet;

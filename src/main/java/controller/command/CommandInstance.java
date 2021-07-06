@@ -9,7 +9,8 @@ import controller.command.role.admin.show.AccountsPanelCommand;
 import controller.command.role.admin.show.AdminPanelCommand;
 import controller.command.role.admin.show.SingleAccountCommand;
 import controller.command.role.books.SingleBookCommand;
-import controller.command.role.librarian.*;
+import controller.command.role.librarian.ConfirmOrderCommand;
+import controller.command.role.librarian.ReleaseOrderCommand;
 import controller.command.role.librarian.add.AddAuthorCommand;
 import controller.command.role.librarian.add.AddBookCommand;
 import controller.command.role.librarian.add.AddGenreCommand;
@@ -18,13 +19,20 @@ import controller.command.role.librarian.delete.DeleteAuthorCommand;
 import controller.command.role.librarian.delete.DeleteBookCommand;
 import controller.command.role.librarian.delete.DeleteGenreCommand;
 import controller.command.role.librarian.delete.DeleteLanguageCommand;
-import controller.command.role.librarian.show.*;
+import controller.command.role.librarian.show.AddAuthorPanelCommand;
+import controller.command.role.librarian.show.AddBookPanelCommand;
+import controller.command.role.librarian.show.AddGenrePanelCommand;
+import controller.command.role.librarian.show.AddLanguagePanelCommand;
+import controller.command.role.librarian.show.ConfirmOrderPanelCommand;
+import controller.command.role.librarian.show.LibraryPanelCommand;
+import controller.command.role.librarian.show.ReleaseOrderPanelCommand;
 import controller.command.role.user.OrderBookCommand;
 import controller.command.role.user.RemoveOrderCommand;
 import controller.command.role.user.show.ViewOrderPanelCommand;
-import controller.command.show.*;
 import controller.command.role.books.SearchBookCommand;
 import controller.command.role.books.SwitchPageCommand;
+import controller.command.show.AboutPageCommand;
+import controller.command.show.MainPageCommand;
 
 public enum CommandInstance {
     ABOUT(AboutPageCommand.getInstance()),

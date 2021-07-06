@@ -1,17 +1,18 @@
 package controller.command.role.books;
 
-import controller.command.*;
+import controller.command.Command;
+import controller.command.CommandRequest;
+import controller.command.CommandResponse;
+import controller.command.ParameterDestination;
 import dto.BookDto;
 import entity.Book;
 import exception.CommandException;
 import exception.ServiceException;
 import service.BookService;
 import service.Service;
-import service.factory.ServiceInstance;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static controller.command.CommandInstance.SWITCH_PAGE;
 

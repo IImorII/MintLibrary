@@ -9,10 +9,17 @@
 <div class="row tm-row">
     <div class="col-12">
         <div class="media tm-book">
-            <img src="${requestScope.book.photoUrl}" alt="Image" class="img-fluid mr-4">
+            <img src="${requestScope.book.photoUrl}"
+                 alt="${book.name}"
+                 onerror="this.onerror=null;
+                 this.src='img/mockImg.png';"
+                 class="img-fluid mr-4">
             <div class="media-body">
                 <h2 class="tm-color-primary tm-post-title mb-2">${requestScope.book.name}</h2>
-                <h3 class="tm-h3 mb-3">Genres: <c:forEach var="genre" items="${requestScope.book.genresNames}"><c:out value="${genre} "/></c:forEach></h3>
+                <h3 class="tm-h3 mb-3">Genres: <c:forEach var="genre" items="${requestScope.book.genresNames}"><c:out
+                        value="${genre} "/></c:forEach></h3>
+                <h3 class="tm-h3 mb-3">Authors: <c:forEach var="author" items="${requestScope.book.authorsNames}"><c:out
+                        value="${author} "/></c:forEach></h3>
                 <p class="mb-0">
                     ${requestScope.book.description}
                 </p>
@@ -20,18 +27,21 @@
             <c:if test="${sessionScope.account.role eq 'User'}">
                 <c:if test="${requestScope.book.count > 0}">
                     <div class="mb-4">
-                        <a href="?command=order_book&bookId=${requestScope.book.id}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Order</a>
+                        <a href="?command=order_book&bookId=${requestScope.book.id}"
+                           class="mb-2 tm-btn tm-btn-primary tm-prev-next">Order</a>
                     </div>
                 </c:if>
                 <c:if test="${requestScope.book.count <= 0}">
                     <div class="mb-4">
-                        <a href="?command=order_book&bookId=${requestScope.book.id}" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled">Order</a>
+                        <a href="?command=order_book&bookId=${requestScope.book.id}"
+                           class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled">No books</a>
                     </div>
                 </c:if>
             </c:if>
             <c:if test="${sessionScope.account.role eq 'Librarian'}">
                 <div class="mb-4">
-                    <a href="?command=delete_book&bookId=${requestScope.book.id}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Delete</a>
+                    <a href="?command=delete_book&bookId=${requestScope.book.id}"
+                       class="mb-2 tm-btn tm-btn-primary tm-prev-next">Delete</a>
                 </div>
             </c:if>
         </div>

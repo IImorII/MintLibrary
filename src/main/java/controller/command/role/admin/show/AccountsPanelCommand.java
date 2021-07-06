@@ -10,8 +10,6 @@ import exception.CommandException;
 import exception.ServiceException;
 import service.AccountService;
 import service.Service;
-import service.factory.ServiceInstance;
-
 import java.util.List;
 
 import static controller.command.ControllerDestination.ACCOUNTS_PANEL;

@@ -2,7 +2,6 @@ package cache;
 
 import context.AppContext;
 import dao.Dao;
-import dao.factory.ProxyDaoInstance;
 import entity.Account;
 import entity.Author;
 import entity.BaseEntity;
@@ -10,7 +9,6 @@ import entity.Book;
 import entity.Genre;
 import entity.Language;
 import entity.Role;
-import exception.ConnectionException;
 import exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -6,14 +6,13 @@ import dao.Dao;
 import dao.LanguageDao;
 import dto.BookDto;
 import entity.Language;
-import mapper.BookMapper;
 import mapper.Mapper;
 import entity.Book;
-import exception.ConnectionException;
 import exception.DaoException;
-import mapper.factory.MapperInstance;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class BookDaoImpl extends AbstractDao<Book> implements BookDao {
 

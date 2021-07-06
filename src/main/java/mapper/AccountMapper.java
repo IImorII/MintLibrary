@@ -7,7 +7,6 @@ import dto.AccountDto;
 import entity.Account;
 import entity.Book;
 import entity.Role;
-import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 

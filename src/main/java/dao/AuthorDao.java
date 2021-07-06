@@ -1,7 +1,6 @@
 package dao;
 
 import entity.Author;
-import exception.ConnectionException;
 import exception.DaoException;
 
 import java.util.List;

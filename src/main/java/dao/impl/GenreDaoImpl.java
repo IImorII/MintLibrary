@@ -3,14 +3,12 @@ package dao.impl;
 import dao.AbstractDao;
 import dao.GenreDao;
 import dto.GenreDto;
-import mapper.GenreMapper;
 import mapper.Mapper;
 import entity.Genre;
-import exception.ConnectionException;
 import exception.DaoException;
-import mapper.factory.MapperInstance;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 public class GenreDaoImpl extends AbstractDao<Genre> implements GenreDao {
 

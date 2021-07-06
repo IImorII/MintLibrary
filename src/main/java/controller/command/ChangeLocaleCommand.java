@@ -2,8 +2,6 @@ package controller.command;
 
 import exception.CommandException;
 
-import static controller.command.ControllerDestination.MAIN;
-
 public class ChangeLocaleCommand implements Command {
     private static ChangeLocaleCommand INSTANCE;
 

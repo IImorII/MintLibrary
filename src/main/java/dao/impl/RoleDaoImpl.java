@@ -5,8 +5,7 @@ import dao.RoleDao;
 import dto.RoleDto;
 import mapper.Mapper;
 import entity.Role;
-import mapper.RoleMapper;
-import mapper.factory.MapperInstance;
+
 
 public class RoleDaoImpl extends AbstractDao<Role> implements RoleDao {
 

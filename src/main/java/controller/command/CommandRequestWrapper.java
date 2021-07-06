@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CommandRequestWrapper implements CommandRequest {
 

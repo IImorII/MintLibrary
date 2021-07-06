@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <html>
 <head>
     <title><lc:lc_tag key="about"/></title>

@@ -13,9 +13,6 @@ import exception.ServiceException;
 import service.AccountService;
 import service.RoleService;
 import service.Service;
-import service.factory.ServiceInstance;
-
-import javax.sql.rowset.serial.SerialException;
 import java.util.List;
 
 import static controller.command.CommandInstance.ACCOUNTS_PANEL;

@@ -1,10 +1,13 @@
 package controller;
 
-import controller.command.*;
+import controller.command.Command;
+import controller.command.CommandRequestWrapper;
+import controller.command.CommandResponse;
+import controller.command.ControllerDestination;
+import controller.command.ParameterDestination;
 import exception.CommandException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

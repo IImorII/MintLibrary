@@ -10,7 +10,6 @@ import exception.CommandException;
 import exception.ServiceException;
 import service.BookService;
 import service.Service;
-import service.factory.ServiceInstance;
 
 import static controller.command.ControllerDestination.BOOK;
 import static controller.command.ControllerDestination.MAIN;

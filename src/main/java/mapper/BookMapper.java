@@ -1,12 +1,15 @@
 package mapper;
 
-//import dao.impl.AuthorDaoImpl;
 
-import dao.*;
-//import dao.impl.LanguageDaoImpl;
-import entity.*;
+import dao.AuthorDao;
+import dao.Dao;
+import dao.GenreDao;
+import dao.LanguageDao;
 import dto.BookDto;
-import exception.ConnectionException;
+import entity.Author;
+import entity.Book;
+import entity.Genre;
+import entity.Language;
 import exception.DaoException;
 import exception.MapperException;
 

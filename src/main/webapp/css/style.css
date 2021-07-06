@@ -471,6 +471,12 @@ figcaption { line-height: 1.4; }
 .tm-count {
 
 }
+
+.tm-back-button {
+    display: flex;
+    justify-content: center;
+}
+
 .tm-pt-20 { padding-top: 20px; }
 .tm-pt-30 { padding-top: 30px; }
 .tm-pt-45 { padding-top: 45px; }

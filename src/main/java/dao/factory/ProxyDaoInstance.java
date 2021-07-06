@@ -1,10 +1,12 @@
 package dao.factory;
 
 import dao.Dao;
-import dao.impl.*;
-import entity.BaseEntity;
-import mapper.Mapper;
-import mapper.factory.MapperInstance;
+import dao.impl.AccountDaoImpl;
+import dao.impl.AuthorDaoImpl;
+import dao.impl.BookDaoImpl;
+import dao.impl.GenreDaoImpl;
+import dao.impl.LanguageDaoImpl;
+import dao.impl.RoleDaoImpl;
 
 import java.lang.reflect.Proxy;
 

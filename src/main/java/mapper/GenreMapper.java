@@ -1,9 +1,6 @@
 package mapper;
 
-import dao.Dao;
-import dao.GenreDao;
 import dto.GenreDto;
-import dto.LanguageDto;
 import entity.Genre;
 import exception.MapperException;
 

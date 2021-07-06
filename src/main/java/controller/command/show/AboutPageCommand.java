@@ -1,10 +1,11 @@
 package controller.command.show;
 
-import controller.command.*;
+import controller.command.Command;
+import controller.command.CommandRequest;
+import controller.command.CommandResponse;
 import exception.CommandException;
 
 import static controller.command.ControllerDestination.ABOUT;
-import static controller.command.ControllerDestination.MAIN;
 
 public class AboutPageCommand implements Command {
     private static AboutPageCommand INSTANCE;

@@ -1,7 +1,12 @@
 package cache;
 
 import dao.Dao;
-import entity.*;
+import entity.Account;
+import entity.Author;
+import entity.BaseEntity;
+import entity.Book;
+import entity.Genre;
+import entity.Language;
 import listener.UpdateDBEvent;
 import listener.UpdateDBListener;
 

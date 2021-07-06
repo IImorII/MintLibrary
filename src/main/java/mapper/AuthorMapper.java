@@ -6,7 +6,6 @@ import dao.LanguageDao;
 import dto.AuthorDto;
 import entity.Author;
 import entity.Language;
-import exception.ConnectionException;
 import exception.DaoException;
 import exception.MapperException;
 

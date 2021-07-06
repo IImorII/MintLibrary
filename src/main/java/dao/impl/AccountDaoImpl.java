@@ -8,12 +8,12 @@ import dto.AccountDto;
 import entity.Role;
 import mapper.Mapper;
 import entity.Account;
-import exception.ConnectionException;
 import exception.DaoException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class AccountDaoImpl extends AbstractDao<Account> implements AccountDao {
 
