@@ -15,6 +15,14 @@ public class AuthorDto {
         this.languages = languages;
     }
 
+    public String[] getLanguages() {
+        return languages.toArray(new String[0]);
+    }
+
+    public Integer getBirth() {
+        return birth;
+    }
+
     public Integer getId() {
         return id;
     }

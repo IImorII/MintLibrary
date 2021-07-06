@@ -36,7 +36,7 @@
         <div class="form-group row mb-4">
             <label for="genres" class="col-sm-3 col-form-label text-right tm-color-primary">Genres</label>
             <div class="col-sm-9">
-                <select name="genres" id="genres" class="selectpicker" multiple data-min-options="1" data-max-options="3" required>
+                <select name="genres" id="genres" class="selectpicker" data-live-search="true" multiple data-min-options="1" data-max-options="3" required>
                     <c:forEach var="genre" items="${requestScope.genresList}">
                         <option value="${genre.id}">${genre.name}</option>
                     </c:forEach>
@@ -46,7 +46,7 @@
         <div class="form-group row mb-4">
             <label for="authors" class="col-sm-3 col-form-label text-right tm-color-primary">Authors</label>
             <div class="col-sm-9">
-                <select name="authors" id="authors" class="selectpicker" multiple data-min-options="1" data-max-options="3" required>
+                <select name="authors" id="authors" class="selectpicker" data-live-search="true" multiple data-min-options="1" data-max-options="3" required>
                     <c:forEach var="author" items="${requestScope.authorsList}">
                         <option value="${author.id}">${author.name}</option>
                     </c:forEach>
@@ -56,7 +56,7 @@
         <div class="form-group row mb-4">
             <label for="language" class="col-sm-3 col-form-label text-right tm-color-primary">Language</label>
             <div class="col-sm-9">
-                <select name="language" id="language" class="selectpicker" required>
+                <select name="language" id="language" class="selectpicker" data-live-search="true" required>
                     <c:forEach var="language" items="${requestScope.languagesList}">
                         <option value="${language.id}">${language.name}</option>
                     </c:forEach>

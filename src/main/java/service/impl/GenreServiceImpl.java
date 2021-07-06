@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import service.GenreService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GenreServiceImpl implements GenreService {

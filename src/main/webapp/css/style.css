@@ -298,7 +298,7 @@ ul {
     max-height: 180px;
     min-width: 120px;
     max-width: 120px;
-    opacity: 0.8;
+    opacity: 1.0;
     transform: translate(+5%, -110%);
 }
 
@@ -529,16 +529,14 @@ a:hover figcaption { color: #056767; }
 }
 
 p.mb-0.tm-line-height-short {
-    max-height: 70px;
-    max-width: 130px;
+    max-height: 120px;
     overflow-y: clip;
     word-break: break-all;
 }
 
 .tm-line-text {
-    max-width: 240px;
     overflow-x: clip;
-    word-break: break-word;
+    word-wrap: normal;
 }
 
 .gmap_canvas {

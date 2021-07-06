@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="lc" uri="/WEB-INF/i18" %>
 <html>
 <head>
@@ -12,7 +13,7 @@
         <form action="?command=add_author" method="POST" class="tm-mb-40 tm-add-form form-inline">
             <input class="tm-add-input form-control" name="name" type="text" aria-label="name" placeholder="<lc:lc_tag key="name"/>">
             <input class="tm-add-input form-control" name="year" type="text" aria-label="year" placeholder="<lc:lc_tag key="birth"/>">
-            <select name="languages" id="languages" class="selectpicker" multiple data-min-options="1"
+            <select name="languages" id="languages" class="selectpicker" data-live-search="true" multiple data-min-options="1"
                     data-max-options="3" required>
                 <c:forEach var="language" items="${requestScope.languagesList}">
                     <option value="${language.id}">${language.name}</option>
@@ -39,6 +40,8 @@
                 <thead>
                 <tr class="tm-table-text">
                     <th><lc:lc_tag key="author"/></th>
+                    <th><lc:lc_tag key="birth"/></th>
+                    <th><lc:lc_tag key="languages"/></th>
                     <th><lc:lc_tag key="delete"/></th>
                 </tr>
                 </thead>
@@ -46,6 +49,9 @@
                 <c:forEach var="author" items="${requestScope.authorsList}">
                     <tr class="odd gradeX">
                         <td>${author.name}</td>
+                        <td>${author.birth}</td>
+                        <c:set var = "languages" value = "${fn:join(author.languages, ', ')}" />
+                        <td>${languages}</td>
                         <td><a href="?command=delete_author&authorId=${author.id}"
                                class="mb-2 tm-btn tm-btn-primary tm-prev-next"><lc:lc_tag key="delete"/></a>
                         </td>

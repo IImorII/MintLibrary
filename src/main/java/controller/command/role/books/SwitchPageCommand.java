@@ -27,12 +27,12 @@ public class SwitchPageCommand implements Command {
         return INSTANCE;
     }
 
-    private Integer booksPerPage = 8;
+    private final Integer booksPerPage = 6;
 
     @Override
     public CommandResponse execute(CommandRequest request) throws CommandException {
         List<BookDto> books;
-        Object booksParameter = request.getAttribute(ParameterDestination.BOOKS_LIST_FULL.getParameter());
+        Object booksParameter = request.getSessionAttribute(ParameterDestination.BOOKS_LIST_FULL.getParameter());
         if (booksParameter == null) {
             return Command.of(SEARCH_BOOK).execute(request);
         } else {

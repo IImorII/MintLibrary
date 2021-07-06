@@ -59,6 +59,7 @@ public class BookServiceImpl implements BookService {
             log.error(ex.getMessage());
             ex.printStackTrace();
         }
+        Collections.reverse(dtoBooks);
         return dtoBooks;
     }
 
@@ -80,7 +81,7 @@ public class BookServiceImpl implements BookService {
         List<BookDto> books = getAll();
         if (searchName != null) {
             books = books.stream()
-                    .filter(book -> book.getName().contains(searchName))
+                    .filter(book -> book.getName().toLowerCase().contains(searchName.toLowerCase()))
                     .collect(Collectors.toList());
         }
         if (authorsNames != null) {
@@ -102,7 +103,6 @@ public class BookServiceImpl implements BookService {
             Book book = new Book();
             List<Author> authors = new ArrayList<>();
             List<Genre> genres = new ArrayList<>();
-            System.out.println(languageId);
             book.setName(name);
             book.setDescription(description);
             for (String id : authorsId) {

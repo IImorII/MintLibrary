@@ -22,6 +22,7 @@ import util.SecureUtil;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +69,7 @@ public class AccountServiceImpl implements AccountService {
             log.error(ex.getMessage());
             throw new ServiceException(ex.getMessage());
         }
+        Collections.reverse(dtoAccounts);
         return dtoAccounts;
     }
 

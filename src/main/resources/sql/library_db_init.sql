@@ -55,14 +55,14 @@ alter table account
     add role_id_fk int not null;
 alter table account
     add constraint account_role_fk foreign key (role_id_fk) references role (id)
-        on delete set null
+        on delete no action
         on update cascade;
 
 alter table book
     add language_id_fk int not null;
 alter table book
     add constraint book_language_id_fk foreign key (language_id_fk) references language (id)
-        on delete set null
+        on delete no action
         on update cascade;
 
 create table if not exists book_genre

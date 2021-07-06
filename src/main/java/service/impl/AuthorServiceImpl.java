@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import service.AuthorService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AuthorServiceImpl implements AuthorService {
@@ -52,6 +53,7 @@ public class AuthorServiceImpl implements AuthorService {
         } catch (MapperException ex) {
             log.error(ex.getMessage());
         }
+        Collections.reverse(dtoAuthors);
         return dtoAuthors;
     }
 

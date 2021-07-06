@@ -136,7 +136,7 @@
                                    class="col-sm-3 col-form-label tm-search-filter tm-color-primary"><lc:lc_tag
                                     key="genre"/></label>
                             <div class="col-sm-9">
-                                <select name="genres" id="genres" class="selectpicker" multiple data-max-options="3">
+                                <select name="genres" id="genres" class="selectpicker" multiple data-live-search="true" data-max-options="3">
                                     <c:forEach var="genre" items="${requestScope.genresList}">
                                         <option value="${genre.name}">${genre.name}</option>
                                     </c:forEach>
@@ -148,7 +148,7 @@
                                    class="col-sm-3 col-form-label tm-search-filter text-right tm-color-primary"><lc:lc_tag
                                     key="author"/></label>
                             <div class="col-sm-9">
-                                <select name="authors" id="authors" class="selectpicker" multiple data-max-options="3">
+                                <select name="authors" id="authors" class="selectpicker" multiple data-live-search="true" data-max-options="3">
                                     <c:forEach var="author" items="${requestScope.authorsList}">
                                         <option value="${author.name}">${author.name}</option>
                                     </c:forEach>

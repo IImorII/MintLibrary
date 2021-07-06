@@ -53,7 +53,7 @@ public class SearchBookCommand implements Command {
             String[] authorsNames = request.getParameterValues(ParameterDestination.AUTHORS.getParameter());
             String[] genresNames = request.getParameterValues(ParameterDestination.GENRES.getParameter());
             List<BookDto> books = bookService.getAllByCriteria(searchName, genresNames, authorsNames);
-            request.setAttribute(ParameterDestination.BOOKS_LIST_FULL.getParameter(), books);
+            request.setSessionAttribute(ParameterDestination.BOOKS_LIST_FULL.getParameter(), books);
             request.setSessionAttribute(ParameterDestination.SEARCH.getParameter(), searchName);
             request.setAttribute(ParameterDestination.CURRENT_PAGE.getParameter(), 1);
         } catch (ServiceException ex) {

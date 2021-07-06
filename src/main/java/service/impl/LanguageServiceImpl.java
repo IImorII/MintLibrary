@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import service.LanguageService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LanguageServiceImpl implements LanguageService {
@@ -48,6 +49,7 @@ public class LanguageServiceImpl implements LanguageService {
         } catch (MapperException ex) {
             log.error(ex.getMessage());
         }
+        Collections.reverse(dtoLanguages);
         return dtoLanguages;
     }
 
